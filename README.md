@@ -27,8 +27,8 @@ Also, be sure to have `git` available in your PATH, `npm` might need it.
 
 ## Install
 
-    $ git clone https://github.com/frontida/frontida-frontend.git
-    $ cd frontida-frontend
+    $ git clone https://github.com/siddhantsingh186/Securechain.git
+    $ cd Securechain
     $ npm install
     
 ## Start & watch
