@@ -1,6 +1,40 @@
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Requirements
+
+For development, you will only need Node.js installed on your environement.
+And please use the appropriate [Editorconfig](http://editorconfig.org/) plugin for your Editor (not mandatory).
+
+### Node
+
+[Node](http://nodejs.org/) is really easy to install & now include [NPM](https://npmjs.org/).
+You should be able to run the following command after the installation procedure
+below.
+
+    $ node --version
+    v12.18.2
+
+    $ npm --version
+    6.14.5
+
+#### Node installation on Windows
+
+Just go on [official Node.js website](http://nodejs.org/) & grab the installer.
+Also, be sure to have `git` available in your PATH, `npm` might need it.
+
+---
+
+## Install
+
+    $ git clone https://github.com/frontida/frontida-frontend.git
+    $ cd frontida-frontend
+    $ npm install
+    
+## Start & watch
+
+    $ npm start
+
 
 ## Available Scripts
 
