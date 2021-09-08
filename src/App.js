@@ -2,7 +2,8 @@ import React, {Component} from 'react';
 import Home from './components/home/Home';
 import Nav from './components/header/Nav';
 import About from "./components/about/About";
-import {BrowserRouter as Router, Route} from 'react-router-dom';
+import Error from "./components/error/Error";
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import {Redirect} from 'react-router-dom';
 import './App.scss';
 
@@ -11,10 +12,18 @@ class App extends Component {
     return (
       <div className = "app">
       <Router>
-        <Route path="/" component={Nav}></Route>
-        <Route path="/home" component={Home}></Route>
-        <Route path = "/about" component = {About}></Route>
-        <Redirect to ="/home" />
+        <Nav />
+        <Switch>
+          <Route exact path="/">
+            <Home />
+          </Route>
+          <Route exact path="/about">
+            <About />
+          </Route>
+          <Route path = "*">
+            <Error />
+          </Route>
+        </Switch>
       </Router>
     </div>
     )
