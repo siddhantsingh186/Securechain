@@ -1,0 +1,29 @@
+.dashboard{
+  display: flex;
+  flex-flow: column;
+  position: relative;
+  &__below{
+    display: flex;
+    flex-flow: row;
+    column-gap: 28px;
+    position: relative;
+    &__element{
+      display: flex;
+      flex-flow: column;
+      position: relative;
+      border-radius: 25px;
+      background: white;
+      z-index: 0;
+      border: solid 1px;
+      box-shadow: 0 0 10px rgb(0 0 0 / 80%);
+      &__head{
+        position: relative;
+        display: flex;
+        justify-content: center;
+      }
+      &__body{
+        text-align: center;
+      }
+    }
+  }
+}
