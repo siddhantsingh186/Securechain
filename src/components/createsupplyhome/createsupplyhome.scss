@@ -1,0 +1,30 @@
+.createsupplyhome{
+  display: flex;
+  flex-flow: column;
+  &__head{
+    display: flex;
+    flex-flow: column;
+  }
+  &__top{
+    display: flex;
+    flex-flow: column;
+    &__text{
+      margin-right: auto;
+      border-radius: 30px;
+    }
+  }
+  &__bottom{
+    display: flex;
+    flex-flow: column;
+    &__text{
+      margin-right: auto;
+      border-radius: 30px;
+    }
+  }
+  &__button{
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px;
+  }
+}
