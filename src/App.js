@@ -6,7 +6,8 @@ import Error from "./components/error/Error";
 import Register from "./components/registration/register";
 import Login from "./components/registration/login";
 import Dashboard from "./components/dashboard/Dashboard";
-import Createsupply from "./components/createsupplychain/createsupply";
+import Createsupply from "./components/createSupplyChain/createsupply";
+import Selectsupplychain from "./components/selectSupplyChain/SelectSupplyChain";
 import Createsupplyhome from "./components/createsupplyhome/createsupplyhome";
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import './App.scss';
@@ -35,6 +36,9 @@ class App extends Component {
           </Route>
           <Route exact path="/createsupply">
             <Createsupply />
+          </Route>
+          <Route exact path="/selectsupplychain">
+            <Selectsupplychain />
           </Route>
           <Route exact path="/createsupplyhome">
             <Createsupplyhome />
