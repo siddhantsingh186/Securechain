@@ -37,8 +37,9 @@ import "./createsupply.scss";
   }
    return(
         <div className = "createsupply__bottom">
-            <h2 className = "createsupply__bottom__head">Add Entities</h2>
-            <div>
+            <h1 className = "createsupply__bottom__head">Create Supply Chain</h1>
+            <h2 className = "createsupply__bottom__head1">Add Entities</h2>
+            <div className = "createsupply__bottom__head1__part1">
             <Container>
               <form onSubmit = {handleSubmit}>
                   <h2>Entity 1</h2>
@@ -63,7 +64,7 @@ import "./createsupply.scss";
                         />
                       <TextField
                         name="Name"
-                        label="Attribute Name"
+                        label="Attribute Type"
                         variant="filled"
                         value={inputFields.Type}
                         onChange={event => handleChangeInput(inputField.id, event)}
@@ -98,7 +99,15 @@ import "./createsupply.scss";
               </form>
             </Container>
             </div>
-        </div>
+            <div className = "createsupply__bottom__head1__part2">
+            <Button
+              variant="contained"
+              color="primary"
+              type="submit">
+              Add New Entity
+            </Button>
+            </div>
+          </div>
    );
  }
  export default Createsupply;
