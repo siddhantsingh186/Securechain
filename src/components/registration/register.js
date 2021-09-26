@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 import Axios from 'axios'
 
-const register = () => {
+const Register = () => {
 
     let history = useHistory();
     document.title = 'register';
@@ -149,7 +149,7 @@ const register = () => {
     )
 }
 
-export default register
+export default Register
 
 
 

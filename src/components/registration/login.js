@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 import Axios from 'axios'
 
-const login = () => {
+const Login = () => {
 
     let history = useHistory();
     document.title = 'login';
@@ -78,8 +78,10 @@ const login = () => {
                 email: userReg.email,
                 password: userReg.password
             }).then((response) => {
+                localStorage.setItem("token", response.data.Token)
                 console.log(response);
                 console.log(response.data);
+                console.log(response.data.Token);
                 if (response.data.message) {
                 alert(response.data.message);
                 } 
@@ -125,4 +127,4 @@ const login = () => {
     )
 }
 
-export default login
+export default Login
