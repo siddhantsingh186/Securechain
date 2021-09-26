@@ -40,7 +40,17 @@
   --fixed-width: 620px;
 }
 
-
+.container{
+	margin-left:auto;
+	margin-right: auto;
+	margin-top:5%;
+	box-sizing: border-box;
+	font-family: montserrat,sans-serif;
+	background-color: white;
+	height: 82%;
+	width: 40%;
+	border-radius: 10px;
+}
 
 ul {
   list-style-type: none;
@@ -55,7 +65,7 @@ a {
   color: var(--clr-primary-1);
   padding: 0.375rem 0.75rem;
   letter-spacing: 1px;
-  display: inline-block;
+  flex-flow: row;
   transition: var(--transition);
   font-size: .975rem;
   font-weight: bold;
@@ -85,33 +95,33 @@ main {
   justify-content: center;
   align-items: center;
   text-align: center;
+  height: 100%;
 }
 
-.form-control {
-  padding: 0rem;
+input{
+  background: var(--clr-grey-10);
+  border: 2px solid var(--clr-primary-5);
+  padding: 0.25rem 0.5rem;
+  width: 20rem;
+  border-radius: var(--radius);
+  margin: 0 0.5rem;
+  font-size: 1rem;
+  margin: auto;
 }
 
-input {
-    background: var(--clr-grey-10);
-    border: 2px solid var(--clr-primary-5);
-    padding: 0.25rem 0.5rem;
-    width: 30rem;
-    border-radius: var(--radius);
-    margin: 0 0.5rem;
-    font-size: 1.25rem;
-}
-
-label {
-  justify-content: left;
+.lab{
+  font-size: 17px;
   text-align: left;
-  margin-right: 0%;
-  font-weight: bold;
-  font-size: 1.25rem;
-  color: var(--clr-primary-1);
+  margin-left: 50px;
 }
 
 .field {
     padding: 1rem;
+    margin-top: 15px;
+	  margin-bottom: 15px;
+    display: block;
+    display: flex;
+    flex-flow: column;
 }
 
 .head {
@@ -122,10 +132,11 @@ select {
   background: var(--clr-grey-10);
   border: 2px solid var(--clr-primary-5);
   padding: 0.25rem 0.5rem;
-  width: 30rem;
+  width: 20rem;
   border-radius: var(--radius);
   margin: 0 0.5rem;
-  font-size: 1.25rem;
+  font-size: 1rem;
+  margin: auto;
 }
 option {
   background: var(--clr-primary-5);
