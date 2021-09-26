@@ -1,4 +1,4 @@
-import React , { useState }from 'react';
+import React , { useState, useEffect }from 'react';
 import Container from '@mui/material/Container';
 import TextField from '@mui/material/TextField';
 import Select from '@mui/material/Select';
@@ -10,13 +10,29 @@ import Button from '@mui/material/Button';
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 import { v4 as uuidv4 } from 'uuid';
+import axios from 'axios';
 import "./createsupply.scss";
 
  function Createsupply(){
+   const [template, setTemplate] = useState('');
    const [inputFields, setInputFields] = useState([{id: uuidv4(), Name: '', Type: '' }]);
-   const handleSubmit = (e) => {
-     e.preventDefault();
-     console.log("InputFields", inputFields);
+   const handleSubmit = (event) => {
+     event.preventDefault();
+     //console.log("InputFields", inputFields);
+     //console.log(data, e)
+     // alert('SUCCESS!')
+     //console.log(JSON.stringify(data, null, 4))
+
+     axios
+       .post('http://localhost:3001/api/announcement/add', {generic_attributes : inputFields,
+       template : template})
+       .then((res) => {
+        console.log('api response 🚀', res)
+       })
+       .catch((error) => {
+         console.error(error.response)
+       })
+       console.log("InputFields",inputFields);
    };
    const handleChangeInput = (id, event) => {
      const newInputFields = inputFields.map(i => {
@@ -25,27 +41,36 @@ import "./createsupply.scss";
        }
        return i;
      })
+     console.log(event.target.value);
    setInputFields(newInputFields);
  }
   const handleAddFields = () => {
-   setInputFields([...inputFields, {id: uuidv4(), Name: '', Type: '' }])
+   setInputFields([...inputFields, {id: uuidv4(),Name: '', Type: '' }])
   }
   const handleRemoveFields = id => {
     const values  = [...inputFields];
     values.splice(values.findIndex(value => value.id === id), 1);
     setInputFields(values);
   }
+  const handleTemplate = (event) =>{
+      const obj = event.target.value;
+      setTemplate(obj);
+  }
+  useEffect(()=>{
+  console.log(template);
+  },[template]);
    return(
         <div className = "createsupply__bottom">
             <h1 className = "createsupply__bottom__head">Create Supply Chain</h1>
             <h2 className = "createsupply__bottom__head1">Add Entities</h2>
             <div className = "createsupply__bottom__head1__part1">
             <Container>
-              <form onSubmit = {handleSubmit}>
-                  <h2>Entity 1</h2>
+              <form onSubmit = {event => handleSubmit(event)}>
+                  <h2>Entity</h2>
                   <hr></hr>
                   <h3>Select Template</h3>
-                  <select>
+                  <select className = "createsupply__bottom__head1__part1__select1" onChange = {event => handleTemplate(event)}>
+                    <option value="none" selected disabled hidden>Select an Option</option>
                     <option value = "manufacturer">Manufacturer</option>
                     <option value = "transporter">Transporter</option>
                     <option value = "distributor">Distributor</option>
@@ -62,25 +87,18 @@ import "./createsupply.scss";
                         value={inputFields.Name}
                         onChange={event => handleChangeInput(inputField.id, event)}
                         />
-                      <TextField
-                        name="Name"
-                        label="Attribute Type"
-                        variant="filled"
-                        value={inputFields.Type}
-                        onChange={event => handleChangeInput(inputField.id, event)}
-                        />
-                        {/*<InputLabel id="demo-simple-select-label">Type</InputLabel>
-                        <Select
-                          labelId="Select Type"
-                          id="demo-simple-select"
-                          value={inputFields.Type}
-                          label="Age"
+                        <select
+                          name="Type"
+                          label="Attribute Type"
                           onChange={event => handleChangeInput(inputField.id, event)}
+                          className = "createsupply__bottom__head1__part1__select2"
                           >
-                          <MenuItem value={'String'}>String</MenuItem>
-                          <MenuItem value={'AlphaNumeric'}>Alphanumeric</MenuItem>
-                          <MenuItem value={'Number'}>Number</MenuItem>
-                        </Select>*/}
+                          <option value="none" selected disabled hidden>Select an Option</option>
+                          <option value="String">String</option>
+                          <option value="AlphaNumeric">Alphanumeric</option>
+                          <option value="Number">Number</option>
+                          <option value="Date">Date</option>
+                        </select>
                         <IconButton disabled={inputFields.length === 1} onClick={() => handleRemoveFields(inputField.id)}>
                           <RemoveCircleRoundedIcon/>
                         </IconButton>
@@ -94,7 +112,7 @@ import "./createsupply.scss";
                     color="primary"
                     type="submit"
                     onClick={handleSubmit}>
-                    Add
+                    Add Entity
                   </Button>
               </form>
             </Container>
@@ -104,7 +122,7 @@ import "./createsupply.scss";
               variant="contained"
               color="primary"
               type="submit">
-              Add New Entity
+              Add
             </Button>
             </div>
           </div>
