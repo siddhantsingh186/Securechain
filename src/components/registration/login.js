@@ -87,7 +87,7 @@ const Login = () => {
                 } 
                 else {
                 alert("Logined Successfully");
-                // history.push('/login');
+                history.push('/dashboard');
                 }
         
             });

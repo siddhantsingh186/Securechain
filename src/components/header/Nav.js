@@ -14,7 +14,7 @@ function Nav(props){
           <p>Secure<span style={{fontWeight:`400`}}>chain</span></p>
         </div>
         <ul className="nav__header__list">
-          <NavLink to="/" className="nav__header__list__element"><li>Home</li></NavLink>;
+          <NavLink to="/" className="nav__header__list__element"><li>Home</li></NavLink>
           <NavLink to = "/about" className="nav__header__list__element"> <li>About</li></NavLink>
           <NavLink to = "/product" className="nav__header__list__element"> <li>Product</li></NavLink>
         </ul>
