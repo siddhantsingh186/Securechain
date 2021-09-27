@@ -7,7 +7,7 @@ const SelectSupplyChain = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         if(supplyChain){
-            
+
         }
     }
     return (
@@ -39,7 +39,7 @@ const SelectSupplyChain = () => {
                     </div>
                     <br/><br/>
                     <div>
-                        <button type="submit" className='btn'><Link to='/selectSupplyChain/enroll'>Enroll</Link></button>
+                        <button type="submit" className='btn'><Link to='/enroll'>Enroll</Link></button>
                     </div>
                 </form>
             </article>

@@ -9,6 +9,7 @@ import Dashboard from "./components/dashboard/Dashboard";
 import Createsupply from "./components/createSupplyChain/createsupply";
 import Selectsupplychain from "./components/selectSupplyChain/SelectSupplyChain";
 import Createsupplyhome from "./components/createsupplyhome/createsupplyhome";
+import Enroll from "./components/enroll/Enroll";
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import './App.scss';
 
@@ -42,6 +43,9 @@ class App extends Component {
           </Route>
           <Route exact path="/createsupplyhome">
             <Createsupplyhome />
+          </Route>
+          <Route exact path="/enroll">
+            <Enroll />
           </Route>
           <Route path = "*">
             <Error />
