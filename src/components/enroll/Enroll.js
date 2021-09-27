@@ -16,42 +16,31 @@ const Enroll = () => {
     }
     return (
         <>
-            <article>
-                <form className="form" onSubmit={handleSubmit}>
-                    <div className="form-control">
-                        <div className="field">
-                            <label htmlFor="owner" className="lab">
-                                <h3>Select the owner of supply chain:</h3>
-                            </label>
-                            <br/>
-                            <input
-                                type="text"
-                                id="owner"
-                                name="owner"
-                                placeholder="Enter Owner"
-                                value={owner}
-                                onChange={(e) => setOwner(e.target.value)}
-                            />        
-                        </div>
-                    </div>
-                </form>
-
+            <article className="container">
                 <div className="head">
                     <h2>Enroll in Supply Chain</h2>
                 </div>
                 <form className="form" onSubmit={handleSubmit}>
                     <div className="form-control">
                         <div className="field">
-                            <label htmlFor="owner" className="lab">
+                            <label htmlFor="role" className="lab">
                                 Owner:
                             </label>
-                            <input
-                                type="text"
-                                id="owner"
-                                name="owner"
-                                value={owner}
-                                onChange={(e) => setOwner(e.target.value)}
-                            />        
+                            <select
+                                value={role}
+                                placeholder="Choose your role"
+                                onChange={(e) => setRole(e.target.value)}
+                            >
+                                <option value="Covishield">
+                                    Covishield
+                                </option>
+                                <option value="Covaxin">
+                                    Covaxin
+                                </option>
+                                <option value="Pfizer">
+                                    Pfizer
+                                </option>
+                            </select>
                         </div>
                         
                         <div className="field">
@@ -92,6 +81,7 @@ const Enroll = () => {
                             <label htmlFor="ethereumAddress" className="lab">
                                 Ethereum Address:
                             </label>
+                            
                             <input
                                 type="text"
                                 id="ethereumAddress"
@@ -103,7 +93,7 @@ const Enroll = () => {
                         </div>
                     </div>
                     <br/>
-                    <div>
+                    <div className="btn-css">
                         <button type="submit" className='btn'><Link to='/selectSupplyChain/enroll/dashboard'>Request Participation</Link></button>
                     </div>
                 </form>
