@@ -33,13 +33,13 @@ const Login = () => {
         // if (!values.password) {
         // error.password = 'Password is required';
         // flag = 0;
-        // } 
+        // }
         // else if (values.password.length < 6) {
         // error.password = 'Password needs to be 6 characters or more';
         // flag = 0;
         // }
 
-        //match password 
+        //match password
         // if(values.password!=values.cpassword)
         // {
         //     alert('Wrong password mc')
@@ -84,12 +84,12 @@ const Login = () => {
                 console.log(response.data.Token);
                 if (response.data.message) {
                 alert(response.data.message);
-                } 
+                }
                 else {
                 alert("Logined Successfully");
                 history.push('/dashboard');
                 }
-        
+
             });
         }
         e.target.reset();

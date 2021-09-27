@@ -14,8 +14,15 @@ function Createsupplyhome(){
     console.log("Name", name);
     console.log("Details", details);
     console.log(JSON.stringify(data, null, 4));
+    let token = localStorage.getItem("token")
     axios
-      .post('https://securechain-backend.herokuapp.com/supplychain/', data)
+    .post("https://securechain-backend.herokuapp.com/supplychain/",data ,
+                {
+                  headers: {
+                        Authorization: `Token ${token}`,
+                    }
+                }
+            )
       .then((res) => {
        console.log('api response 🚀', res)
       })
@@ -40,7 +47,8 @@ function Createsupplyhome(){
         <h2 className = "createsupplyhome__bottom__head">Description</h2><br></br>
         <textarea className ="createsupplyhome__bottom__text" rows={8} cols={50} onChange={event => handleDetails(event)}></textarea>
       </div>
-      <button className = "createsupplyhome__button"><NavLink to="/createsupply" onClick = {event => handleSubmit(event, name, details)}>Save and Continue</NavLink></button>
+      <button className = "createsupplyhome__button" onClick = {event => handleSubmit(event, name, details)}>Save</button>
+      <button className = "createsupplyhome__button"><NavLink to="/createsupply">Continue</NavLink></button>
     </div>
   );
 }

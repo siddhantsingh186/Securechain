@@ -14,6 +14,7 @@ import axios from 'axios';
 import "./createsupply.scss";
 
  function Createsupply(){
+   const [entity, setEntity] = useState('');
    const [template, setTemplate] = useState('');
    const [inputFields, setInputFields] = useState([{id: uuidv4(), Name: '', Type: '' }]);
    const handleSubmit = (event) => {
@@ -22,7 +23,7 @@ import "./createsupply.scss";
      //console.log(data, e)
      // alert('SUCCESS!')
      //console.log(JSON.stringify(data, null, 4))
-
+     setEntity([...entity, event.target.value]);
      axios
        .post('http://localhost:3001/api/announcement/add', {generic_attributes : inputFields,
        template : template})
@@ -42,6 +43,7 @@ import "./createsupply.scss";
        return i;
      })
      console.log(event.target.value);
+    console.log(entity);
    setInputFields(newInputFields);
  }
   const handleAddFields = () => {
@@ -56,17 +58,26 @@ import "./createsupply.scss";
       const obj = event.target.value;
       setTemplate(obj);
   }
+  const handleEntity = (event) => {
+
+  }
   useEffect(()=>{
   console.log(template);
   },[template]);
    return(
         <div className = "createsupply__bottom">
             <h1 className = "createsupply__bottom__head">Create Supply Chain</h1>
-            <h2 className = "createsupply__bottom__head1">Add Entities</h2>
+            <h2 className = "createsupply__bottom__head1">Create New Entity</h2>
             <div className = "createsupply__bottom__head1__part1">
             <Container>
               <form onSubmit = {event => handleSubmit(event)}>
-                  <h2>Entity</h2>
+                <TextField
+                  name="Entity"
+                  label="Entity Name"
+                  variant="filled"
+                  //value={}
+                  onChange={e => handleEntity(e)}
+                  />
                   <hr></hr>
                   <h3>Select Template</h3>
                   <select className = "createsupply__bottom__head1__part1__select1" onChange = {event => handleTemplate(event)}>
@@ -111,7 +122,7 @@ import "./createsupply.scss";
                     variant="contained"
                     color="primary"
                     type="submit"
-                    onClick={handleSubmit}>
+                    onClick={event => handleSubmit(event)}>
                     Add Entity
                   </Button>
               </form>
