@@ -16,25 +16,36 @@ import "./createsupply.scss";
  function Createsupply(){
    const [entity, setEntity] = useState('');
    const [template, setTemplate] = useState('');
-   const [inputFields, setInputFields] = useState([{id: uuidv4(), Name: '', Type: '' }]);
-   const handleSubmit = (event) => {
+   const [inputFields, setInputFields] = useState([{id: uuidv4(), name: '', type: '' }]);
+   const handleSubmit = (event, entity, template, inputFields) => {
      event.preventDefault();
+     let data  = {
+       entity_name : entity,
+       template : 1,
+       supply_chain : 2,
+       generic_attributes : inputFields
+     }
      //console.log("InputFields", inputFields);
      //console.log(data, e)
      // alert('SUCCESS!')
      //console.log(JSON.stringify(data, null, 4))
-     setEntity([...entity, event.target.value]);
+     console.log(JSON.stringify(data, null, 4));
+     let token = localStorage.getItem("token")
      axios
-       .post('http://localhost:3001/api/announcement/add', {generic_attributes : inputFields,
-       template : template})
+     .post("https://securechain-backend.herokuapp.com/entity/",data ,
+                 {
+                   headers: {
+                         Authorization: `Token ${token}`,
+                     }
+                 }
+             )
        .then((res) => {
         console.log('api response 🚀', res)
        })
        .catch((error) => {
          console.error(error.response)
        })
-       console.log("InputFields",inputFields);
-   };
+     }
    const handleChangeInput = (id, event) => {
      const newInputFields = inputFields.map(i => {
        if(id === i.id) {
@@ -42,12 +53,12 @@ import "./createsupply.scss";
        }
        return i;
      })
-     console.log(event.target.value);
-    console.log(entity);
+     console.log(inputFields);
+     console.log(entity);
    setInputFields(newInputFields);
  }
   const handleAddFields = () => {
-   setInputFields([...inputFields, {id: uuidv4(),Name: '', Type: '' }])
+   setInputFields([...inputFields, {id: uuidv4(),name: '', type: '' }])
   }
   const handleRemoveFields = id => {
     const values  = [...inputFields];
@@ -57,9 +68,6 @@ import "./createsupply.scss";
   const handleTemplate = (event) =>{
       const obj = event.target.value;
       setTemplate(obj);
-  }
-  const handleEntity = (event) => {
-
   }
   useEffect(()=>{
   console.log(template);
@@ -76,7 +84,7 @@ import "./createsupply.scss";
                   label="Entity Name"
                   variant="filled"
                   //value={}
-                  onChange={e => handleEntity(e)}
+                  onChange={e => setEntity(e.target.value)}
                   />
                   <hr></hr>
                   <h3>Select Template</h3>
@@ -92,14 +100,14 @@ import "./createsupply.scss";
                   {inputFields.map((inputField , index)=> (
                       <div key={index}>
                       <TextField
-                        name="Name"
+                        name="name"
                         label="Attribute Name"
                         variant="filled"
-                        value={inputFields.Name}
+                        value={inputFields.name}
                         onChange={event => handleChangeInput(inputField.id, event)}
                         />
                         <select
-                          name="Type"
+                          name="type"
                           label="Attribute Type"
                           onChange={event => handleChangeInput(inputField.id, event)}
                           className = "createsupply__bottom__head1__part1__select2"
@@ -122,7 +130,7 @@ import "./createsupply.scss";
                     variant="contained"
                     color="primary"
                     type="submit"
-                    onClick={event => handleSubmit(event)}>
+                    onClick={event => handleSubmit(event, entity, template, inputFields)}>
                     Add Entity
                   </Button>
               </form>
