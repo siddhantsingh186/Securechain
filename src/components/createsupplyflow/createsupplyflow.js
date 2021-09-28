@@ -10,10 +10,39 @@ import Button from '@mui/material/Button';
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 import { v4 as uuidv4 } from 'uuid';
+// import Select from 'react-select';
 import axios from 'axios';
 import "./createsupplyflow.scss";
 
 const Createsupplyflow = () => {
+    const [template,setTemplate] = useState({
+        options:[],
+        value:'',
+        id:''
+    });
+    useEffect(() => {
+        let token = localStorage.getItem("token")
+        axios.get("http://securechain-backend.herokuapp.com/template/",{
+            headers: {
+                Authorization: `Token ${token}`,
+            }
+        }).then((res) => {
+            console.log('api response 🚀', res)
+            setTemplate({
+                options:res.data.map(d => ({
+                    "value" : d.id,
+                    "label" : d.template_name
+                  }))
+            })
+        })
+        .catch((error) => {
+            console.error(error.response)
+        });
+    },[]);
+    console.log(template.options)
+    console.log(template);
+    // console.log(template[0].template_name);
+    // console.log(selectOptions)
     const [inputFields, setInputFields] = useState([{id: uuidv4(),  Source: '', Destination: '' }]);
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -67,28 +96,36 @@ const Createsupplyflow = () => {
                     <form onSubmit = {event => handleSubmit(event)}>
                         {inputFields.map((inputField , index)=> (
                         <div key={index}>
+
                             <select
                             name="Source"
-                            label="Attribute Type"
-                            onChange={event => handleChangeInput(inputField.id, event)}
-                            className = "createsupply__bottom__head1__part1__select2" required>
-                                <option value="" selected hidden disable>Source</option>
-                                <option value="Manufacturer">Manufacturer</option>
-                                <option value="Manufacturer-1">Manufacturer-1</option>
-                                <option value="Transporter">Transporter</option>
-                                <option value="Distributor">Distributor</option>
+                            // onChange={event => handleChangeInput(inputField.id, event)}
+                            className = "createsupply__bottom__head1__part1__select2"
+                            // options={template.options}
+                            >
+                            {
+                                template.options.map((x)=>
+                                <option >{x.label}</option>
+                                )
+                            }
                             </select>
+                            {/* <select>{
+    props.data.map( (x,y) => 
+      <option key={y}>{x}</option> )
+  }</select>; */}
                             <select
                             name="Destination"
-                            label="Attribute Type"
-                            onChange={event => handleChangeInput(inputField.id, event)}
-                            className = "createsupply__bottom__head1__part1__select2" required>
-                                <option value="" selected hidden disable>Destination</option>
-                                <option value="Manufacturer">Manufacturer</option>
-                                <option value="Manufacturer-1">Manufacturer-1</option>
-                                <option value="Transporter">Transporter</option>
-                                <option value="Distributor">Distributor</option>
+                            // onChange={event => handleChangeInput(inputField.id, event)}
+                            className = "createsupply__bottom__head1__part1__select2"  
+                            options={template.options}
+                            >
+                            {
+                                template.options.map((x)=>
+                                <option >{x.label}</option>
+                                )
+                            }
                             </select>
+
                             <IconButton disabled={inputFields.length === 1} onClick={() => handleRemoveFields(inputField.id)}>
                             <RemoveCircleRoundedIcon/>
                             </IconButton>

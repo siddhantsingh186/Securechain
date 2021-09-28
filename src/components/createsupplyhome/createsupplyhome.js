@@ -2,7 +2,12 @@ import React , {useState} from 'react';
 import { NavLink } from 'react-router-dom';
 import axios from 'axios';
 import "./createsupplyhome.scss";
+import {useEffect} from 'react';
+import { useHistory } from 'react-router';
+
+
 function Createsupplyhome(){
+
   const [name,setName] = useState('');
   const [details,setDetails] = useState('');
   const handleSubmit = (event, name, details) => {
@@ -15,6 +20,7 @@ function Createsupplyhome(){
     console.log("Details", details);
     console.log(JSON.stringify(data, null, 4));
     let token = localStorage.getItem("token")
+    
     axios.post("https://securechain-backend.herokuapp.com/supplychain/",data ,
                 {
                   headers: {
@@ -46,8 +52,7 @@ function Createsupplyhome(){
         <h1 className = "createsupplyhome__bottom__head1">Description</h1><br></br>
         <textarea className ="createsupplyhome__bottom__text" rows={8} cols={50} onChange={event => handleDetails(event)}></textarea>
       </div>
-      <button className = "createsupplyhome__button" onClick = {event => handleSubmit(event, name, details)}>Save</button>
-      <button className = "createsupplyhome__button"><NavLink to="/createsupply">Continue</NavLink></button>
+      <button className = "createsupplyhome__button" onClick = {event => handleSubmit(event, name, details)}>Save and Continue</button>
     </div>
   );
 }
