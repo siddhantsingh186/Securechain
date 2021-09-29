@@ -7,10 +7,12 @@ import IconButton from '@mui/material/IconButton';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import RemoveCircleRoundedIcon from '@mui/icons-material/RemoveCircleRounded';
 import Button from '@mui/material/Button';
+import { useHistory } from 'react-router';
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 import { v4 as uuidv4 } from 'uuid';
 // import Select from 'react-select';
+import { Link } from 'react-router-dom'
 import axios from 'axios';
 import "./createsupplyflow.scss";
 
@@ -43,7 +45,7 @@ const Createsupplyflow = () => {
     console.log(entity);
     // console.log(entity[0].entity_name);
     // console.log(selectOptions)
-    // let history = useHistory();
+    let history = useHistory();
     document.title = 'create-supply-flow';
     const [flow, setFlowReg] = useState({
         source:'',
@@ -87,11 +89,13 @@ const Createsupplyflow = () => {
             } 
             else {
             alert("One rule created");
-            // history.push('/login');
             }
         });
         // e.target.reset();
     };
+    const handleSave= (e) => {
+        history.push("/dashboard");
+    }
     // const [inputFields, setInputFields] = useState([{source: '', destination: '' }]);
     // const handleSubmit = (event) => {
     //     event.preventDefault();
@@ -139,14 +143,14 @@ const Createsupplyflow = () => {
     //     console.log(entity);
     // },[entity]);
     return (
-        <div class="createsupply__bottom">
+        <div className="createsupply__bottom">
             <h1 className = "createsupply__bottom__head">Create Supply Chain</h1>
             <div className = "createsupplyflow">
-                <div class="createsupplyflow__title">
+                <div className="createsupplyflow__title">
                     <h1>Establish flow of your supply chain</h1>
                 </div>
-                <div class="createsupplyflow__formgroup">
-                    <form onSubmit = {event => handleSubmit(event)}>
+                <div className="createsupplyflow__formgroup">
+                    <form  >
                         {/* {inputFields.map((inputField , index)=> (
                         <div key={index}> */}
 
@@ -188,9 +192,12 @@ const Createsupplyflow = () => {
                             {/* <IconButton onClick={handleAddFields}>
                             <AddCircleIcon/>
                             </IconButton> */}
+                            
                         {/* </div> */}
                     {/* ))} */}
-                    <input  className="createsupplyflow__button" type="submit" value="Save and Finish"></input>
+                    <Link to='/dashboard'>
+                        <button className="createsupplyflow__button" type="submit" >Save and Finish</button>
+                    </Link>
                     </form>
                 </div>
             </div>
