@@ -88,14 +88,14 @@ const Createsupplyflow = () => {
         
             } 
             else {
-            alert("One rule created");
+            alert("Rule created");
             }
         });
         // e.target.reset();
     };
-    const handleSave= (e) => {
-        history.push("/dashboard");
-    }
+    // const handleSave= (e) => {
+    //     history.push("/dashboard");
+    // }
     // const [inputFields, setInputFields] = useState([{source: '', destination: '' }]);
     // const handleSubmit = (event) => {
     //     event.preventDefault();
@@ -150,7 +150,7 @@ const Createsupplyflow = () => {
                     <h1>Establish flow of your supply chain</h1>
                 </div>
                 <div className="createsupplyflow__formgroup">
-                    <form  >
+                    <form>
                         {/* {inputFields.map((inputField , index)=> (
                         <div key={index}> */}
 
@@ -159,6 +159,7 @@ const Createsupplyflow = () => {
                             onChange={handleChangeInput}
                             className = "createsupply__bottom__head1__part1__select2"
                             // options={entity.options}
+                            required
                             >
                             {
                                 entity.options.map((x)=>
@@ -167,14 +168,15 @@ const Createsupplyflow = () => {
                             }
                             </select>
                             {/* <select>{
-    props.data.map( (x,y) => 
-      <option key={y}>{x}</option> )
-  }</select>; */}
+                                props.data.map( (x,y) => 
+                                <option key={y}>{x}</option> )
+                            }</select>; */}
                             <select
                             name="destination"
                             onChange={event => handleChangeInput(event)}
                             className = "createsupply__bottom__head1__part1__select2"  
                             options={entity.options}
+                            required
                             >
                             {
                                 entity.options.map((x)=>
