@@ -17,7 +17,7 @@ const Enroll = ({selectedSupplyChain}) => {
         e.preventDefault();
         
     }
-    const retrieveEntity = () => {
+    /*const retrieveEntity = () => {
         axios
             .get("https://securechain-backend.herokuapp.com/entity/",
             {
@@ -33,6 +33,7 @@ const Enroll = ({selectedSupplyChain}) => {
             )
             .then((res) => {
                 if(res){
+                    console.log("tt")
                     setEntities(res)
                 }
             })
@@ -40,11 +41,11 @@ const Enroll = ({selectedSupplyChain}) => {
                 console.log(err)
             })
 
-    }
+    }*/
 
-    const retrieveEntityData = () => {
+    /*const retrieveEntityData = () => {
         axios
-            .get(`https://securechain-backend.herokuapp.com/entity/${role.id}`,
+            .get(`https://securechain-backend.herokuapp.com/entity/${role.id}/`,
             {
                 header: {
                     Authorization: `Token ${token}`
@@ -59,12 +60,57 @@ const Enroll = ({selectedSupplyChain}) => {
                 console.log(err)
             })
 
-    }
+    }*/
 
     useEffect(() => {
-        retrieveEntity();
-        retrieveEntityData();
-    }, [])
+       // retrieveEntity();
+       axios
+            .get("https://securechain-backend.herokuapp.com/entity/",
+            {
+                headers: {
+                    Authorization: `Token ${token}`
+                }
+            },
+            {
+                params: {
+                    supply_chain: supplyChain.id
+                }
+            }
+            )
+            .then((res) => {
+                if(res){
+                    console.log("tt")
+                    setEntities(res)
+                }
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+
+        console.log(entities);
+        //retrieveEntityData();
+        axios
+            .get(`https://securechain-backend.herokuapp.com/entity/${role.id}/`,
+            {
+                headers: {
+                    Authorization: `Token ${token}`
+                }
+            })
+            .then((res) => {
+                if(res){
+                    setEntityData(res)
+                }
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+
+    }, []);
+
+    useEffect(() => {
+        console.log(entities);
+
+    }, [entities])
     return (
         <>
             <article className="container">
@@ -73,46 +119,53 @@ const Enroll = ({selectedSupplyChain}) => {
                 </div>
                 <form className="form" onSubmit={handleSubmit}>
                     <div className="form-control">
+                        
                         <div className="field">
                             <label htmlFor="role" className="lab">
                                 Role
                             </label>
                             <select
-                                value={role}
+                                name="role"
+                                id="role"
                                 onChange={(e) => setRole(e.target.value)}
                             >
                                 <option value="Choose">
                                     Choose
                                 </option>
-                                {entities.map((entity) => {
-                                    <option value={entity}>
-                                        {entity.entity_name}
-                                    </option>
+                                
+                                {entities && entities.map((entity) => {
+                                    return(
+                                        <option key= {entity.id} value={entity}>
+                                            {entity.entity_name}
+                                            
+                                        </option>
+                                    );
                                 })}
-
                             </select>
+                            
                         </div>
-
-                        {entityData.generic_attributes.map((att) => {
-                            <div className="field">
-                                <label htmlFor="company" className="lab">
-                                    {att.name}
-                                </label>
-                                <input
-                                    type="text"
-                                    id={att.id}
-                                    name={att.name}
-                                    placeholder={att.name}
-                                    onChange={(e) => setInstance(...instance, att.name=e.target.value)}
-                                />
-                            </div>
+                        {entityData && entityData.generic_attributes.map((att) => {
+                            return(
+                                <div className="field">
+                                    <label htmlFor="company" className="lab">
+                                        {att.name}
+                                    </label>
+                                    <input
+                                        type="text"
+                                        id={att.id}
+                                        name={att.name}
+                                        placeholder={att.name}
+                                        onChange={(e) => setInstance(...instance, att.name=e.target.value)}
+                                    />
+                                </div>
+                            );
                         })}
                     </div>
                     <br/><br/>
                     <div className="btn-css">
                         <button type="submit" className='btn'><Link to='/selectSupplyChain/enroll/dashboard'>Request Participation</Link></button>
                     </div>
-                </form>
+                </form>  
             </article>
         </>
     )
