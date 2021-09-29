@@ -155,14 +155,14 @@ import "./createsupply.scss";
               </form>
             </Container>
             </div>
-            <div className = "createsupply__bottom__head1__part2">
+            {/*<div className = "createsupply__bottom__head1__part2">
             <Button
               variant="contained"
               color="primary"
               type="submit">
               Add
             </Button>
-            </div>
+            </div>*/}
           </div>
    );
  }
