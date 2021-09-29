@@ -15,7 +15,7 @@
     padding-top: 14px;
     padding-left: 16px;
   }
-  
+
   &__top{
     display: flex;
     flex-flow: column;
@@ -24,18 +24,18 @@
     &__head1
     {
       font-size:25px;
-      margin-left : 30px;
       font-family: montserrat,sans-serif;
-      margin-bottom: -10px;
+      margin: auto;
     }
     &__text{
       border-width: 2px;
       border-radius: 5px;
       width: 500px;
-      margin-left: 30px;
+      margin: auto;
     }
   }
   &__bottom{
+    margin-top: 32px;
     display: flex;
     flex-flow: column;
     // align-items: center;
@@ -45,28 +45,28 @@
     {
       font-size : 25px;
       margin-top:50px;
-      margin-left:30px;
       font-family: montserrat,sans-serif;
       margin-bottom : -10px;
+      margin: auto;
     }
     &__text{
       border-width: 2px;
       border-radius: 5px;
       width: 500px;
-      margin-left: 30px;
+      margin: auto;
     }
   }
   &__button{
     display: block;
     height: 40px;
-    width: 200px;
+    width: fit-content;
     border-radius: 5px;
     font-family:  montserrat,sans-serif;
     font-size: 20px;
     color: white;
     background-color: #138BBF;
-    margin-left : 22%;
-    margin-top:50px;
+    margin: auto;
+    margin-top: 32px;
   }
   &__button:hover{
     color: var(--clr-primary-5);
