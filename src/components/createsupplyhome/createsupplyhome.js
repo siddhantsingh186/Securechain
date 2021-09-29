@@ -7,7 +7,7 @@ import { useHistory } from 'react-router';
 
 
 function Createsupplyhome(){
-
+  let history = useHistory();
   const [name,setName] = useState('');
   const [details,setDetails] = useState('');
   const handleSubmit = (event, name, details) => {
@@ -20,7 +20,7 @@ function Createsupplyhome(){
     console.log("Details", details);
     console.log(JSON.stringify(data, null, 4));
     let token = localStorage.getItem("token")
-    
+
     axios.post("https://securechain-backend.herokuapp.com/supplychain/",data ,
                 {
                   headers: {
@@ -30,6 +30,8 @@ function Createsupplyhome(){
             )
       .then((res) => {
        console.log('api response 🚀', res)
+       alert("Details sent Successfully");
+       history.push('/createsupply');
       })
       .catch((error) => {
         console.error(error.response)
