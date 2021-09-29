@@ -10,6 +10,7 @@ import Createsupply from "./components/createSupplyChain/createsupply";
 import Selectsupplychain from "./components/selectSupplyChain/SelectSupplyChain";
 import Enroll from "./components/enroll/Enroll";
 import Createsupplyhome from "./components/createsupplyhome/createsupplyhome";
+import Createsupplyflow from "./components/createsupplyflow/createsupplyflow";
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import './App.scss';
 
@@ -37,6 +38,9 @@ class App extends Component {
           </Route>
           <Route exact path="/createsupply">
             <Createsupply />
+          </Route>
+          <Route exact path="/createsupplyflow">
+            <Createsupplyflow />
           </Route>
           <Route exact path="/selectsupplychain">
             <Selectsupplychain />
