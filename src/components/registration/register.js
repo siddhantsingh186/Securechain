@@ -91,7 +91,7 @@ const Register = () => {
                 } 
                 else {
                 alert("Registered Successfully");
-                // history.push('/login');
+                history.push('/login');
                 }
         
             });

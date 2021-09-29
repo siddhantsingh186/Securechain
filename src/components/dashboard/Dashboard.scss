@@ -41,4 +41,25 @@
       }
     }
   }
+  &__button{
+    &__style{
+      display: block;
+      height: 40px;
+      width: fit-content;
+      border-radius: 5px;
+      font-family:  montserrat,sans-serif;
+      font-size: 20px;
+      color: white;
+      background-color: #138BBF;
+      margin: auto;
+      margin-top: 32px;
+    }
+    &__style:hover{
+      color: var(--clr-primary-5);
+      background: var(--clr-primary-8);
+      border-color: var(--clr-primary-8);
+      background: var(--clr-primary-10);
+      --transition: all 0.3s linear;
+    }
+  }
 }

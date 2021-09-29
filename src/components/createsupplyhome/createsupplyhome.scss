@@ -4,7 +4,6 @@
   &__head{
     display: flex;
     flex-flow: column;
-    justify-content: center;
     font-weight: bold;
     font-size: 2.25rem;
     letter-spacing: var(--spacing);
@@ -16,50 +15,58 @@
     padding-top: 14px;
     padding-left: 16px;
   }
+
   &__top{
     display: flex;
     flex-flow: column;
-    align-items: center;
     font-weight: bold;
-    letter-spacing: var(--spacing);
     color: var(--clr-primary-1);
+    &__head1
+    {
+      font-size:25px;
+      font-family: montserrat,sans-serif;
+      margin: auto;
+    }
     &__text{
-      margin-right: auto;
-      border-radius: 30px;
+      border-width: 2px;
+      border-radius: 5px;
+      width: 500px;
       margin: auto;
     }
   }
   &__bottom{
+    margin-top: 32px;
     display: flex;
     flex-flow: column;
-    align-items: center;
+    // align-items: center;
     font-weight: bold;
     color: var(--clr-primary-1);
-    letter-spacing: var(--spacing);
+    &__head1
+    {
+      font-size : 25px;
+      margin-top:50px;
+      font-family: montserrat,sans-serif;
+      margin-bottom : -10px;
+      margin: auto;
+    }
     &__text{
-      margin-right: auto;
-      border-radius: 30px;
+      border-width: 2px;
+      border-radius: 5px;
+      width: 500px;
       margin: auto;
     }
   }
   &__button{
+    display: block;
+    height: 40px;
     width: fit-content;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 20px;
-    text-transform: uppercase;
-    background: var(--clr-primary-5);
-    color: var(--clr-primary-1);
-    padding: 0.375rem 0.75rem;
-    letter-spacing: 1px;
-    display: inline-block;
-    transition: var(--transition);
-    font-size: 0.975rem;
-    font-weight: bold;
-    border: 2px solid var(--clr-primary-5);
-    cursor: pointer;
-    box-shadow: 0 1px 3px rgb(0 0 0 / 20%);
-    border-radius: var(--radius);
+    border-radius: 5px;
+    font-family:  montserrat,sans-serif;
+    font-size: 20px;
+    color: white;
+    background-color: #138BBF;
+    margin: auto;
+    margin-top: 32px;
   }
   &__button:hover{
     color: var(--clr-primary-5);
