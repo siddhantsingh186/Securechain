@@ -30,6 +30,7 @@ function Createsupplyhome(){
             )
       .then((res) => {
        console.log('api response 🚀', res)
+       localStorage.setItem("supply_chain", res.data.id)
        alert("Details sent Successfully");
        history.push('/createsupply');
       })
