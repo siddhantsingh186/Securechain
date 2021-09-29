@@ -14,15 +14,16 @@ import axios from 'axios';
 import "./createsupply.scss";
 
  function Createsupply(){
+   const [temptemplate, settempTemplate] = useState('');
    const [entity, setEntity] = useState('');
-   const [template, setTemplate] = useState('');
+   const [template, setTemplate] = useState({options : [], id: '',value: ''});
    const [inputFields, setInputFields] = useState([{id: uuidv4(), name: '', type: '' }]);
-   const handleSubmit = (event, entity, template, inputFields) => {
+   const handleSubmit = (event, entity, temptemplate, inputFields) => {
      event.preventDefault();
-     let data  = {
+     let data = {
        entity_name : entity,
-       template : 1,
-       supply_chain : 2,
+       template : temptemplate,
+       supply_chain : localStorage.getItem("supply_chain"),
        generic_attributes : inputFields
      }
      //console.log("InputFields", inputFields);
@@ -40,7 +41,7 @@ import "./createsupply.scss";
                  }
              )
        .then((res) => {
-        console.log('api response 🚀', res)
+         console.log('api response 🚀', res)
        })
        .catch((error) => {
          console.error(error.response)
@@ -53,8 +54,6 @@ import "./createsupply.scss";
        }
        return i;
      })
-     console.log(inputFields);
-     console.log(entity);
    setInputFields(newInputFields);
  }
   const handleAddFields = () => {
@@ -65,13 +64,30 @@ import "./createsupply.scss";
     values.splice(values.findIndex(value => value.id === id), 1);
     setInputFields(values);
   }
-  const handleTemplate = (event) =>{
-      const obj = event.target.value;
-      setTemplate(obj);
-  }
-  useEffect(()=>{
-  console.log(template);
-  },[template]);
+    const handleTemplate = (event) =>{
+      console.log(event.target.value);
+        settempTemplate(event.target.value);
+    }
+  useEffect(() => {
+      let token = localStorage.getItem("token")
+      axios.get("http://securechain-backend.herokuapp.com/template/",{
+          headers: {
+              Authorization: `Token ${token}`,
+          }
+      }).then((res) => {
+          // console.log('api response 🚀', res)
+          setTemplate({
+              options:res.data.map(d => ({
+                  "value" : d.id,
+                  "label" : d.template_name
+                }))
+          })
+      })
+      .catch((error) => {
+          console.error(error.response)
+      });
+  },[]);
+  // console.log(template.options)
    return(
         <div className = "createsupply__bottom">
             <h1 className = "createsupply__bottom__head">Create Supply Chain</h1>
@@ -88,12 +104,15 @@ import "./createsupply.scss";
                   />
                   <hr></hr>
                   <h3>Select Template</h3>
-                  <select className = "createsupply__bottom__head1__part1__select1" onChange = {event => handleTemplate(event)}>
+                  {template.options && <select className = "createsupply__bottom__head1__part1__select1" onChange = {handleTemplate}>
                     <option value="none" selected disabled hidden>Select an Option</option>
-                    <option value = "manufacturer">Manufacturer</option>
-                    <option value = "transporter">Transporter</option>
-                    <option value = "distributor">Distributor</option>
-                  </select>
+                    {
+                        template.options.map((x)=>{
+                        return(
+                        <option value = {x.value}>{x.label}</option>);
+                      })
+                    }
+                    </select>}
                   <h3>Add Attributes</h3>
                   <p>Define attributes as per your requirement from the selected instance</p>
                   <hr></hr>
@@ -114,7 +133,7 @@ import "./createsupply.scss";
                           >
                           <option value="none" selected disabled hidden>Select an Option</option>
                           <option value="String">String</option>
-                          <option value="AlphaNumeric">Alphanumeric</option>
+                          <option value="Alphanumeric">Alphanumeric</option>
                           <option value="Number">Number</option>
                           <option value="Date">Date</option>
                         </select>
@@ -130,20 +149,20 @@ import "./createsupply.scss";
                     variant="contained"
                     color="primary"
                     type="submit"
-                    onClick={event => handleSubmit(event, entity, template, inputFields)}>
+                    onClick={event => handleSubmit(event, entity, temptemplate, inputFields)}>
                     Add Entity
                   </Button>
               </form>
             </Container>
             </div>
-            <div className = "createsupply__bottom__head1__part2">
+            {/*<div className = "createsupply__bottom__head1__part2">
             <Button
               variant="contained"
               color="primary"
               type="submit">
               Add
             </Button>
-            </div>
+            </div>*/}
           </div>
    );
  }
