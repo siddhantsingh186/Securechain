@@ -7,7 +7,6 @@ import { useHistory } from 'react-router';
 
 
 function Createsupplyhome(){
-
   const [name,setName] = useState('');
   const [details,setDetails] = useState('');
   const handleSubmit = (event, name, details) => {
