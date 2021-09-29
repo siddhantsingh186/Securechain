@@ -10,7 +10,7 @@ const Enroll = ({selectedSupplyChain}) => {
     const [supplyChainName, setSupplyChain] = useState(supplyChain.name)
     const [owner, setOwner] = useState(supplyChain.owner);
     const [entities, setEntities] = useState([]);
-    const [entityData, setEntityData] = useState({});
+    const [entityData, setEntityData] = useState([]);
     const [role, setRole] = useState({});
 
     const handleSubmit = (e) => {
@@ -43,11 +43,11 @@ const Enroll = ({selectedSupplyChain}) => {
 
     }*/
 
-    /*const retrieveEntityData = () => {
+    const retrieveEntityData = () => {
         axios
             .get(`https://securechain-backend.herokuapp.com/entity/${role.id}/`,
             {
-                header: {
+                headers: {
                     Authorization: `Token ${token}`
                 }
             })
@@ -60,7 +60,7 @@ const Enroll = ({selectedSupplyChain}) => {
                 console.log(err)
             })
 
-    }*/
+    }
 
     useEffect(() => {
        // retrieveEntity();
@@ -79,8 +79,7 @@ const Enroll = ({selectedSupplyChain}) => {
             )
             .then((res) => {
                 if(res){
-                    console.log("tt")
-                    setEntities(res)
+                    setEntities(res.data)
                 }
             })
             .catch((err) => {
@@ -89,21 +88,6 @@ const Enroll = ({selectedSupplyChain}) => {
 
         console.log(entities);
         //retrieveEntityData();
-        axios
-            .get(`https://securechain-backend.herokuapp.com/entity/${role.id}/`,
-            {
-                headers: {
-                    Authorization: `Token ${token}`
-                }
-            })
-            .then((res) => {
-                if(res){
-                    setEntityData(res)
-                }
-            })
-            .catch((err) => {
-                console.log(err)
-            })
 
     }, []);
 
@@ -115,7 +99,7 @@ const Enroll = ({selectedSupplyChain}) => {
         <>
             <article className="container">
                 <div className="head">
-                    <h2>Enroll in {supplyChain} Supply Chain</h2>
+                    <h2>Enroll in Supply Chain</h2>
                 </div>
                 <form className="form" onSubmit={handleSubmit}>
                     <div className="form-control">
@@ -127,24 +111,26 @@ const Enroll = ({selectedSupplyChain}) => {
                             <select
                                 name="role"
                                 id="role"
-                                onChange={(e) => setRole(e.target.value)}
+                                onChange={(e) => {
+                                    setRole(e.target.value);
+                                    retrieveEntityData();
+                                }}
                             >
                                 <option value="Choose">
                                     Choose
                                 </option>
                                 
-                                {entities && entities.map((entity) => {
+                                {entities.map((entity) => {
                                     return(
-                                        <option key= {entity.id} value={entity}>
-                                            {entity.entity_name}
-                                            
+                                        <option key= {entity.id} value={entity.id}>
+                                            {entity.entity_name}        
                                         </option>
                                     );
                                 })}
                             </select>
                             
                         </div>
-                        {entityData && entityData.generic_attributes.map((att) => {
+                        {/*entityData && entityData.generic_attributes.map((att) => {
                             return(
                                 <div className="field">
                                     <label htmlFor="company" className="lab">
@@ -159,7 +145,7 @@ const Enroll = ({selectedSupplyChain}) => {
                                     />
                                 </div>
                             );
-                        })}
+                        })*/}
                     </div>
                     <br/><br/>
                     <div className="btn-css">

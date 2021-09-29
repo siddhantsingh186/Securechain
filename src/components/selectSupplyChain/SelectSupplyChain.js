@@ -64,7 +64,7 @@ const SelectSupplyChain = () => {
                             id="supplyChains"
                             onChange={(e) => {setSelectedSupplyChain(e.target.value)}}
                         >
-                            <option value="">
+                            <option value="" selected disabled hidden>
                                 Choose
                             </option>
                             {supplyChain.map((supplychain) => {
