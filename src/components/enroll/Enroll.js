@@ -15,7 +15,6 @@ const Enroll = ({selectedSupplyChain}) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        
     }
     /*const retrieveEntity = () => {
         axios
@@ -53,30 +52,31 @@ const Enroll = ({selectedSupplyChain}) => {
             })
             .then((res) => {
                 if(res){
-                    setEntityData(res)
+                    setEntityData(res.data)
                 }
             })
             .catch((err) => {
                 console.log(err)
             })
 
-    }
-    */
+    }*/
+    
 
     useEffect(() => {
        // retrieveEntity();
+       console.log(supplyChain);
        axios
-            .get("https://securechain-backend.herokuapp.com/entity/",
+            .get(`https://securechain-backend.herokuapp.com/entity/?supply_chain=${supplyChain}`,
             {
                 headers: {
                     Authorization: `Token ${token}`
                 }
-            },
-            {
+            }
+            /*{
                 params: {
                     supply_chain: supplyChain.id
                 }
-            }
+            }*/
             )
             .then((res) => {
                 if(res){
@@ -88,14 +88,28 @@ const Enroll = ({selectedSupplyChain}) => {
             })
 
         console.log(entities);
-        //retrieveEntityData();
 
     }, []);
 
     useEffect(() => {
-        console.log(entities);
-
-    }, [entities])
+        console.log(role);
+        console.log("uuu");
+        role>0 && axios
+            .get(`https://securechain-backend.herokuapp.com/entity/${role}/`,
+            {
+                headers: {
+                    Authorization: `Token ${token}`
+                }
+            })
+            .then((res) => {
+                if(res){
+                    setEntityData(res.data)
+                }
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+    }, [role]);
     return (
         <>
             <article className="container">
@@ -114,8 +128,6 @@ const Enroll = ({selectedSupplyChain}) => {
                                 id="role"
                                 onChange={(e) => {
                                     setRole(e.target.value);
-                                    console.log(role);
-                                    //retrieveEntityData();
                                 }}
                             >
                                 <option value="Choose">
@@ -124,7 +136,7 @@ const Enroll = ({selectedSupplyChain}) => {
                                 
                                 {entities.map((entity) => {
                                     return(
-                                        <option key= {entity.id} value={entity}>
+                                        <option key={entity.id} value={entity.id}>
                                             {entity.entity_name}        
                                         </option>
                                     );
@@ -132,10 +144,10 @@ const Enroll = ({selectedSupplyChain}) => {
                             </select>
                             
                         </div>
-                        {role.generic_attributes && role.generic_attributes.map((att) => {
+                        {entityData.generic_attributes && entityData.generic_attributes.map((att) => {
                             console.log(att)
                             return(
-                                <div className="field">
+                                <div className="field" key={att.id}>
                                     <label htmlFor="company" className="lab">
                                         {att.name}
                                     </label>
@@ -144,7 +156,7 @@ const Enroll = ({selectedSupplyChain}) => {
                                         id={att.id}
                                         name={att.name}
                                         placeholder={att.name}
-                                        onChange={(e) => setInstance(...instance, att.name=e.target.value)}
+                                        onChange={(e) => setInstance([...instance], att.name=e.target.value)}
                                     />
                                 </div>
                             );
@@ -152,7 +164,7 @@ const Enroll = ({selectedSupplyChain}) => {
                     </div>
                     <br/><br/>
                     <div className="btn-css">
-                        <button type="submit" className='btn'><Link to='/selectSupplyChain/enroll/dashboard'>Request Participation</Link></button>
+                        <button type="submit" className='btn'><Link to='/dashboard'>Request Participation</Link></button>
                     </div>
                 </form>  
             </article>

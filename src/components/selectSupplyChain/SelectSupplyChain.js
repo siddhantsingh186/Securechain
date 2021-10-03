@@ -6,13 +6,14 @@ import {Link} from 'react-router-dom';
 import './SelectSupplyChain.scss';
 const SelectSupplyChain = () => {
     const [supplyChain, setSupplyChain] = useState([])
-    const [selectedSupplyChain, setSelectedSupplyChain] = useState('')
+    const [selectedSupplyChain, setSelectedSupplyChain] = useState()
     const [linkto, setLinkto] = useState('')
     let history = useHistory();
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(selectedSupplyChain)
+        //console.log(e.target.value)
+        //console.log(selectedSupplyChain.id)
         if(selectedSupplyChain !== ""){
             localStorage.setItem("supplychain", selectedSupplyChain)
             history.push("/selectsupplychain/enroll")
@@ -50,6 +51,10 @@ const SelectSupplyChain = () => {
         retrieveSupplyChain();
     }, [])
 
+     useEffect(() => {
+        console.log(selectedSupplyChain);
+    }, [selectedSupplyChain])
+
     return (
         <>
             <article>
@@ -64,12 +69,12 @@ const SelectSupplyChain = () => {
                             id="supplyChains"
                             onChange={(e) => {setSelectedSupplyChain(e.target.value)}}
                         >
-                            <option value="" selected disabled hidden>
+                            <option value="">
                                 Choose
                             </option>
                             {supplyChain.map((supplychain) => {
                                 return(
-                                    <option key={supplychain.id} value={supplychain}>
+                                    <option key={supplychain.id} value={supplychain.id}>
                                         {supplychain.name}
                                     </option>
                                 );
