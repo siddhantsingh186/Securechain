@@ -49,6 +49,9 @@
             margin: 0 0.5rem;
             font-size: 1.25rem;
         }
+        &__label{
+          margin-left : 4px;
+        }
         &__select2{
           background: var(--clr-grey-10);
           border: 2px solid var(--clr-primary-5);

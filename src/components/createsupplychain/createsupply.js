@@ -7,13 +7,15 @@ import IconButton from '@mui/material/IconButton';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import RemoveCircleRoundedIcon from '@mui/icons-material/RemoveCircleRounded';
 import Button from '@mui/material/Button';
-import InputLabel from '@mui/material/InputLabel';
-import FormControl from '@mui/material/FormControl';
+import FormLabel from '@mui/material/FormLabel';
 import { v4 as uuidv4 } from 'uuid';
 import axios from 'axios';
 import "./createsupply.scss";
 
  function Createsupply(){
+   let templateid = 0;
+   const [renderattribute,setAttribute] = useState(false);
+   const [selectedtemplate,setselectedTemplate] = useState({id : 0, templatename : '' , attributes : []});
    const [temptemplate, settempTemplate] = useState('');
    const [entity, setEntity] = useState('');
    const [template, setTemplate] = useState({options : [], id: '',value: ''});
@@ -30,7 +32,7 @@ import "./createsupply.scss";
      //console.log(data, e)
      // alert('SUCCESS!')
      //console.log(JSON.stringify(data, null, 4))
-     console.log(JSON.stringify(data, null, 4));
+     // console.log(JSON.stringify(data, null, 4));
      let token = localStorage.getItem("token")
      axios
      .post("https://securechain-backend.herokuapp.com/entity/",data ,
@@ -65,9 +67,44 @@ import "./createsupply.scss";
     setInputFields(values);
   }
     const handleTemplate = (event) =>{
-      console.log(event.target.value);
+      templateid = event.target.value;
+      console.log(templateid);
+      let token = localStorage.getItem("token");
+      if(templateid !== 0){
+        axios.get("http://securechain-backend.herokuapp.com/template/" + templateid + "/",{
+            headers: {
+                Authorization: `Token ${token}`,
+            }
+        }).then((res) => {
+            console.log('api response 🚀', res)
+            let attr = [];
+            attr = res.data.attributes.split(";")
+            let attr1 = []
+            attr.map(e => {
+              return attr1.push(JSON.parse(e));
+            })
+            console.log(attr1);
+            // console.log(attr);
+            setselectedTemplate({
+                id : res.data.id,
+                templatename : res.data.template_name,
+                attributes : attr1
+            });
+            // console.log(attr);
+        })
+        .catch((error) => {
+            console.error(error.response)
+        });
+      }
         settempTemplate(event.target.value);
+        console.log(selectedtemplate);
     }
+    useEffect(() => {
+      console.log("Dikha bc");
+      setAttribute(true);
+      console.log(selectedtemplate);
+    },[selectedtemplate]);
+
   useEffect(() => {
       let token = localStorage.getItem("token")
       axios.get("http://securechain-backend.herokuapp.com/template/",{
@@ -79,15 +116,17 @@ import "./createsupply.scss";
           setTemplate({
               options:res.data.map(d => ({
                   "value" : d.id,
-                  "label" : d.template_name
+                  "label" : d.template_name,
+                  "attributes" : d.attributes
                 }))
           })
+          console.log(JSON.stringify(res.data.attributes, null, 4));
       })
       .catch((error) => {
           console.error(error.response)
       });
   },[]);
-  // console.log(template.options)
+  console.log(template.options);
    return(
         <div className = "createsupply__bottom">
             <h1 className = "createsupply__bottom__head">Create Supply Chain</h1>
@@ -113,6 +152,15 @@ import "./createsupply.scss";
                       })
                     }
                     </select>}
+                    <h3>Default Attributes</h3>
+                    {selectedtemplate.attributes.map((value) => {
+                      return (
+                        <div>
+                        <FormLabel >{value.name}</FormLabel>
+                        <FormLabel className = "createsupply__bottom__head1__part1__label">{value.type}</FormLabel>
+                      </div>
+                    );
+                  })}
                   <h3>Add Attributes</h3>
                   <p>Define attributes as per your requirement from the selected instance</p>
                   <hr></hr>
