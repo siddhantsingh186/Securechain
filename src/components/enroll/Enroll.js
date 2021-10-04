@@ -1,20 +1,59 @@
 import axios from 'axios';
 import React, {useState, useEffect} from 'react';
 import {Link} from 'react-router-dom';
+import { v4 as uuidv4 } from 'uuid';
+import TextField from '@mui/material/TextField';
 import './Enroll.scss';
 
 const Enroll = ({selectedSupplyChain}) => {
     let token = localStorage.getItem("token");
     let supplyChain = localStorage.getItem("supplychain");
-    const [instance, setInstance] = useState({});
+    //let index = -1;
+    let entityName = "";
+    //const inputField = []; 
     const [supplyChainName, setSupplyChain] = useState(supplyChain.name)
     const [owner, setOwner] = useState(supplyChain.owner);
     const [entities, setEntities] = useState([]);
     const [entityData, setEntityData] = useState([]);
-    const [role, setRole] = useState({});
+    const [entityId, setEntityId] = useState();
+    const [instance, setInstance] = useState({});
+    const [inputField, setInputField] = useState([{data: '', generic_attribute: uuidv4()}]);
+
+    const handleChange = (e, id) => {
+        setInputField(currentInputField =>
+            currentInputField.map(field => 
+                field.generic_attribute === id 
+                ? {
+                    ...field,
+                    data: e.target.value
+                }
+                : field
+            )
+        )
+    }
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        entityName = entityData.entity_name;
+        let data = {
+            generic_attribute_data: inputField,
+            name: entityName,
+            entity: entityId
+        }
+        console.log(data)
+        axios
+            .post("https://securechain-backend.herokuapp.com/instance/", data,
+            {
+                headers: {
+                    Authorization: `Token ${token}`
+                }
+            })
+            .then((res) => {
+                console.log('api response', res)
+            })
+            .catch((err) => {
+                console.log(err.response)
+            })
     }
     /*const retrieveEntity = () => {
         axios
@@ -44,7 +83,7 @@ const Enroll = ({selectedSupplyChain}) => {
 
     /*const retrieveEntityData = () => {
         axios
-            .get(`https://securechain-backend.herokuapp.com/entity/${role}/`,
+            .get(`https://securechain-backend.herokuapp.com/entity/${entityId}/`,
             {
                 headers: {
                     Authorization: `Token ${token}`
@@ -92,10 +131,10 @@ const Enroll = ({selectedSupplyChain}) => {
     }, []);
 
     useEffect(() => {
-        console.log(role);
+        console.log(entityId);
         console.log("uuu");
-        role>0 && axios
-            .get(`https://securechain-backend.herokuapp.com/entity/${role}/`,
+        entityId > 0 && axios
+            .get(`https://securechain-backend.herokuapp.com/entity/${entityId}/`,
             {
                 headers: {
                     Authorization: `Token ${token}`
@@ -109,7 +148,7 @@ const Enroll = ({selectedSupplyChain}) => {
             .catch((err) => {
                 console.log(err)
             })
-    }, [role]);
+    }, [entityId]);
     return (
         <>
             <article className="container">
@@ -120,14 +159,12 @@ const Enroll = ({selectedSupplyChain}) => {
                     <div className="form-control">
                         
                         <div className="field">
-                            <label htmlFor="role" className="lab">
-                                Role
-                            </label>
                             <select
                                 name="role"
-                                id="role"
+                                label="Role"
+                                id="entityId"
                                 onChange={(e) => {
-                                    setRole(e.target.value);
+                                    setEntityId(e.target.value);
                                 }}
                             >
                                 <option value="Choose">
@@ -145,18 +182,18 @@ const Enroll = ({selectedSupplyChain}) => {
                             
                         </div>
                         {entityData.generic_attributes && entityData.generic_attributes.map((att) => {
-                            console.log(att)
+                            //console.log(att)
+                            index++;
                             return(
                                 <div className="field" key={att.id}>
-                                    <label htmlFor="company" className="lab">
-                                        {att.name}
-                                    </label>
-                                    <input
-                                        type="text"
-                                        id={att.id}
+                                    <TextField
                                         name={att.name}
+                                        label={att.name}
+                                        variant="filled"
                                         placeholder={att.name}
-                                        onChange={(e) => setInstance([...instance], att.name=e.target.value)}
+                                        onChange={(e) => {
+                                            handleChange(e, att.id);
+                                        }}
                                     />
                                 </div>
                             );
@@ -164,7 +201,7 @@ const Enroll = ({selectedSupplyChain}) => {
                     </div>
                     <br/><br/>
                     <div className="btn-css">
-                        <button type="submit" className='btn'><Link to='/dashboard'>Request Participation</Link></button>
+                        <button type="submit" className='btn'>Request Participation</button>
                     </div>
                 </form>  
             </article>
