@@ -9,7 +9,6 @@ import './Enroll.scss';
 const Enroll = ({selectedSupplyChain}) => {
     let token = localStorage.getItem("token");
     let supplyChain = localStorage.getItem("supplychain");
-    //let index = -1;
     let entityName = "";
     //const inputField = [{data: '', generic_attribute: uuidv4()}]; 
     const [supplyChainName, setSupplyChain] = useState(supplyChain.name)
@@ -19,21 +18,16 @@ const Enroll = ({selectedSupplyChain}) => {
     const [entityId, setEntityId] = useState();
     const [instance, setInstance] = useState({});
     const [inputField, setInputField] = useState({});
+    const [personalSupplyChains, setPersonalSupplyChains] = useState();
+    const [personalSupplyChain, setPersonalSupplyChain] = useState();
+    const [personalEntities, setPersonalEntities] = useState();
+    const [personalEntity, setPersonalEntity] = useState();
+
     //const [data, setData] = useState([])
 
     const handleInput = (e, id, index) => {
         e.preventDefault();
-        //let flag = 0;
-        //let newInput = e.target.value;
         setInputField({...inputField, [id]: e.target.value});
-        /*inputField.map((elem) => {
-            if(elem.generic_attribute === id){
-                flag = 1;
-                elem.data = val;
-            }
-            if(flag === 0)
-                setInputField([...inputField, {data: val, generic_attribute: id}]);
-        })*/
     }
 
     const handleSubmit = (e) => {
@@ -48,7 +42,9 @@ const Enroll = ({selectedSupplyChain}) => {
         let sendData = {
             generic_attribute_data: finalData,
             name: entityName,
-            entity: entityId
+            entity: entityId,
+            connected_supply_chain: personalSupplyChain,
+            connecting_entity: personalEntity
         }
         console.log(finalData)
         console.log(inputField)
@@ -66,51 +62,6 @@ const Enroll = ({selectedSupplyChain}) => {
                 console.log(err.response)
             })
     }
-    /*const retrieveEntity = () => {
-        axios
-            .get("https://securechain-backend.herokuapp.com/entity/",
-            {
-                header: {
-                    Authorization: `Token ${token}`
-                }
-            },
-            {
-                params: {
-                    supply_chain: supplyChain.id
-                }
-            }
-            )
-            .then((res) => {
-                if(res){
-                    console.log("tt")
-                    setEntities(res)
-                }
-            })
-            .catch((err) => {
-                console.log(err)
-            })
-
-    }*/
-
-    /*const retrieveEntityData = () => {
-        axios
-            .get(`https://securechain-backend.herokuapp.com/entity/${entityId}/`,
-            {
-                headers: {
-                    Authorization: `Token ${token}`
-                }
-            })
-            .then((res) => {
-                if(res){
-                    setEntityData(res.data)
-                }
-            })
-            .catch((err) => {
-                console.log(err)
-            })
-
-    }*/
-    
 
     useEffect(() => {
        // retrieveEntity();
@@ -122,11 +73,6 @@ const Enroll = ({selectedSupplyChain}) => {
                     Authorization: `Token ${token}`
                 }
             }
-            /*{
-                params: {
-                    supply_chain: supplyChain.id
-                }
-            }*/
             )
             .then((res) => {
                 if(res){
@@ -160,6 +106,52 @@ const Enroll = ({selectedSupplyChain}) => {
                 console.log(err)
             })
     }, [entityId]);
+
+    useEffect(() => {
+       axios
+            .get('https://securechain-backend.herokuapp.com/mysupplychain/',
+            {
+                headers: {
+                    Authorization: `Token ${token}`
+                }
+            }
+            )
+            .then((res) => {
+                if(res){
+                    setPersonalSupplyChains(res.data)
+                }
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+
+        console.log(personalSupplyChains);
+
+    }, [entityId]);
+
+    useEffect(() => {
+       // retrieveEntity();
+       axios
+            .get(`https://securechain-backend.herokuapp.com/entity/?supply_chain=${personalSupplyChain}`,
+            {
+                headers: {
+                    Authorization: `Token ${token}`
+                }
+            }
+            )
+            .then((res) => {
+                if(res){
+                    setPersonalEntities(res.data)
+                }
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+
+        console.log(personalEntities);
+
+    }, [personalSupplyChain]);
+
     return (
         <>
             <article className="container">
@@ -194,7 +186,6 @@ const Enroll = ({selectedSupplyChain}) => {
                         </div>
                         {entityData.generic_attributes && entityData.generic_attributes.map((att, index) => {
                             //console.log(att)
-                            //index++;
                             return(
                                 <div className="field" key={att.id}>
                                     <TextField
@@ -211,6 +202,50 @@ const Enroll = ({selectedSupplyChain}) => {
                         })}
                     </div>
                     <br/><br/>
+                    <div className="field">
+                        <select
+                            name="personalSupplyChain"
+                            label="personalSupplyChain"
+                            id="personalSupplyChain"
+                            onChange={(e) => {
+                                setPersonalSupplyChain(e.target.value);
+                            }}
+                        >
+                            <option value="Choose">
+                                Choose
+                            </option>
+                            
+                            {personalSupplyChains && personalSupplyChains.map((personalSC) => {
+                                return(
+                                    <option key={personalSC.id} value={personalSC.id}>
+                                        {personalSC.name}       
+                                    </option>
+                                );
+                            })}
+                        </select>
+                    </div>
+                    <div className="field">
+                        <select
+                            name="personalEntity"
+                            label="personalEntity"
+                            id="personalEntity"
+                            onChange={(e) => {
+                                setPersonalEntity(e.target.value);
+                            }}
+                        >
+                            <option value="Choose">
+                                Choose
+                            </option>
+                            
+                            {personalEntities && personalEntities.map((personalE) => {
+                                return(
+                                    <option key={personalE.id} value={personalE.id}>
+                                        {personalE.entity_name}       
+                                    </option>
+                                );
+                            })}
+                        </select>                        
+                    </div>
                     <div className="btn-css">
                         <button type="submit" className='btn'>Request Participation</button>
                     </div>
