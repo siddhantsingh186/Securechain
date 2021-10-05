@@ -162,6 +162,9 @@ const Enroll = ({selectedSupplyChain}) => {
                     <div className="form-control">
                         
                         <div className="field">
+                            <div className="head">
+                                <h2>Select Role</h2>
+                            </div>
                             <select
                                 name="role"
                                 label="Role"
@@ -203,6 +206,9 @@ const Enroll = ({selectedSupplyChain}) => {
                     </div>
                     <br/><br/>
                     <div className="field">
+                        <div className="head">
+                            <h2>select your supply chain to connect</h2>
+                        </div>
                         <select
                             name="personalSupplyChain"
                             label="personalSupplyChain"
@@ -225,6 +231,9 @@ const Enroll = ({selectedSupplyChain}) => {
                         </select>
                     </div>
                     <div className="field">
+                        <div className="head">
+                            <h2>Select the entity to be connected</h2>
+                        </div>
                         <select
                             name="personalEntity"
                             label="personalEntity"
