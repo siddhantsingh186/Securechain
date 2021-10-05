@@ -3,6 +3,7 @@ import React, {useState, useEffect} from 'react';
 import {Link} from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 import TextField from '@mui/material/TextField';
+import { produce } from "immer";
 import './Enroll.scss';
 
 const Enroll = ({selectedSupplyChain}) => {
@@ -10,39 +11,49 @@ const Enroll = ({selectedSupplyChain}) => {
     let supplyChain = localStorage.getItem("supplychain");
     //let index = -1;
     let entityName = "";
-    //const inputField = []; 
+    //const inputField = [{data: '', generic_attribute: uuidv4()}]; 
     const [supplyChainName, setSupplyChain] = useState(supplyChain.name)
     const [owner, setOwner] = useState(supplyChain.owner);
     const [entities, setEntities] = useState([]);
     const [entityData, setEntityData] = useState([]);
     const [entityId, setEntityId] = useState();
     const [instance, setInstance] = useState({});
-    const [inputField, setInputField] = useState([{data: '', generic_attribute: uuidv4()}]);
+    const [inputField, setInputField] = useState({});
+    //const [data, setData] = useState([])
 
-    const handleChange = (e, id) => {
-        setInputField(currentInputField =>
-            currentInputField.map(field => 
-                field.generic_attribute === id 
-                ? {
-                    ...field,
-                    data: e.target.value
-                }
-                : field
-            )
-        )
+    const handleInput = (e, id, index) => {
+        e.preventDefault();
+        //let flag = 0;
+        //let newInput = e.target.value;
+        setInputField({...inputField, [id]: e.target.value});
+        /*inputField.map((elem) => {
+            if(elem.generic_attribute === id){
+                flag = 1;
+                elem.data = val;
+            }
+            if(flag === 0)
+                setInputField([...inputField, {data: val, generic_attribute: id}]);
+        })*/
     }
 
     const handleSubmit = (e) => {
         e.preventDefault();
         entityName = entityData.entity_name;
-        let data = {
-            generic_attribute_data: inputField,
+        let finalData = [];
+        Object.entries(inputField).map(([key, value]) => {
+                        return(
+                            finalData.push({data: value, generic_attribute: key})
+                        )
+                    })
+        let sendData = {
+            generic_attribute_data: finalData,
             name: entityName,
             entity: entityId
         }
-        console.log(data)
+        console.log(finalData)
+        console.log(inputField)
         axios
-            .post("https://securechain-backend.herokuapp.com/instance/", data,
+            .post("https://securechain-backend.herokuapp.com/instance/", sendData,
             {
                 headers: {
                     Authorization: `Token ${token}`
@@ -181,9 +192,9 @@ const Enroll = ({selectedSupplyChain}) => {
                             </select>
                             
                         </div>
-                        {entityData.generic_attributes && entityData.generic_attributes.map((att) => {
+                        {entityData.generic_attributes && entityData.generic_attributes.map((att, index) => {
                             //console.log(att)
-                            index++;
+                            //index++;
                             return(
                                 <div className="field" key={att.id}>
                                     <TextField
@@ -192,7 +203,7 @@ const Enroll = ({selectedSupplyChain}) => {
                                         variant="filled"
                                         placeholder={att.name}
                                         onChange={(e) => {
-                                            handleChange(e, att.id);
+                                            handleInput(e, att.id, index);
                                         }}
                                     />
                                 </div>
