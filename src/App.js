@@ -11,8 +11,8 @@ import Selectsupplychain from "./components/selectSupplyChain/SelectSupplyChain"
 import Enroll from "./components/enroll/Enroll";
 import Createsupplyhome from "./components/createsupplyhome/createsupplyhome";
 import Createsupplyflow from "./components/createsupplyflow/createsupplyflow";
-import TransferProduct from "./components/product/transferProduct";
-import CreateProduct from "./components/product/createProduct";
+import TransferProduct from "./components/transferProduct/TransferProduct";
+import CreateProduct from "./components/createProduct/CreateProduct";
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import './App.scss';
 
