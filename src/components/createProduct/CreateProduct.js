@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 
+
 const CreateProduct = () => {
 
     let token = localStorage.getItem("token");
@@ -37,9 +38,9 @@ const CreateProduct = () => {
             <h1 className = "createsupply__bottom__head">Create Product</h1>
             <div className = "createsupplyflow">
                     <form>
-                        <div className="form-group">
-                            <label>Select Supply Chain : </label>
-                            <select
+                        <div className="createsupplyflow__form-group">
+                            <label className="createsupplyflow__label">Select Supply Chain : </label>
+                            <select className="createsupplyflow__input"
                                 name="supplyChains"
                                 id="supplyChains"
                                 onChange={(e) => { setProductSupplyChain(e.target.value) }}
@@ -56,19 +57,19 @@ const CreateProduct = () => {
                                 })}
                             </select>
                         </div>
-                        <h1> Product Details</h1>
-                        <div className="form-group">
-                            <label>Product Name : </label>
-                            <input 
+                        <h1 className="createsupplyflow__title"> Product Details</h1>
+                        <div className="createsupplyflow__form-group">
+                            <label className="createsupplyflow__label">Product Name : </label>
+                            <input className="createsupplyflow__input"
                                 name="name"
                                 type="text"
                                 id="name"
                                 onChange={(e) => {setProductName(e.target.value)}}
                             />
                         </div>
-                        <div className="form-group">
-                            <label>Units Manufactured : </label>
-                            <input
+                        <div className="createsupplyflow__form-group">
+                            <label className="createsupplyflow__label">Units Manufactured : </label>
+                            <input className="createsupplyflow__input"
                                 name="unit"
                                 type="text"
                                 id="unit"
@@ -76,7 +77,7 @@ const CreateProduct = () => {
                             />
                         </div>
                         
-                        <button className="formButton" type="submit" >Add Product</button>
+                        <button className="createsupplyflow__button" type="submit" >Add Product</button>
                     </form>
             </div>
         </div>
