@@ -38,9 +38,10 @@ const TransferProduct = () => {
             <h1 className = "createsupply__bottom__head">Transfer Product</h1>
             <div className = "createsupplyflow">
                     <form>
-                        <div className="form-group">
-                            <label>Select Supply Chain : </label>
+                        <div className="createsupplyflow__form-group">
+                            <label className="createsupplyflow__label">Select Supply Chain : </label>
                             <select
+                                className="createsupplyflow__input"
                                 name="supplyChains"
                                 id="supplyChains"
                                 onChange={(e) => { setTransferSupplyChain(e.target.value) }}
@@ -57,10 +58,11 @@ const TransferProduct = () => {
                                 })}
                             </select>
                         </div>
-                        <h1>Reciever's Details</h1>
-                        <div className="form-group">
-                            <label>Select Receiver : </label>
+                        <h1 className="createsupplyflow__title">Reciever's Details</h1>
+                        <div className="createsupplyflow__form-group">
+                            <label className="createsupplyflow__label">Select Receiver : </label>
                             <select
+                                className="createsupplyflow__input"
                                 name="receiver"
                                 id="receiver"
                                 onChange={(e) => { setTransferInstance(e.target.value) }}
@@ -71,9 +73,9 @@ const TransferProduct = () => {
                                 <option>Transporter-4</option>
                             </select>
                         </div>
-                        <div className="form-group">
-                            <label>Units to be transferred : </label>
-                            <input
+                        <div className="createsupplyflow__form-group">
+                            <label className="createsupplyflow__label">Units to be transferred : </label>
+                            <input className="createsupplyflow__input"
                             name="unit"
                             type="number"
                             id="unit"
@@ -81,7 +83,7 @@ const TransferProduct = () => {
                         />
                         </div>
                         
-                        <button className="formButton" type="submit" >Start Transaction</button>
+                        <button className="createsupplyflow__button" type="submit" >Start Transaction</button>
                     </form>
             </div>
         </div>
