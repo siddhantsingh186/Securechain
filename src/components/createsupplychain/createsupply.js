@@ -14,7 +14,9 @@ import "./createsupply.scss";
 
  function Createsupply(){
    let templateid = 0;
-   const [renderattribute,setAttribute] = useState(false);
+   //const [renderattribute,setAttribute] = useState(false);
+   const [formkey, setFormkey] = useState(2);
+   const [displayent, setDisplayent] = useState(['']);
    const [selectedtemplate,setselectedTemplate] = useState({id : 0, templatename : '' , attributes : []});
    const [temptemplate, settempTemplate] = useState('');
    const [entity, setEntity] = useState('');
@@ -48,7 +50,15 @@ import "./createsupply.scss";
        .catch((error) => {
          console.error(error.response)
        })
+       setDisplayent(displayent =>
+         [...displayent, entity]
+       );
+       setFormkey(formkey + 1);
+       setInputFields([{id: uuidv4(), name: '', type: '' }]);
+       setselectedTemplate({id : 0, templatename : '' , attributes : []});
      }
+
+
    const handleChangeInput = (id, event) => {
      const newInputFields = inputFields.map(i => {
        if(id === i.id) {
@@ -62,9 +72,8 @@ import "./createsupply.scss";
    setInputFields([...inputFields, {id: uuidv4(),name: '', type: '' }])
   }
   const handleRemoveFields = id => {
-    const values  = [...inputFields];
-    values.splice(values.findIndex(value => value.id === id), 1);
-    setInputFields(values);
+    console.log(id);
+    setInputFields(inputFields.splice(id, 1));
   }
     const handleTemplate = (event) =>{
       templateid = event.target.value;
@@ -100,10 +109,9 @@ import "./createsupply.scss";
         console.log(selectedtemplate);
     }
     useEffect(() => {
-      console.log("Dikha bc");
-      setAttribute(true);
-      console.log(selectedtemplate);
-    },[selectedtemplate]);
+      //setAttribute(true);
+      console.log(inputFields);
+    },[inputFields]);
 
   useEffect(() => {
       let token = localStorage.getItem("token")
@@ -130,10 +138,12 @@ import "./createsupply.scss";
    return(
         <div className = "createsupply__bottom">
             <h1 className = "createsupply__bottom__head">Create Supply Chain</h1>
+            <h2 className = "createsupply__bottom__head1">Created entities</h2>
+              {displayent}
             <h2 className = "createsupply__bottom__head1">Create New Entity</h2>
             <div className = "createsupply__bottom__head1__part1">
             <Container>
-              <form onSubmit = {event => handleSubmit(event)}>
+              <form key = {formkey}  onSubmit = {event => handleSubmit(event)}>
                 <TextField
                   name="Entity"
                   label="Entity Name"
@@ -156,8 +166,8 @@ import "./createsupply.scss";
                     {selectedtemplate.attributes.map((value) => {
                       return (
                         <div>
-                        <FormLabel >{value.name}</FormLabel>
-                        <FormLabel className = "createsupply__bottom__head1__part1__label">{value.type}</FormLabel>
+                        <FormLabel className = "createsupply__bottom__head1__part1__label1">{value.name}</FormLabel>
+                        <FormLabel className = "createsupply__bottom__head1__part1__label2">{value.type}</FormLabel>
                       </div>
                     );
                   })}
@@ -165,7 +175,7 @@ import "./createsupply.scss";
                   <p>Define attributes as per your requirement from the selected instance</p>
                   <hr></hr>
                   {inputFields.map((inputField , index)=> (
-                      <div key={index}>
+                      <div >
                       <TextField
                         name="name"
                         label="Attribute Name"
@@ -185,12 +195,14 @@ import "./createsupply.scss";
                           <option value="Number">Number</option>
                           <option value="Date">Date</option>
                         </select>
-                        <IconButton disabled={inputFields.length === 1} onClick={() => handleRemoveFields(inputField.id)}>
+                        <IconButton disabled={inputFields.length === 1} onClick={() => handleRemoveFields(index)}>
                           <RemoveCircleRoundedIcon/>
                         </IconButton>
-                        <IconButton onClick={handleAddFields}>
-                          <AddCircleIcon/>
-                        </IconButton>
+                        {index === inputFields.length - 1?
+                            <IconButton onClick={handleAddFields}>
+                              <AddCircleIcon/>
+                            </IconButton>
+                        :null}
                       </div>
                   ))}
                   <Button
