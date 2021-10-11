@@ -49,8 +49,21 @@
             margin: 0 0.5rem;
             font-size: 1.25rem;
         }
-        &__label{
+        &__label1{
           margin-left : 4px;
+          background: lightgrey;
+          padding-top: 10px;
+          padding-right: 10px;
+          padding-bottom: 10px;
+          padding-left: 10px;
+        }
+        &__lavel2{
+          margin-left : 4px;
+          background: lightgrey;
+          padding-top: 10px;
+          padding-right: 10px;
+          padding-bottom: 10px;
+          padding-left: 10px;
         }
         &__select2{
           background: var(--clr-grey-10);
