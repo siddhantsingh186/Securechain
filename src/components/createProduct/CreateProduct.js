@@ -1,9 +1,8 @@
 import React from 'react'
-import './createProduct.scss'
+import './CreateProduct.scss'
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
-import Axios from 'axios';
 
 const CreateProduct = () => {
 
