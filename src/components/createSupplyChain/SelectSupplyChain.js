@@ -1,13 +1,13 @@
 import React, {useState} from 'react';
 import {Link} from 'react-router-dom';
-import './SelectSupplyChain.scss';
-const SelectSupplyChain = () => {
+import './Selectsupplychain.scss';
+export default function Selectsupplychain () {
     const [supplyChain, setSupplyChain] = useState('')
 
     const handleSubmit = (e) => {
         e.preventDefault();
         if(supplyChain){
-            
+
         }
     }
     return (
@@ -44,6 +44,5 @@ const SelectSupplyChain = () => {
                 </form>
             </article>
         </>
-    )
+    );
 }
-export default SelectSupplyChain;
