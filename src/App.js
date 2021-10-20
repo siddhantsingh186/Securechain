@@ -6,7 +6,7 @@ import Error from "./components/error/Error";
 import Register from "./components/registration/register";
 import Login from "./components/registration/login";
 import Dashboard from "./components/dashboard/Dashboard";
-import Createsupply from "./components/createSupplyChain/createsupply";
+import Createsupply from "./components/createsupplychain/createsupply";
 import Selectsupplychain from "./components/selectSupplyChain/SelectSupplyChain";
 import Enroll from "./components/enroll/Enroll";
 import Createsupplyhome from "./components/createsupplyhome/createsupplyhome";
