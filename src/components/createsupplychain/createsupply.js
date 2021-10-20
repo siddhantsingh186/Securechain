@@ -16,7 +16,7 @@ import "./createsupply.scss";
    let templateid = 0;
    //const [renderattribute,setAttribute] = useState(false);
    const [formkey, setFormkey] = useState(2);
-   const [displayent, setDisplayent] = useState(['']);
+   const [displayent, setDisplayent] = useState([]);
    const [selectedtemplate,setselectedTemplate] = useState({id : 0, templatename : '' , attributes : []});
    const [temptemplate, settempTemplate] = useState('');
    const [entity, setEntity] = useState('');
@@ -139,7 +139,11 @@ import "./createsupply.scss";
         <div className = "createsupply__bottom">
             <h1 className = "createsupply__bottom__head">Create Supply Chain</h1>
             <h2 className = "createsupply__bottom__head1">Created entities</h2>
-              {displayent}
+            <div className = "entitiesdisplay">
+              {displayent !== '' && displayent.map((element) => (
+                <div className = "displayent">{element}</div>:null
+              ))}
+            </div>
             <h2 className = "createsupply__bottom__head1">Create New Entity</h2>
             <div className = "createsupply__bottom__head1__part1">
             <Container>
