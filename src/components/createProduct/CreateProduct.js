@@ -12,7 +12,8 @@ const CreateProduct = () => {
     const [supplyChain, setSupplyChain] = useState([]);
     const [productSupplyChain, setProductSupplyChain] = useState({});
     const [productName, setProductName] = useState({});
-    const [productUnits, setProductUnits] = useState({});
+    const [productBatches, setProductBatches] = useState({});
+    const [productBatchSize, setProductBatchSize] = useState({});
 
     useEffect(() => {
         axios
@@ -68,12 +69,21 @@ const CreateProduct = () => {
                             />
                         </div>
                         <div className="createsupplyflow__form-group">
-                            <label className="createsupplyflow__label">Units Manufactured : </label>
+                            <label className="createsupplyflow__label">Batches manufactured : </label>
                             <input className="createsupplyflow__input"
-                                name="unit"
-                                type="text"
-                                id="unit"
-                                onChange={(e) => { setProductUnits(e.target.value) }}
+                                name="batches"
+                                type="number"
+                                id="batches"
+                                onChange={(e) => { setProductBatches(e.target.value) }}
+                            />
+                        </div>
+                        <div className="createsupplyflow__form-group">
+                            <label className="createsupplyflow__label">Number of units in a batch : </label>
+                            <input className="createsupplyflow__input"
+                                name="batchsize"
+                                type="number"
+                                id="batchsize"
+                                onChange={(e) => { setProductBatchSize(e.target.value) }}
                             />
                         </div>
                         
