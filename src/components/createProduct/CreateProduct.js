@@ -12,7 +12,8 @@ const CreateProduct = () => {
     const [supplyChain, setSupplyChain] = useState([]);
     const [productSupplyChain, setProductSupplyChain] = useState({});
     const [productName, setProductName] = useState({});
-    const [productUnits, setProductUnits] = useState({});
+    const [productBatches, setProductBatches] = useState({});
+    const [productBatchSize, setProductBatchSize] = useState({});
 
     useEffect(() => {
         axios
@@ -36,11 +37,13 @@ const CreateProduct = () => {
     return(
         <div className="createsupply__bottom">
             <h1 className = "createsupply__bottom__head">Create Product</h1>
-            <div className = "createsupplyflow">
-                    <form>
-                        <div className="createsupplyflow__form-group">
-                            <label className="createsupplyflow__label">Select Supply Chain : </label>
-                            <select className="createsupplyflow__input"
+            <div className = "createproduct">
+                <div class = "createproduct__big-card">
+                <div class="createproduct__row">
+                    <form class="createproduct__column">
+                        <div className="createproduct__form-group">
+                            <label className="createproduct__label">Select Supply Chain : </label>
+                            <select className="createproduct__input"
                                 name="supplyChains"
                                 id="supplyChains"
                                 onChange={(e) => { setProductSupplyChain(e.target.value) }}
@@ -57,28 +60,44 @@ const CreateProduct = () => {
                                 })}
                             </select>
                         </div>
-                        <h1 className="createsupplyflow__title"> Product Details</h1>
-                        <div className="createsupplyflow__form-group">
-                            <label className="createsupplyflow__label">Product Name : </label>
-                            <input className="createsupplyflow__input"
+                        <h1 className="createproduct__title"> Product Details</h1>
+                        <div className="createproduct__form-group">
+                            <label className="createproduct__label">Product Name : </label>
+                            <input className="createproduct__input"
                                 name="name"
                                 type="text"
                                 id="name"
                                 onChange={(e) => {setProductName(e.target.value)}}
                             />
                         </div>
-                        <div className="createsupplyflow__form-group">
-                            <label className="createsupplyflow__label">Units Manufactured : </label>
-                            <input className="createsupplyflow__input"
-                                name="unit"
-                                type="text"
-                                id="unit"
-                                onChange={(e) => { setProductUnits(e.target.value) }}
+                        <div className="createproduct__form-group">
+                            <label className="createproduct__label">Batches manufactured : </label>
+                            <input className="createproduct__input"
+                                name="batches"
+                                type="number"
+                                id="batches"
+                                onChange={(e) => { setProductBatches(e.target.value) }}
+                            />
+                        </div>
+                        <div className="createproduct__form-group">
+                            <label className="createproduct__label">Number of units in a batch : </label>
+                            <input className="createproduct__input"
+                                name="batchsize"
+                                type="number"
+                                id="batchsize"
+                                onChange={(e) => { setProductBatchSize(e.target.value) }}
                             />
                         </div>
                         
-                        <button className="createsupplyflow__button" type="submit" >Add Product</button>
+                        <button className="createproduct__button" type="submit" >Add Product</button>
                     </form>
+                    <div class="createproduct__column">
+                        <div class = "createproduct__column__image" style={{backgroundImage:`url(media/create.jpg)`}}>
+
+                        </div>
+                    </div>
+                </div>
+                </div>
             </div>
         </div>
     )
