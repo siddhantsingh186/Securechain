@@ -1,0 +1,11 @@
+.app{
+  height: auto;
+  margin: 0;
+  align-items: center;
+  box-sizing: border-box;
+  @media screen and (max-width:600px) {
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+  }
+}
