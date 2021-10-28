@@ -20,7 +20,7 @@ import './App.scss';
 
 class App extends Component {
 
-  const [products, setProducts] = useState();
+  //const [products, setProducts] = useState();
 
 
   componentDidMount = async () => {
