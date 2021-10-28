@@ -1,0 +1,114 @@
+.createsupply{
+  display: flex;
+  flex-flow: column;
+  &__head{
+    display: flex;
+    flex-flow: column;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  &__top{
+    display: flex;
+    flex-flow: column;
+    &__text{
+      margin-left: auto;
+      margin-right: auto;
+      border-radius: 30px;
+    }
+  }
+  &__bottom{
+    display: flex;
+    flex-flow: column;
+    &__head{
+      display: flex;
+      flex-flow: column;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 2.25rem;
+      letter-spacing: var(--spacing);
+      background: #0A1F34;
+      margin-top: 1px;
+      align-items: flex-start;
+      color: white;
+      padding-bottom: 24px;
+      padding-top: 14px;
+      padding-left: 16px;
+    }
+    &__head1{
+      display: flex;
+      flex-flow: row;
+      margin-left: auto;
+      margin-right: auto;
+      &__part1{
+        &__select1{
+            background: var(--clr-grey-10);
+            border: 2px solid var(--clr-primary-5);
+            padding: 0.25rem 0.5rem;
+            width: 30rem;
+            border-radius: var(--radius);
+            margin: 0 0.5rem;
+            font-size: 1.25rem;
+        }
+        &__label1{
+          margin-left : 4px;
+          background: lightgrey;
+          padding-top: 10px;
+          padding-right: 10px;
+          padding-bottom: 10px;
+          padding-left: 10px;
+        }
+        &__lavel2{
+          margin-left : 4px;
+          background: lightgrey;
+          padding-top: 10px;
+          padding-right: 10px;
+          padding-bottom: 10px;
+          padding-left: 10px;
+        }
+        &__select2{
+          background: var(--clr-grey-10);
+          border: 2px solid var(--clr-primary-5);
+          padding: 0.25rem 0.5rem;
+          width: 17rem;
+          border-radius: var(--radius);
+          margin: 0 0.5rem;
+          font-size: 1.25rem;
+        }
+      }
+      &__part2{
+        margin: auto;
+        margin-top: 36px;
+      }
+    }
+  }
+}
+
+hr{
+  width: 42%;
+  margin-left: inherit;
+}
+
+// .form-submit{
+// 	margin-top: 40px;
+// 	margin-bottom:40px;
+// }
+.displayent{
+    background-color: #1565c0;
+    display: flex;
+    inline-size: fit-content;
+    border-radius: 5px;
+    color: white;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    margin-top: 9px;
+    flex-basis: fit-content;
+}
+.entitiesdisplay{
+    display: flex;
+    justify-content: center;
+    column-gap: 10px;
+}

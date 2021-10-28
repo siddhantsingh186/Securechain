@@ -1,0 +1,101 @@
+.createsupply{
+    display: flex;
+    // flex-flow: column;
+    &__head{
+      display: flex;
+      flex-flow: column;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    &__bottom{
+        display: flex;
+        flex-flow: column;
+        &__head{
+          display: flex;
+          flex-flow: column;
+          justify-content: center;
+          font-weight: bold;
+          font-size: 2.25rem;
+          letter-spacing: var(--spacing);
+          background: #0A1F34;
+          margin-top: 1px;
+          align-items: flex-start;
+          color: white;
+          padding-bottom: 24px;
+          padding-top: 14px;
+          padding-left: 16px;
+        }
+        &__head1{
+          display: flex;
+          flex-flow: row;
+          margin-left: auto;
+          margin-right: auto;
+          &__part1{
+            &__select1{
+                background: var(--clr-grey-10);
+                border: 2px solid var(--clr-primary-5);
+                padding: 0.25rem 0.5rem;
+                width: 30rem;
+                border-radius: var(--radius);
+                margin: 0 0.5rem;
+                font-size: 1.25rem;
+            }
+            &__select2{
+              background: var(--clr-grey-10);
+              border: 2px solid var(--clr-primary-5);
+              padding: 0.25rem 0.5rem;
+              width: 17rem;
+              border-radius: var(--radius);
+              margin: 0 0.5rem;
+              font-size: 1.25rem;
+            }
+          }
+          &__part2{
+            margin: auto;
+            margin-top: 36px;
+          }
+        }
+    }
+}
+form{
+    display: flex;
+    flex-direction: column;
+}
+.createsupplyflow{
+    width:60%;
+    // display: flex;
+    &__title{
+        font-size:40px;
+        margin-left:40px;
+        margin-bottom:40px;
+        margin-top:40px;
+        font-family: montserrat,sans-serif;
+    }
+    &__form-group{
+        font-family: montserrat,sans-serif;
+        margin-left:35px;
+        margin-top:15px;
+        margin-bottom : 15px;
+    }
+    &__label{
+        font-size: 30px;
+        display: inline-block;
+    }
+    &__input{
+        // font-size: 30px;
+        // display: inline-block;
+        float: right;
+    }
+    &__button{
+            
+            height: 40px;
+            width: 200px;
+            border-radius: 5px;
+            font-family:  montserrat,sans-serif;
+            font-size: 20px;
+            color: white;
+            background-color: #138BBF;
+            margin: auto;
+            margin-top: 100px;
+    }   
+}
