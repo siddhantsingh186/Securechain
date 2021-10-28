@@ -9,11 +9,12 @@ const TransferProduct = () => {
     let token = localStorage.getItem("token");
 
     const [supplyChain, setSupplyChain] = useState([]);
+    const [receivers, fetchReceivers] = useState([]);
     const [transferSupplyChain, setTransferSupplyChain] = useState({});
     const [transferInstance, setTransferInstance] = useState({});
     const [transferUnits, setTransferUnits] = useState();
 
-    useEffect(() => {
+    useEffect(() =>{
         axios
             .get('https://securechain-backend.herokuapp.com/supplychain/',
                 {
@@ -25,6 +26,26 @@ const TransferProduct = () => {
             .then((res) => {
                 if (res) {
                     setSupplyChain(res.data);
+                    console.log(res.data)
+                }
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+    }, [])
+
+    useEffect(() =>{
+        axios
+            .post('https://securechain-backend.herokuapp.com/allowedreceivers/',
+                {
+                    headers: {
+                        Authorization: `Token ${token}`
+                    }
+                }
+            )
+            .then((res) => {
+                if (res) {
+                    fetchReceivers(res.data);
                     console.log(res.data)
                 }
             })
@@ -46,7 +67,7 @@ const TransferProduct = () => {
                                     className="transferproduct__input"
                                     name="supplyChains"
                                     id="supplyChains"
-                                    onChange={(e) => { setTransferSupplyChain(e.target.value) }}
+                                    onChange={(e) => {setTransferSupplyChain(e.target.value) }}
                                 >
                                     <option value="">
                                         Choose
@@ -69,10 +90,16 @@ const TransferProduct = () => {
                                     id="receiver"
                                     onChange={(e) => { setTransferInstance(e.target.value) }}
                                 >
-                                    <option>Transporter-1</option>
-                                    <option>Transporter-2</option>
-                                    <option>Transporter-3</option>
-                                    <option>Transporter-4</option>
+                                    <option value = "">
+                                        Choose
+                                    </option>
+                                    {receivers.map((receiver) => {
+                                        return (
+                                            <option key={receiver} value={receiver}>
+                                                {receiver}
+                                            </option>
+                                        );
+                                    })}
                                 </select>
                             </div>
                             <div className="transferproduct__form-group">
