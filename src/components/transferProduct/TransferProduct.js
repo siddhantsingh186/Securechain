@@ -9,6 +9,7 @@ const TransferProduct = () => {
     let token = localStorage.getItem("token");
 
     const [supplyChain, setSupplyChain] = useState([]);
+    const [allowedReceivers, setAllowedRecievers] = useState([]);
     const [transferSupplyChain, setTransferSupplyChain] = useState({});
     const [transferInstance, setTransferInstance] = useState({});
     const [transferUnits, setTransferUnits] = useState();
@@ -25,6 +26,24 @@ const TransferProduct = () => {
             .then((res) => {
                 if (res) {
                     setSupplyChain(res.data);
+                    console.log(res.data)
+                }
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+            
+        axios
+            .get('https://securechain-backend.herokuapp.com/allowedreceivers/',
+                {
+                    headers: {
+                        Authorization: `Token ${token}`
+                    }
+                }
+            )
+            .then((res) => {
+                if (res) {
+                    setAllowedRecievers(res.data);
                     console.log(res.data)
                 }
             })
@@ -69,10 +88,16 @@ const TransferProduct = () => {
                                     id="receiver"
                                     onChange={(e) => { setTransferInstance(e.target.value) }}
                                 >
-                                    <option>Transporter-1</option>
-                                    <option>Transporter-2</option>
-                                    <option>Transporter-3</option>
-                                    <option>Transporter-4</option>
+                                    <option value="">
+                                        Choose
+                                    </option>
+                                    {/* {allowedReceivers.map((allowedreciever) => {
+                                        return (
+                                            <option key={allowedreciever.id} value={allowedreceiver.id}>
+                                                {allowedreciever.name}
+                                            </option>
+                                        );
+                                    })} */}
                                 </select>
                             </div>
                             <div className="transferproduct__form-group">
