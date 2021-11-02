@@ -2,18 +2,18 @@ import React from 'react'
 import './CreateProduct.scss'
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import Web3 from 'web3';
 import { useHistory } from 'react-router';
 
 
-const CreateProduct = () => {
-
+const CreateProduct = ({addProduct}) => {
     let token = localStorage.getItem("token");
 
     const [supplyChain, setSupplyChain] = useState([]);
-    const [productSupplyChain, setProductSupplyChain] = useState({});
-    const [productName, setProductName] = useState({});
-    const [productBatches, setProductBatches] = useState({});
-    const [productBatchSize, setProductBatchSize] = useState({});
+    const [productSupplyChain, setProductSupplyChain] = useState("");
+    const [productName, setProductName] = useState("");
+    const [productBatches, setProductBatches] = useState("");
+    const [productBatchSize, setProductBatchSize] = useState("");
 
     useEffect(() => {
         axios
@@ -34,13 +34,21 @@ const CreateProduct = () => {
                 console.log(err)
             })
     }, [])
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        console.log(productName);
+        console.log(parseInt(productBatchSize));
+        console.log(productSupplyChain);
+        addProduct(productName, parseInt(productBatchSize), productSupplyChain);
+    }
     return(
         <div className="createsupply__bottom">
             <h1 className = "createsupply__bottom__head">Create Product</h1>
             <div className = "createproduct">
-                <div class = "createproduct__big-card">
-                <div class="createproduct__row">
-                    <form class="createproduct__column">
+                <div className = "createproduct__big-card">
+                <div className="createproduct__row">
+                    <form className="createproduct__column" onSubmit={handleSubmit}>
                         <div className="createproduct__form-group">
                             <label className="createproduct__label">Select Supply Chain : </label>
                             <select className="createproduct__input"
@@ -91,6 +99,11 @@ const CreateProduct = () => {
                         
                         <button className="createproduct__button" type="submit" >Add Product</button>
                     </form>
+                    <div className="createproduct__column">
+                        <div className="createproduct__column__image" style={{ backgroundImage: `url(media/create.jpg)` }}>
+
+                    </div>
+                        </div>
                 </div>
                 </div>
             </div>

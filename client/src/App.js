@@ -1,4 +1,4 @@
-import React, {Component, useState} from 'react';
+import React, { Component, useState } from 'react';
 import Home from './components/home/Home';
 import Nav from './components/header/Nav';
 import About from "./components/about/About";
@@ -13,7 +13,7 @@ import Createsupplyhome from "./components/createsupplyhome/createsupplyhome";
 import Createsupplyflow from "./components/createsupplyflow/createsupplyflow";
 import TransferProduct from "./components/transferProduct/TransferProduct";
 import CreateProduct from "./components/createProduct/CreateProduct";
-import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import SupplyChainManagement from "./contracts/SupplyChainManagement.json";
 import getWeb3 from "./getWeb3";
 import './App.scss';
@@ -21,7 +21,19 @@ import './App.scss';
 class App extends Component {
 
   //const [products, setProducts] = useState();
+  constructor(props) {
+    super(props)
+    this.state = {
+      account: '',
+      contract: null,
+      loading: true
+    }
 
+    this.addProduct = this.addProduct.bind(this)
+    this.transferProduct = this.transferProduct.bind(this)
+    this.currentBatchesInOwnership = this.currentBatchesInOwnership.bind(this)
+    this.currentUnitsInOwnership = this.currentUnitsInOwnership.bind(this)
+  }
 
   componentDidMount = async () => {
     try {
@@ -38,7 +50,7 @@ class App extends Component {
       const deployedNetwork = SupplyChainManagement.networks[networkId];
       const contract = new web3.eth.Contract(
         SupplyChainManagement.abi,
-        "0xbA23Ac2DfD419372e40Ab91B648110b44EA167Ad",
+        "0x3fc911E25A5A3105Baa94601F2Bc8D4e2A7C1A2D",
       );
 
       // Set web3, accounts, and contract to the state, and then proceed with an
@@ -54,54 +66,80 @@ class App extends Component {
     }
   };
 
+  addProduct = (productNo, productName, noOfBatches, unitsPerBatch, supplyChainId) => {
+    this.setState({ loading: true })
+    this.state.contract.methods.addProduct(productNo, productName, noOfBatches, unitsPerBatch, supplyChainId).send({ from: this.state.account }).on('transactionHash', (hash) => {
+      this.setState({ loading: false })
+    })
+  }
+
+  transferProduct = (productNo, productName, batchesToTransfer, supplyChainId, transferTo) => {
+    this.setState({ loading: true })
+    this.state.contract.methods.transferProduct(productNo, productName, batchesToTransfer, supplyChainId, transferTo).send({ from: this.state.account }).on('transactionHash', (hash) => {
+      this.setState({ loading: false })
+    })
+  }
+
+  currentBatchesInOwnership = (productNo, supplyChainId) => {
+    this.state.contract.methods.currentBatchesInOwnership(productNo, supplyChainId).call()
+  }
+
+  currentUnitsInOwnership = (productNo, supplyChainId) => {
+    this.state.contract.methods.currentUnitsInOwnership(productNo, supplyChainId).call()
+  }
+
   render() {
     return (
-      <div className = "app">
-      <Router>
-        <Nav />
-        <Switch>
-          <Route exact path="/">
-            <Home />
-          </Route>
-          <Route exact path="/about">
-            <About />
-          </Route>
-          <Route exact path="/register">
-            <Register />
-          </Route>
-          <Route exact path="/login">
-            <Login />
-          </Route>
-          <Route exact path="/dashboard">
-            <Dashboard />
-          </Route>
-          <Route exact path="/createsupply">
-            <Createsupply />
-          </Route>
-          <Route exact path="/createsupplyflow">
-            <Createsupplyflow />
-          </Route>
-          <Route exact path="/selectsupplychain">
-            <Selectsupplychain />
-          </Route>
-          <Route exact path="/selectsupplychain/enroll">
-            <Enroll />
-          </Route>
-          <Route exact path="/createsupplyhome">
-            <Createsupplyhome />
-          </Route>
-          <Route exact path="/transferproduct">
-            <TransferProduct />
-          </Route>
-          <Route exact path="/createproduct">
-            <CreateProduct />
-          </Route>
-          <Route path = "*">
-            <Error />
-          </Route>
-        </Switch>
-      </Router>
-    </div>
+      <div className="app">
+        <Router>
+          <Nav />
+          <Switch>
+            <Route exact path="/">
+              <Home />
+            </Route>
+            <Route exact path="/about">
+              <About />
+            </Route>
+            <Route exact path="/register">
+              <Register />
+            </Route>
+            <Route exact path="/login">
+              <Login />
+            </Route>
+            <Route exact path="/dashboard">
+              <Dashboard />
+            </Route>
+            <Route exact path="/createsupply">
+              <Createsupply />
+            </Route>
+            <Route exact path="/createsupplyflow">
+              <Createsupplyflow />
+            </Route>
+            <Route exact path="/selectsupplychain">
+              <Selectsupplychain />
+            </Route>
+            <Route exact path="/selectsupplychain/enroll">
+              <Enroll />
+            </Route>
+            <Route exact path="/createsupplyhome">
+              <Createsupplyhome />
+            </Route>
+            <Route exact path="/transferproduct">
+              <TransferProduct 
+                transferProduct={this.transferProduct}
+              />
+            </Route>
+            <Route exact path="/createproduct">
+              <CreateProduct 
+                addProduct={this.addProduct}
+              />
+            </Route>
+            <Route path="*">
+              <Error />
+            </Route>
+          </Switch>
+        </Router>
+      </div>
     )
   }
 }

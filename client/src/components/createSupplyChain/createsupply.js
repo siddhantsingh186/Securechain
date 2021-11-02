@@ -140,8 +140,8 @@ import "./createsupply.scss";
             <h1 className = "createsupply__bottom__head">Create Supply Chain</h1>
             <h2 className = "createsupply__bottom__head1">Created entities</h2>
             <div className = "entitiesdisplay">
-              {displayent !== '' && displayent.map((elem) => (
-                <div className = "displayent">{elem}</div>
+              {displayent !== '' && displayent.map((element) => (
+                <div className = "displayent">{element}</div>
               ))}
             </div>
             <h2 className = "createsupply__bottom__head1">Create New Entity</h2>
