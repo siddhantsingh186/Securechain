@@ -5,10 +5,11 @@ import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 
 const TransferProduct = () => {
-
+    let supplychainid = -1;
     let token = localStorage.getItem("token");
 
     const [supplyChain, setSupplyChain] = useState([]);
+    const [allowedRecievers,setAllowedRecievers] = useState([]);
     const [transferSupplyChain, setTransferSupplyChain] = useState({});
     const [transferInstance, setTransferInstance] = useState({});
     const [transferUnits, setTransferUnits] = useState();
@@ -24,7 +25,7 @@ const TransferProduct = () => {
 
     useEffect(() => {
         axios
-            .get('https://securechain-backend.herokuapp.com/supplychain/',
+            .get('https://securechain-backend.herokuapp.com/enrolledsupplychain/',
                 {
                     headers: {
                         Authorization: `Token ${token}`
@@ -40,7 +41,48 @@ const TransferProduct = () => {
             .catch((err) => {
                 console.log(err)
             })
+        // axios
+        //     .get('https://securechain-backend.herokuapp.com/allowedreceivers/',
+        //         {
+        //             headers: {
+        //                 Authorization: `Token ${token}`
+        //             }
+        //         }
+        //     )
+        //     .then((res) => {
+        //         if (res) {
+        //             setAllowedRecievers(res.data);
+        //             console.log(res.data)
+        //         }
+        //     })
+        //     .catch((err) => {
+        //         console.log(err)
+        //     })
     }, [])
+
+    const handleRecievers = (e) => {
+        supplychainid = e.target.value;
+        console.log(supplychainid)
+        setTransferSupplyChain(e.target.value)
+        axios
+            .get('http://securechain-backend.herokuapp.com/allowedreceivers/'+supplychainid+'/',
+                {
+                    headers: {
+                        Authorization: `Token ${token}`
+                    }
+                }
+            )
+            .then((res) => {
+                if (res) {
+                    setAllowedRecievers(res.data);
+                    console.log(res.data)
+                }
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+    };
+
 
     return(
         <div className="createsupply__bottom">
@@ -55,7 +97,8 @@ const TransferProduct = () => {
                                     className="transferproduct__input"
                                     name="supplyChains"
                                     id="supplyChains"
-                                    onChange={(e) => { setTransferSupplyChain(e.target.value) }}
+                                    // onChange={(e) => { setTransferSupplyChain(e.target.value) }}
+                                    onChange={handleRecievers}
                                 >
                                     <option value="">
                                         Choose
@@ -78,10 +121,14 @@ const TransferProduct = () => {
                                     id="receiver"
                                     onChange={(e) => { setTransferInstance(e.target.value) }}
                                 >
-                                    <option>Transporter-1</option>
-                                    <option>Transporter-2</option>
-                                    <option>Transporter-3</option>
-                                    <option>Transporter-4</option>
+                                    <option>Choose</option>
+                                    {allowedRecievers.map((allowed) => {
+                                        return (
+                                            <option key={allowed.id} value={allowed.id}>
+                                                {allowed.name}
+                                            </option>
+                                        );
+                                    })}
                                 </select>
                             </div>
                             <div className="transferproduct__form-group">
