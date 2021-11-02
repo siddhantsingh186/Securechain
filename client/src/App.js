@@ -93,13 +93,13 @@ class App extends Component {
     return this.state.contract.methods.currentUnitsInOwnership(productNo, supplyChainId).call()
   }
 
-  productsInSupplyChain = (supplyChainId) => {
+  productsInSupplyChain = async (supplyChainId) => {
     //this.setState({ products : []})
-    const productsCount = await contract.methods.productCountInSupplyChain(supplyChainId).call()
+    const productsCount = await this.state.contract.methods.productCountInSupplyChain(supplyChainId).call()
     this.setState({ productsCount })
     const products = []
     for (var i = 1; i <= productsCount; i++) {
-      const product = await contract.methods.productBySupplyChain(i).call()
+      const product = await this.state.contract.methods.productBySupplyChain(i).call()
       /*this.setState({
         products: [...this.state.products, product]
       })
