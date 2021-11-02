@@ -73,7 +73,7 @@ const TransferProduct = () => {
                 console.log(err)
             })
     };
-
+//this is for new_anuj
 
     return(
         <div className="createsupply__bottom">
