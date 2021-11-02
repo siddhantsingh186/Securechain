@@ -3,8 +3,9 @@ import axios from 'axios';
 import './TransferProduct.scss'
 import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
+import useEnhancedEffect from '@mui/utils/useEnhancedEffect';
 
-const TransferProduct = () => {
+const TransferProduct = ({ productsInSupplyChain, currentBatchesInOwnership, currentUnitsInOwnership, transferProduct}) => {
     let supplychainid = -1;
     let token = localStorage.getItem("token");
 
@@ -12,7 +13,33 @@ const TransferProduct = () => {
     const [allowedRecievers,setAllowedRecievers] = useState([]);
     const [transferSupplyChain, setTransferSupplyChain] = useState({});
     const [transferInstance, setTransferInstance] = useState({});
-    const [transferUnits, setTransferUnits] = useState();
+    const [transferUnits, setTransferUnits] = useState("");
+    const [products, setProducts] = useState([]);
+    const [productNo, setProductNo] = useState();
+    const [batchesInOwnership, setBatchesInOwnership] = useState("");
+    const [unitsInOwnership, setUnitsInOwnership] = useState("");
+
+    console.log(supplyChain);
+    console.log(allowedRecievers);
+    console.log(transferSupplyChain);
+    console.log(transferInstance);
+    console.log(transferUnits);
+    console.log(products);
+    console.log(productNo);
+    console.log(batchesInOwnership);
+    console.log(unitsInOwnership);
+
+    useEffect(() => {
+        setBatchesInOwnership(currentBatchesInOwnership(productNo, transferSupplyChain));
+        setUnitsInOwnership(currentUnitsInOwnership(productNo, transferSupplyChain));
+    }, [productNo])
+
+    useEffect(() => {
+        const prod = productsInSupplyChain(transferSupplyChain)
+        console.log(prod)
+        //setProducts(prod);
+
+    }, [transferSupplyChain])
 
     useEffect(() => {
         axios
@@ -51,6 +78,10 @@ const TransferProduct = () => {
         //     })
     }, [])
 
+    useEffect(() => {
+        console.log(supplyChain)
+    }, [supplyChain])
+
     const handleRecievers = (e) => {
         supplychainid = e.target.value;
         console.log(supplychainid)
@@ -82,27 +113,57 @@ const TransferProduct = () => {
                 <div class = "transferproduct__big-card">
                     <div class="transferproduct__row">
                         <form class="transferproduct__column">
-                            <div className="transferproduct__form-group">
-                                <label className="transferproduct__label">Select Supply Chain : </label>
-                                <select
-                                    className="transferproduct__input"
-                                    name="supplyChains"
-                                    id="supplyChains"
-                                    // onChange={(e) => { setTransferSupplyChain(e.target.value) }}
-                                    onChange={handleRecievers}
-                                >
-                                    <option value="">
-                                        Choose
-                                    </option>
-                                    {supplyChain.map((supplychain) => {
-                                        return (
-                                            <option key={supplychain.id} value={supplychain.id}>
-                                                {supplychain.name}
-                                            </option>
-                                        );
-                                    })}
-                                </select>
-                            </div>
+                            {supplyChain && 
+                                <div className="transferproduct__form-group">
+                                    <label className="transferproduct__label">Select Supply Chain : </label>
+                                    <select
+                                        className="transferproduct__input"
+                                        name="supplyChains"
+                                        id="supplyChains"
+                                        onChange={(e) => { setTransferSupplyChain(e.target.value) }}
+                                        //onChange={handleRecievers}
+                                    >
+                                        <option value="">
+                                            Choose
+                                        </option>
+                                        {supplyChain.map((supplychain) => {
+                                            return (
+                                                <option key={supplychain.id} value={supplychain.id}>
+                                                    {supplychain.name}
+                                                </option>
+                                            );
+                                        })}
+                                    </select>
+                                </div>
+                            }
+                            {products &&
+                                <div className="transferproduct__form-group">
+                                    <label className="transferproduct__label">Select Product : </label>
+                                    <select
+                                        className="transferproduct__input"
+                                        name="product"
+                                        id="product"
+                                        onChange={(e) => setProductNo(e.target.value)}
+                                    >
+                                        <option value="">
+                                            Choose
+                                        </option>
+                                        {products.map((product) => {
+                                            return (
+                                                <option key={product.productNo} value={product.productNo}>
+                                                    {product.productNo}
+                                                </option>
+                                            );
+                                        })}
+                                    </select>
+                                </div>
+                            }
+                            {batchesInOwnership &&
+                                <h1 className="transferproduct__title">{batchesInOwnership}</h1>
+                            }
+                            {unitsInOwnership &&
+                                <h1 className="transferproduct__title">{unitsInOwnership}</h1>
+                            }
                             <h1 className="transferproduct__title">Reciever's Details</h1>
                             <div className="transferproduct__form-group">
                                 <label className="transferproduct__label">Select Receiver : </label>

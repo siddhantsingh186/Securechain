@@ -37,10 +37,15 @@ const CreateProduct = ({addProduct}) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        let today = new Date();
+        let date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+        let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+        let dateTime = date + ' ' + time;
+        let productNo = productName + '_' + productSupplyChain + '_' + dateTime;
         console.log(productName);
         console.log(parseInt(productBatchSize));
         console.log(productSupplyChain);
-        addProduct(productName, parseInt(productBatchSize), productSupplyChain);
+        addProduct(productNo, productName, parseInt(productBatches), parseInt(productBatchSize), productSupplyChain);
     }
     return(
         <div className="createsupply__bottom">
