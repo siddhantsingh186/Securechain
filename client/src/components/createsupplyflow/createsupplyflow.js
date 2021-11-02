@@ -146,61 +146,53 @@ const Createsupplyflow = () => {
         <div className="createsupply__bottom">
             <h1 className = "createsupply__bottom__head">Create Supply Chain</h1>
             <div className = "createsupplyflow">
-                <div className="createsupplyflow__title">
-                    <h1>Establish flow of your supply chain</h1>
-                </div>
-                <div className="createsupplyflow__formgroup">
-                    <form>
-                        {/* {inputFields.map((inputField , index)=> (
-                        <div key={index}> */}
-
-                            <select
-                            name="source"
-                            onChange={handleChangeInput}
-                            className = "createsupply__bottom__head1__part1__select2"
-                            // options={entity.options}
-                            required
-                            >
-                            {
-                                entity.options.map((x)=>
-                                <option value={x.value} >{x.label}</option>
-                                )
-                            }
-                            </select>
-                            {/* <select>{
-                                props.data.map( (x,y) => 
-                                <option key={y}>{x}</option> )
-                            }</select>; */}
-                            <select
-                            name="destination"
-                            onChange={event => handleChangeInput(event)}
-                            className = "createsupply__bottom__head1__part1__select2"  
-                            options={entity.options}
-                            required
-                            >
-                            {
-                                entity.options.map((x)=>
-                                <option value={x.value}>{x.label}</option>
-                                )
-                            }
-                            </select>
-
-                            {/* <IconButton disabled={inputFields.length === 1} onClick={() => handleRemoveFields(inputField.id)}>
-                            <RemoveCircleRoundedIcon/>
-                            </IconButton> */}
-                            <IconButton onClick={handleSubmit}>
-                            <AddCircleIcon/>
-                            </IconButton>
-                            {/* <IconButton onClick={handleAddFields}>
+                <div className = "createsupplyflow__big-card">
+                    <div className="createsupplyflow__title">
+                        <h1>Establish flow of your supply chain</h1>
+                    </div>
+                    <div className="createsupplyflow__formgroup">
+                        <form>
+                        <div className="createsupplyflow__row">
+                            <div className="createsupplyflow__column">
+                                <select
+                                name="source"
+                                onChange={handleChangeInput}
+                                className = "createsupplyflow__input"
+                                required
+                                >
+                                {
+                                    entity.options.map((x)=>
+                                    <option value={x.value} >{x.label}</option>
+                                    )
+                                }
+                                </select>
+                            </div>
+                            <div className="createsupplyflow__column">
+                                <select
+                                name="destination"
+                                onChange={event => handleChangeInput(event)}
+                                className = "createsupplyflow__input"  
+                                options={entity.options}
+                                required
+                                >
+                                {
+                                    entity.options.map((x)=>
+                                    <option value={x.value}>{x.label}</option>
+                                    )
+                                }
+                                </select>
+                            </div>
+                            <div className="createsupplyflow__column">
+                            </div>
+                        </div> 
+                            {/* <IconButton onClick={handleSubmit}>
                             <AddCircleIcon/>
                             </IconButton> */}
-                            
-                        {/* </div> */}
-                    {/* ))} */}
-                    <Link to='/dashboard'>
-                        <button className="createsupplyflow__button" type="submit" >Save and Finish</button>
-                    </Link>
-                    </form>
+                        <Link to='/dashboard'>
+                            <button className="createsupplyflow__button" type="submit" >Save and Finish</button>
+                        </Link>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>

@@ -59,8 +59,46 @@
 }
 
 .createsupplyflow{
-    width:70%;
-    // display: flex;
+    width:100%;
+    &__button{   
+      height: 40px;
+      width: 200px;
+      border-radius: 5px;
+      font-family:  montserrat,sans-serif;
+      font-size: 20px;
+      color: white;
+      background-color: #138BBF;
+      margin: auto;
+      margin-top: 30px;
+      margin-bottom: 20px;
+    } 
+    &__big-card{
+      padding-top:20px;
+      width : 80%;
+      height : 50%;
+      // border : 1px solid black;
+      border-radius: 10px;
+      margin : auto;
+      margin-bottom: 15px;
+      -moz-box-shadow: 0 0 3px #ccc;
+      -webkit-box-shadow: 0 0 3px #ccc;
+      box-shadow: 0 0 3px #ccc;
+    } 
+    &__row {
+      display: flex;
+    }
+    &__column {
+      flex: 50%;
+    }
+    &__input{
+      width: 70%;
+      padding: 12px 20px;
+      margin: 8px 0;
+      display: inline-block;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
     &__title{
         font-size:15px;
         margin-left:40px;
