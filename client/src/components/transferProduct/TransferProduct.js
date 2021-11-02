@@ -87,6 +87,10 @@ const TransferProduct = () => {
                             
                             <button className="transferproduct__button" type="submit" >Start Transaction</button>
                         </form>
+                        <div class="transferproduct__column">
+                            <div class="transferproduct__column__image" style={{ backgroundImage: `url(media/transfer1.jpg)` }}>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
