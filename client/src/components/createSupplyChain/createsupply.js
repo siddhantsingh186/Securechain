@@ -37,7 +37,7 @@ import "./createsupply.scss";
      // console.log(JSON.stringify(data, null, 4));
      let token = localStorage.getItem("token")
      axios
-     .post("https://securechain-backend.herokuapp.com/entity/",data ,
+     .get("https://securechain-backend.herokuapp.com/entity/",
                  {
                    headers: {
                          Authorization: `Token ${token}`,
