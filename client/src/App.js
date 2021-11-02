@@ -27,6 +27,7 @@ class App extends Component {
     this.state = {
       account: '',
       contract: null,
+      //products: [],
       loading: true
     }
 
@@ -34,6 +35,7 @@ class App extends Component {
     this.transferProduct = this.transferProduct.bind(this)
     this.currentBatchesInOwnership = this.currentBatchesInOwnership.bind(this)
     this.currentUnitsInOwnership = this.currentUnitsInOwnership.bind(this)
+    this.productsInSupplyChain = this.productsInSupplyChain.bind(this)
   }
 
   componentDidMount = async () => {
@@ -53,6 +55,8 @@ class App extends Component {
         SupplyChainManagement.abi,
         "0x95FC0764712364Fe5F99512C78F70EdFfBf3Ed28",
       );
+
+
 
       // Set web3, accounts, and contract to the state, and then proceed with an
       // example of interacting with the contract's methods.
@@ -82,11 +86,27 @@ class App extends Component {
   }
 
   currentBatchesInOwnership = (productNo, supplyChainId) => {
-    this.state.contract.methods.currentBatchesInOwnership(productNo, supplyChainId).call()
+    return this.state.contract.methods.currentBatchesInOwnership(productNo, supplyChainId).call()
   }
 
   currentUnitsInOwnership = (productNo, supplyChainId) => {
-    this.state.contract.methods.currentUnitsInOwnership(productNo, supplyChainId).call()
+    return this.state.contract.methods.currentUnitsInOwnership(productNo, supplyChainId).call()
+  }
+
+  productsInSupplyChain = (supplyChainId) => {
+    //this.setState({ products : []})
+    const productsCount = await contract.methods.productCountInSupplyChain(supplyChainId).call()
+    this.setState({ productsCount })
+    const products = []
+    for (var i = 1; i <= productsCount; i++) {
+      const product = await contract.methods.productBySupplyChain(i).call()
+      /*this.setState({
+        products: [...this.state.products, product]
+      })
+      */
+      products = [...this.state.products, product]
+    }
+    return products;
   }
 
   render() {
@@ -126,7 +146,10 @@ class App extends Component {
               <Createsupplyhome />
             </Route>
             <Route exact path="/transferproduct">
-              <TransferProduct 
+              <TransferProduct
+                products={this.productsInSupplyChain}
+                currentBatchesInOwnership={this.currentBatchesInOwnership}
+                currentUnitsInOwnership={this.currentUnitsInOwnership}
                 transferProduct={this.transferProduct}
               />
             </Route>
