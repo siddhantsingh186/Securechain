@@ -86,17 +86,19 @@ class App extends Component {
     })
   }
 
-  currentBatchesInOwnership = (productNo, supplyChainId) => {
-    return this.state.contract.methods.currentBatchesInOwnership(productNo, supplyChainId).call()
+  currentBatchesInOwnership = async (productNo, supplyChainId) => {
+    const batches = await this.state.contract.methods.currentBatchesInOwnership(productNo, supplyChainId).call({ from: this.state.account });
+    return batches;
   }
 
-  currentUnitsInOwnership = (productNo, supplyChainId) => {
-    return this.state.contract.methods.currentUnitsInOwnership(productNo, supplyChainId).call()
+  currentUnitsInOwnership = async (productNo, supplyChainId) => {
+    const units = await this.state.contract.methods.currentUnitsInOwnership(productNo, supplyChainId).call({ from: this.state.account });
+    return units;
   }
 
   productsInSupplyChain = async (supplyChainId) => {
     //this.setState({ products : []})
-    const productsCount = await this.state.contract.methods.productCountInSupplyChain(supplyChainId).call()
+    const productsCount = await this.state.contract.methods.productCountInSupplyChain(supplyChainId).call({ from: this.state.account })
     this.setState({ productsCount })
     const products = []
     for (var i = 1; i <= productsCount; i++) {
@@ -105,7 +107,7 @@ class App extends Component {
         products: [...this.state.products, product]
       })
       */
-      products = [...this.state.products, product]
+      products = [...products, product]
     }
     return products;
   }
@@ -148,7 +150,7 @@ class App extends Component {
             </Route>
             <Route exact path="/transferproduct">
               <TransferProduct
-                products={this.productsInSupplyChain}
+                productsInSupplyChain={this.productsInSupplyChain}
                 currentBatchesInOwnership={this.currentBatchesInOwnership}
                 currentUnitsInOwnership={this.currentUnitsInOwnership}
                 transferProduct={this.transferProduct}
