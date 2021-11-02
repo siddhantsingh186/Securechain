@@ -1,29 +1,69 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import "./Dashboard.scss";
 import { useHistory } from 'react-router';
+import Card from "@material-tailwind/react/Card";
+import CardImage from "@material-tailwind/react/CardImage";
+import CardBody from "@material-tailwind/react/CardBody";
+import CardFooter from "@material-tailwind/react/CardFooter";
+import H6 from "@material-tailwind/react/Heading6";
+import Paragraph from "@material-tailwind/react/Paragraph";
+import Button from "@material-tailwind/react/Button";
 
 function Dashboard(){
   let history = useHistory();
+  let token = localStorage.getItem("token");
+  const [availablesupply, setavailablesupply] = useState([]);
+
+  useEffect(() => {
+    axios
+        .get('https://securechain-backend.herokuapp.com/supplychain/',
+            {
+                headers: {
+                    Authorization: `Token ${token}`
+                }
+            }
+        )
+        .then((res) => {
+          setavailablesupply(
+            res.data
+          );
+          console.log(res.data);
+          })
+        .catch((err) => {
+            console.log(err)
+        })
+}, [])
+
+
   const handleClick = (event) => {
     history.push('/createsupplyhome');
   }
   return(
     <div className = "dashboard">
       <h1 className = "dashboard__head">Dashboard</h1>
-      <div className = "dashboard__below">
-        <div className = "dashboard__below__element">
-          <h2 className = "dashboard__below__element__head">Vaccine Supply Chain</h2>
-          <p className = "dashboard__below__element__body">Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, <br />when an unknown printer took a galley of type and scrambled it to make a type specimen book.
-          </p>
-        </div>
-        <div className = "dashboard__below__element">
-          <h2 className = "dashboard__below__element__head">Milk Supply Chain</h2>
-          <p className = "dashboard__below__element__body">Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, <br />when an unknown printer took a galley of type and scrambled it to make a type specimen book.
-          </p>
-        </div>
-      </div>
-      <div className = "dashboard__button">
-        <button className = "dashboard__button__style" onClick = {handleClick}>Create New Supply Chain</button>
+        {availablesupply.map((e)=>{
+          return(
+            <div className = "flex flex-row gap-x-2">
+              <Card className = "dashboardmiddle">
+              <CardImage
+                src="media/about.png"
+                alt="Card Image"
+              />
+              <CardBody>
+                <H6 clacolor="gray">{e.name}</H6>
+                <Paragraph color="gray">{e.details}</Paragraph>
+              </CardBody>
+              <CardFooter>
+                <Button color="lightBlue" size="lg" ripple="light">
+                    Read More
+                </Button>
+              </CardFooter>
+            </Card>
+            </div>
+            )})}  
+      <div  className = "dashboard__button">
+        <Button className ="dashboard__button__style" ripple="light" onClick = {handleClick}>Create New Supply Chain</Button>
       </div>
     </div>
   );
