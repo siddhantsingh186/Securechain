@@ -13,6 +13,15 @@ const TransferProduct = () => {
     const [transferInstance, setTransferInstance] = useState({});
     const [transferUnits, setTransferUnits] = useState();
 
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        let productNo = productName + '_' + transferSupplyChain
+        console.log(productName);
+        console.log(parseInt(productBatchSize));
+        console.log(productSupplyChain);
+        transferProduct(productNo, productName, batchesToTransfer, transferSupplyChain, transferInstance);
+    }
+
     useEffect(() => {
         axios
             .get('https://securechain-backend.herokuapp.com/supplychain/',
