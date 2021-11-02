@@ -62,7 +62,7 @@ function Dashboard(){
             </Card>
             </div>
             )})}  
-      <div className = "dashboard__button">
+      <div  className = "dashboard__button">
         <Button className ="dashboard__button__style" ripple="light" onClick = {handleClick}>Create New Supply Chain</Button>
       </div>
     </div>
