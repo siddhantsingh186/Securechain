@@ -9,6 +9,7 @@ const TransferProduct = () => {
     let token = localStorage.getItem("token");
 
     const [supplyChain, setSupplyChain] = useState([]);
+    const [fields, setFields] = useState([]);
     const [allowedRecievers,setAllowedRecievers] = useState([]);
     const [transferSupplyChain, setTransferSupplyChain] = useState({});
     const [transferInstance, setTransferInstance] = useState({});
@@ -50,8 +51,15 @@ const TransferProduct = () => {
         //         console.log(err)
         //     })
     }, [])
+    function handleAdd() {
+        const values = [...fields];
+        values.push({ value: null });
+        setFields(values);
+    }
+
 
     const handleRecievers = (e) => {
+        handleAdd();
         supplychainid = e.target.value;
         console.log(supplychainid)
         setTransferSupplyChain(e.target.value)
@@ -103,6 +111,40 @@ const TransferProduct = () => {
                                     })}
                                 </select>
                             </div>
+                            {fields.map((field, idx) => {
+                                return (
+                                    <div className="transferproduct__form-group">
+                                        <label className="transferproduct__label">Select Product : </label>
+                                        <select
+                                            className="transferproduct__input"
+                                            name="supplyChains"
+                                            id="supplyChains"
+                                            // onChange={(e) => { setTransferSupplyChain(e.target.value) }}
+                                            // onChange={handleRecievers}
+                                        >
+                                        <option value="">
+                                            Choose
+                                        </option>
+                                        <option value="">
+                                            Plastic
+                                        </option>
+                                        <option value="">
+                                            Medicine
+                                        </option>
+                                        <option value="">
+                                            Syringe
+                                        </option>
+                                            {/* {supplyChain.map((supplychain) => {
+                                                return (
+                                                    <option key={supplychain.id} value={supplychain.id}>
+                                                        {supplychain.name}
+                                                    </option>
+                                                );
+                                            })} */}
+                                        </select>
+                                    </div>
+                                );
+                            })}
                             <h1 className="transferproduct__title">Reciever's Details</h1>
                             <div className="transferproduct__form-group">
                                 <label className="transferproduct__label">Select Receiver : </label>
