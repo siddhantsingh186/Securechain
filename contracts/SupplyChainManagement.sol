@@ -54,6 +54,12 @@ contract SupplyChainManagement {
     // map productNo => productNo
     mapping(string => Product) public batches;
     
+    // map supply chain id => product count in supply chain => Product
+    mapping(uint256 => mapping(uint256 => Product)) productBySupplyChain;
+    
+    // map supply chain id => product count in supply chain
+    mapping(uint256 => uint256) productCountInSupplyChain;
+    
     // map productNo => no of units
     //mapping(string => uint256) unitsInBatch;
     
@@ -134,6 +140,8 @@ contract SupplyChainManagement {
         batches[_productNo] = Product(_productNo, _productName,  _noOfBatches, _unitsPerBatch, _supplyChainId, msg.sender, msg.sender, true);
         
         //batchesCount[_productNo] = _noOfBatches;
+        productCountInSupplyChain[_supplyChainId]++;
+        productBySupplyChain[_supplyChainId][productCountInSupplyChain[_supplyChainId]] = Product(_productNo, _productName,  _noOfBatches, _unitsPerBatch, _supplyChainId, msg.sender, msg.sender, true);
         
         isOwner[_productName][_supplyChainId][msg.sender] = true;
         
