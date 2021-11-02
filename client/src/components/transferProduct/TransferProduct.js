@@ -10,6 +10,7 @@ const TransferProduct = ({ productsInSupplyChain, currentBatchesInOwnership, cur
     let token = localStorage.getItem("token");
 
     const [supplyChain, setSupplyChain] = useState([]);
+    const [fields, setFields] = useState([]);
     const [allowedRecievers,setAllowedRecievers] = useState([]);
     const [transferSupplyChain, setTransferSupplyChain] = useState({});
     const [transferInstance, setTransferInstance] = useState({});
@@ -77,12 +78,19 @@ const TransferProduct = ({ productsInSupplyChain, currentBatchesInOwnership, cur
         //         console.log(err)
         //     })
     }, [])
+    function handleAdd() {
+        const values = [...fields];
+        values.push({ value: null });
+        setFields(values);
+    }
+
 
     useEffect(() => {
         console.log(supplyChain)
     }, [supplyChain])
 
     const handleRecievers = (e) => {
+        handleAdd();
         supplychainid = e.target.value;
         console.log(supplychainid)
         setTransferSupplyChain(e.target.value)
