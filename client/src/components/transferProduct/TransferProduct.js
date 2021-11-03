@@ -196,7 +196,7 @@ const TransferProduct = ({ productsInSupplyChain, currentBatchesInOwnership, cur
                                     <option>Choose</option>
                                     {allowedRecievers.map((allowed) => {
                                         return (
-                                            <option key={allowed.id} value={allowed.id}>
+                                            <option key={allowed.ethereum_address} value={allowed.ethereum_address}>
                                                 {allowed.name}
                                             </option>
                                         );
