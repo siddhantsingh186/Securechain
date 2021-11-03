@@ -40,12 +40,13 @@ const CreateProduct = ({addProduct}) => {
         let today = new Date();
         let date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
         let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-        let dateTime = date + ' ' + time;
+        let dateTime = date + '_' + time;
         let productNo = productName + '_' + productSupplyChain + '_' + dateTime;
+        console.log(productNo);
         console.log(productName);
         console.log(parseInt(productBatchSize));
         console.log(productSupplyChain);
-        addProduct(productNo, productName, parseInt(productBatches), parseInt(productBatchSize), productSupplyChain);
+        addProduct(productNo, productName, parseInt(productBatches), parseInt(productBatchSize), parseInt(productSupplyChain));
     }
     return(
         <div className="createsupply__bottom">
@@ -103,6 +104,8 @@ const CreateProduct = ({addProduct}) => {
                         </div>
                         
                         <button className="createproduct__button" type="submit" >Add Product</button>
+
+                        
                     </form>
                     <div className="createproduct__column">
                         <div className="createproduct__column__image" style={{ backgroundImage: `url(media/create.jpg)` }}>
