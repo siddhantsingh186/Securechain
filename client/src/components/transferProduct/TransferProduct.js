@@ -12,11 +12,11 @@ const TransferProduct = ({ productsInSupplyChain, currentBatchesInOwnership, cur
     const [supplyChain, setSupplyChain] = useState([]);
     const [fields, setFields] = useState([]);
     const [allowedRecievers,setAllowedRecievers] = useState([]);
-    const [transferSupplyChain, setTransferSupplyChain] = useState({});
-    const [transferInstance, setTransferInstance] = useState({});
+    const [transferSupplyChain, setTransferSupplyChain] = useState("");
+    const [transferInstance, setTransferInstance] = useState("");
     const [transferUnits, setTransferUnits] = useState("");
     const [products, setProducts] = useState([]);
-    const [productNo, setProductNo] = useState();
+    const [productNo, setProductNo] = useState("");
     const [batchesInOwnership, setBatchesInOwnership] = useState("");
     const [unitsInOwnership, setUnitsInOwnership] = useState("");
 
@@ -31,16 +31,17 @@ const TransferProduct = ({ productsInSupplyChain, currentBatchesInOwnership, cur
     console.log(unitsInOwnership);
 
     useEffect(() => {
-        setBatchesInOwnership(currentBatchesInOwnership(productNo, transferSupplyChain));
-        setUnitsInOwnership(currentUnitsInOwnership(productNo, transferSupplyChain));
+        setBatchesInOwnership(currentBatchesInOwnership(productNo, parseInt(transferSupplyChain)));
+        setUnitsInOwnership(currentUnitsInOwnership(productNo, parseInt(transferSupplyChain)));
     }, [productNo])
 
     useEffect(() => {
-        const prod = productsInSupplyChain(transferSupplyChain)
+        const prod = productsInSupplyChain(parseInt(transferSupplyChain));
         console.log(prod)
-        //setProducts(prod);
+        setProducts(prod);
 
     }, [transferSupplyChain])
+    
 
     useEffect(() => {
         axios
@@ -113,6 +114,12 @@ const TransferProduct = ({ productsInSupplyChain, currentBatchesInOwnership, cur
             })
     };
 
+    const handleProducts = (e) => {
+        setProductNo(e.target.value)
+        console.log(productNo);
+        setBatchesInOwnership(currentBatchesInOwnership(productNo, parseInt(transferSupplyChain)));
+        setUnitsInOwnership(currentUnitsInOwnership(productNo, parseInt(transferSupplyChain)));
+    };
 
     return(
         <div className="createsupply__bottom">
@@ -128,8 +135,8 @@ const TransferProduct = ({ productsInSupplyChain, currentBatchesInOwnership, cur
                                         className="transferproduct__input"
                                         name="supplyChains"
                                         id="supplyChains"
-                                        onChange={(e) => { setTransferSupplyChain(e.target.value) }}
-                                        //onChange={handleRecievers}
+                                        //onChange={(e) => { setTransferSupplyChain(e.target.value) }}
+                                        onChange={handleRecievers}
                                     >
                                         <option value="">
                                             Choose
@@ -151,7 +158,8 @@ const TransferProduct = ({ productsInSupplyChain, currentBatchesInOwnership, cur
                                         className="transferproduct__input"
                                         name="product"
                                         id="product"
-                                        onChange={(e) => setProductNo(e.target.value)}
+                                        //onChange={(e) => setProductNo(e.target.value)}
+                                        onChange={handleProducts}
                                     >
                                         <option value="">
                                             Choose
