@@ -39,7 +39,6 @@ const TransferProduct = ({ productsInSupplyChain, currentBatchesInOwnership, cur
         const prod = productsInSupplyChain(parseInt(transferSupplyChain));
         console.log(prod)
         setProducts(prod);
-
     }, [transferSupplyChain])
     
 
