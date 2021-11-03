@@ -1,13 +1,13 @@
 //Resque
 import React, { Component, useState } from 'react';
-import "@material-tailwind/react/tailwind.css";
+// import "@material-tailwind/react/tailwind.css";
 import Home from './components/home/Home';
 import Nav from './components/header/Nav';
 import About from "./components/about/About";
 import Error from "./components/error/Error";
 import Register from "./components/registration/register";
 import Login from "./components/registration/login";
-import Dashboard from "./components/dashboard/Dashboard";
+// import Dashboard from "./components/dashboard/Dashboard";
 import Createsupply from "./components/createSupplyChain/createsupply";
 import Selectsupplychain from "./components/selectSupplyChain/SelectSupplyChain";
 import Enroll from "./components/enroll/Enroll";
@@ -130,9 +130,9 @@ class App extends Component {
             <Route exact path="/login">
               <Login />
             </Route>
-            <Route exact path="/dashboard">
+            {/* <Route exact path="/dashboard">
               <Dashboard />
-            </Route>
+            </Route> */}
             <Route exact path="/createsupply">
               <Createsupply />
             </Route>
