@@ -45,17 +45,31 @@ function Createsupplyhome(){
     setDetails(event.target.value);
   }
   return(
-    <div className = "createsupplyhome">
-      <h1 className = "createsupplyhome__head">Create Supply Chain</h1>
-      <div className = "createsupplyhome__top">
-        <h1 className = "createsupplyhome__top__head1">Name</h1><br></br>
-        <textarea className ="createsupplyhome__top__text" rows={2} cols={40} onChange={event => handleName(event)}></textarea>
+    <div className = "createsupply__bottom">
+      <h1 className = "createsupply__bottom__head">Create Supply Chain</h1>
+        <div className="createsupplyhome">
+          <div className="createsupplyhome__big-card">
+            <div className="createsupplyhome__row">
+              <div className="createsupplyhome__column1">
+                <h1 className="createsupplyhome__title"> Supply Chain Details</h1>
+                <div className = "createsupplyhome__form-group">
+                  <label className = "createsupplyhome__label">Name</label><br></br>
+                  <input className ="createsupplyhome__input" onChange={event => handleName(event)}></input>
+                </div>
+                <div className = "createsupplyhome__form-group">
+                  <label className = "createsupplyhome__label">Description</label><br></br>
+                  <textarea className ="createsupplyhome__input1" rows={8} cols={50} onChange={event => handleDetails(event)}></textarea>
+                </div>
+                <button className = "createsupplyhome__column1__button" onClick = {event => handleSubmit(event, name, details)}>Save and Continue</button>
+              </div>
+              <div className="createsupplyhome__column2">
+                  <div className="createsupplyhome__column2__image" style={{ backgroundImage: `url(media/form.jpg)` }}>
+                  </div>
+              </div>
+            </div>
+            
+          </div>
       </div>
-      <div className = "createsupplyhome__bottom">
-        <h1 className = "createsupplyhome__bottom__head1">Description</h1><br></br>
-        <textarea className ="createsupplyhome__bottom__text" rows={8} cols={50} onChange={event => handleDetails(event)}></textarea>
-      </div>
-      <button className = "createsupplyhome__button" onClick = {event => handleSubmit(event, name, details)}>Save and Continue</button>
     </div>
   );
 }

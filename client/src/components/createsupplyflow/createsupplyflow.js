@@ -15,9 +15,28 @@ import { v4 as uuidv4 } from 'uuid';
 import { Link } from 'react-router-dom'
 import axios from 'axios';
 import "./createsupplyflow.scss";
+import zIndex from '@mui/material/styles/zIndex';
 
 const Createsupplyflow = () => {
-    const [fields, setFields] = useState([{ value: null }]);
+    const [inputList, setInputList] = useState([{ firstName: "", lastName: "" }]);
+    const handleInputChange = (e, index) => {
+        const { name, value } = e.target;
+        const list = [...inputList];
+        list[index][name] = value;
+        setInputList(list);
+      };
+     
+      // handle click event of the Remove button
+      const handleRemoveClick = index => {
+        const list = [...inputList];
+        list.splice(index, 1);
+        setInputList(list);
+      };
+     
+      // handle click event of the Add button
+      const handleAddClick = () => {
+        setInputList([...inputList, { firstName: "", lastName: "" }]);
+      };
     const [entity,setEntity] = useState({
         options:[],
         value:'',
@@ -94,23 +113,23 @@ const Createsupplyflow = () => {
         });
         // e.target.reset();
     };
-    function handleChange(i, event) {
-        const values = [...fields];
-        values[i].value = event.target.value;
-        setFields(values);
-      }
+    // function handleChange(i, event) {
+    //     const values = [...fields];
+    //     values[i].value = event.target.value;
+    //     setFields(values);
+    //   }
     
-      function handleAdd() {
-        const values = [...fields];
-        values.push({ value: null });
-        setFields(values);
-      }
+    //   function handleAdd() {
+    //     const values = [...fields];
+    //     values.push({ value: null });
+    //     setFields(values);
+    //   }
     
-      function handleRemove(i) {
-        const values = [...fields];
-        values.splice(i, 1);
-        setFields(values);
-      }
+    //   function handleRemove(i) {
+    //     const values = [...fields];
+    //     values.splice(i, 1);
+    //     setFields(values);
+    //   }
     return (
         <div className="createsupply__bottom">
             <h1 className = "createsupply__bottom__head">Create Supply Chain</h1>
@@ -120,8 +139,113 @@ const Createsupplyflow = () => {
                         <h1>Establish flow of your supply chain</h1>
                     </div>
                     <div className="createsupplyflow__formgroup">
-                        <form>
-                        <div className="createsupplyflow__row">
+                        <form onSubmit={handleSubmit}>
+                        {/* {fields.map((field, idx) => {
+                                return (
+                                <div key={`${field}-${idx}`}>
+                                    <div className="createsupplyflow__row">
+                                        <div className="createsupplyflow__column">
+                                            <select
+                                            name="source"
+                                            onChange={handleChangeInput}
+                                            className = "createsupplyflow__input"
+                                            onChange={e => handleChange(idx, e)}
+                                            required
+                                            >
+                                            <option selected disabled hidden>Source</option>
+                                            {
+                                                entity.options.map((x)=>
+                                                <option value={x.value} >{x.label}</option>
+                                                )
+                                            }
+                                            </select>
+                                        </div>
+                                        <div className="createsupplyflow__column">
+                                            <select 
+                                            name="destination"
+                                            onChange={event => handleChangeInput(event)}
+                                            className = "createsupplyflow__input"  
+                                            options={entity.options}
+                                            onChange={e => handleChange(idx, e)}
+                                            required
+                                            >
+                                            <option selected disabled hidden>Destination</option>
+                                            {
+                                                entity.options.map((x)=>
+                                                <option value={x.value}>{x.label}</option>
+                                                )
+                                            }
+                                            </select>
+                                            
+                                        </div>
+                                        <div className="createsupplyflow__column">
+                                            <button className="createsupplyflow__button1" onChange={e => handleChange(idx, e)}>Save rule</button>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                );
+                            })} */}
+                            {inputList.map((x, i) => {
+                                return (
+                                    <div>
+                                    <div className="createsupplyflow__row">
+                                        <div className="createsupplyflow__column">
+                                            <select
+                                            name="source"
+                                            value={x.source}
+                                            className = "createsupplyflow__input"
+                                            onChange={handleChangeInput}
+                                            required
+                                            >
+                                            <option selected disabled hidden>Source</option>
+                                            {
+                                                entity.options.map((x)=>
+                                                <option value={x.value} >{x.label}</option>
+                                                )
+                                            }
+                                            </select>
+                                        </div>
+                                        <div className="createsupplyflow__column">
+                                            <select 
+                                            name="destination"
+                                            value={x.destination}
+                                            onChange={handleChangeInput}
+                                            className = "createsupplyflow__input"  
+                                            options={entity.options}
+                                            required
+                                            >
+                                            <option selected disabled hidden>Destination</option>
+                                            {
+                                                entity.options.map((x)=>
+                                                <option value={x.value}>{x.label}</option>
+                                                )
+                                            }
+                                            </select>
+                                            
+                                        </div>
+                                        <div className="createsupplyflow__column">
+                                        {inputList.length - 1 === i &&<button className="createsupplyflow__button1" onClick={handleSubmit}>Save rule</button>}
+                                        </div>
+                                    </div>
+                                    <div className="createsupplyflow__row">
+                                        <div className="createsupplyflow__column"></div>
+                                        <div className="createsupplyflow__column">
+                                        {inputList.length - 1 === i && <button className="createsupplyflow__button2" onClick={handleAddClick}>Add rule</button>}
+                                        </div>
+                                        <div className="createsupplyflow__column"></div>
+                                    </div> 
+                                </div>
+                                );
+                            })}
+                            {/* <div className="createsupplyflow__row">
+                                        <div className="createsupplyflow__column"></div>
+                                        <div className="createsupplyflow__column">
+                                            <button className="createsupplyflow__button2" onClick={handleAdd}>Add rule</button>
+                                        </div>
+                                        <div className="createsupplyflow__column"></div>
+                            </div>  */}
+                        {/* <div className="createsupplyflow__row">
                             <div className="createsupplyflow__column">
                                 <select
                                 name="source"
@@ -165,7 +289,7 @@ const Createsupplyflow = () => {
                                     <button className="createsupplyflow__button2">Add rule</button>
                                 </div>
                                 <div className="createsupplyflow__column"></div>
-                        </div> 
+                        </div>  */}
                             {/* <IconButton onClick={handleSubmit}>
                             <AddCircleIcon/>
                             </IconButton> */}
