@@ -20,25 +20,27 @@ const TransferProduct = ({ productsInSupplyChain, currentBatchesInOwnership, cur
     const [batchesInOwnership, setBatchesInOwnership] = useState("");
     const [unitsInOwnership, setUnitsInOwnership] = useState("");
 
-    console.log(supplyChain);
-    console.log(allowedRecievers);
-    console.log(transferSupplyChain);
-    console.log(transferInstance);
-    console.log(transferUnits);
-    console.log(products);
-    console.log(productNo);
-    console.log(batchesInOwnership);
-    console.log(unitsInOwnership);
-
     useEffect(() => {
-        setBatchesInOwnership(currentBatchesInOwnership(productNo, parseInt(transferSupplyChain)));
-        setUnitsInOwnership(currentUnitsInOwnership(productNo, parseInt(transferSupplyChain)));
+        if(productNo !== "")
+        {
+            currentBatchesInOwnership(productNo, parseInt(transferSupplyChain)).then(res => {
+                setBatchesInOwnership(res);
+            })
+            currentUnitsInOwnership(productNo, parseInt(transferSupplyChain)).then(res => {
+                setUnitsInOwnership(res);
+            }) 
+        }
     }, [productNo])
 
     useEffect(() => {
-        const prod = productsInSupplyChain(parseInt(transferSupplyChain));
-        console.log(prod)
-        setProducts(prod);
+        if(transferSupplyChain !== "")
+        {
+            productsInSupplyChain(parseInt(transferSupplyChain)).then(res => {
+                console.log("Transfer ke andar", res)
+                setProducts(res);
+            })
+            
+        }
     }, [transferSupplyChain])
     
 

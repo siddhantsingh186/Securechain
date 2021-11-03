@@ -6,7 +6,7 @@ import Web3 from 'web3';
 import { useHistory } from 'react-router';
 
 
-const CreateProduct = ({addProduct}) => {
+const CreateProduct = ({addProduct, currentBatchesInOwnership}) => {
     let token = localStorage.getItem("token");
 
     const [supplyChain, setSupplyChain] = useState([]);
@@ -14,6 +14,8 @@ const CreateProduct = ({addProduct}) => {
     const [productName, setProductName] = useState("");
     const [productBatches, setProductBatches] = useState("");
     const [productBatchSize, setProductBatchSize] = useState("");
+    const [batches, setBatches] = useState("");
+    const [issubmit, setIssubmit] = useState(false);
 
     useEffect(() => {
         axios
@@ -35,6 +37,17 @@ const CreateProduct = ({addProduct}) => {
             })
     }, [])
 
+    useEffect(() => {
+        if(issubmit){
+            let today = new Date();
+            let date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+            let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+            let dateTime = date + '_' + time;
+            let productNo = productName + '_' + productSupplyChain + '_' + dateTime;
+            console.log(currentBatchesInOwnership(productNo, parseInt(productSupplyChain)))
+        }
+    }, [issubmit])
+
     const handleSubmit = (e) => {
         e.preventDefault();
         let today = new Date();
@@ -47,6 +60,7 @@ const CreateProduct = ({addProduct}) => {
         console.log(parseInt(productBatchSize));
         console.log(productSupplyChain);
         addProduct(productNo, productName, parseInt(productBatches), parseInt(productBatchSize), parseInt(productSupplyChain));
+        setIssubmit(!issubmit)
     }
     return(
         <div className="createsupply__bottom">
