@@ -1,11 +1,11 @@
 import React from 'react'
-
+import "./progress.scss"
 function Progress () {
     return (
     <div className = "progress">
       <h1 className = "progress__head">Progress</h1>
         <div class="p-4">
-            <h3>Order Tracking</h3>
+            <h3 className="ordertracking">Order Tracking</h3>
             <table class="table table-bordered track_tbl">
                 <thead>
                     <tr>

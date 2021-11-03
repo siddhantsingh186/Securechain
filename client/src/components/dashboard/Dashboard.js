@@ -10,11 +10,12 @@ function Dashboard(){
     history.push('/createsupplyhome');
   }
   let token = localStorage.getItem("token");
-  const [availablesupply, setavailablesupply] = useState([]);
+  const [ownedsupplychain, setownedsupplychain] = useState([]);
+  const [enrolledsupplychain, setenrolledsupplychain] = useState([]);
 
   useEffect(() => {
     axios
-        .get('https://securechain-backend.herokuapp.com/supplychain/',
+        .get('https://securechain-backend.herokuapp.com/mysupplychain/',
             {
                 headers: {
                     Authorization: `Token ${token}`
@@ -22,7 +23,7 @@ function Dashboard(){
             }
         )
         .then((res) => {
-          setavailablesupply(
+          setownedsupplychain(
             res.data
           );
           console.log(res.data);
@@ -31,11 +32,43 @@ function Dashboard(){
             console.log(err)
         })
 }, [])
+
+  useEffect(() => {
+    axios
+        .get('https://securechain-backend.herokuapp.com/enrolledsupplychain/',
+            {
+                headers: {
+                    Authorization: `Token ${token}`
+                }
+            }
+        )
+        .then((res) => {
+          setenrolledsupplychain(
+            res.data
+          );
+          console.log(res.data);
+          })
+        .catch((err) => {
+            console.log(err)
+        })
+  }, [])
   return(
     <div className = "dashboard">
       <h1 className = "dashboard__head">Dashboard</h1>
+      <h1 className = "ownedsupply">Owned Supply Chain</h1>
       <div className = "chaindisplay">
-        {availablesupply.map((d)=>{
+        {ownedsupplychain.map((d)=>{
+          return(
+            <div className = "chaindetails">
+              <p className = "chainname">{d.name}</p>
+              <p className = "chaindetails1">{d.details}</p>
+            </div>
+          )
+        })}
+      </div>
+      <h1 className = "enrolledsupply">Enrolled Supply Chain</h1>
+      <div className = "chaindisplay">
+        {enrolledsupplychain.map((d)=>{
           return(
             <div className = "chaindetails">
               <p className = "chainname">{d.name}</p>
