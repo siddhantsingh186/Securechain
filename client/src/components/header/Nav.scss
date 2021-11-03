@@ -2,17 +2,17 @@
   display: flex;
   flex-flow: column;
   &__header{
-    width: 40%;
+    width: 100%;
     display: flex;
     flex-flow: row;
     justify-content: space-between;
     box-sizing: border-box;
     align-items: center;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-size: 16px;
+    font-size: 18px;
     position: relative;
     height: 84px;
-    // box-shadow: 3px 3px 25px #e6e6e6;
+    box-shadow: 3px 3px 25px #e6e6e6;
     &__company{
       display: flex;
       flex-flow: justify-content;
@@ -20,7 +20,7 @@
       font-size: auto;
       position: relative;
       margin-left: 20px;
-      font-size: 30px;
+      font-size: 34px;
       font-weight: 700;
     }
     &__button{
@@ -54,9 +54,9 @@
             text-decoration: none;
             text-align: center;
             align-items: center;
-            color: #000000;
+            color: #008F99;
             position: relative;
-            padding-top: 11%;
+            padding-top: 39px;
             justify-content: center;
             white-space: nowrap;
             &::after{

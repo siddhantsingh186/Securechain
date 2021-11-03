@@ -13,7 +13,6 @@ function Nav(props){
           <NavLink to="/" className="nav__header__list__element"><li>Home</li></NavLink>
           <NavLink to = "/about" className="nav__header__list__element"> <li>About</li></NavLink>
           <NavLink to = "/selectsupplychain" className="nav__header__list__element"> <li>Product</li></NavLink>
-          <NavLink to="/register" className="nav__header__list__element"><li>Register</li></NavLink>
         </ul>
       </div>
     </div>
