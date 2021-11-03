@@ -6,7 +6,7 @@ import About from "./components/about/About";
 import Error from "./components/error/Error";
 import Register from "./components/registration/register";
 import Login from "./components/registration/login";
-// import Dashboard from "./components/dashboard/Dashboard";
+import Dashboard from "./components/dashboard/Dashboard";
 import Createsupply from "./components/createSupplyChain/createsupply";
 import Selectsupplychain from "./components/selectSupplyChain/SelectSupplyChain";
 import Enroll from "./components/enroll/Enroll";
@@ -18,6 +18,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import SupplyChainManagement from "./contracts/SupplyChainManagement.json";
 import getWeb3 from "./getWeb3";
 import './App.scss';
+import Progress from './components/progress/progress';
 
 class App extends Component {
 
@@ -140,9 +141,9 @@ class App extends Component {
             <Route exact path="/login">
               <Login />
             </Route>
-            {/* <Route exact path="/dashboard">
+            <Route exact path="/dashboard">
               <Dashboard />
-            </Route> */}
+            </Route>
             <Route exact path="/createsupply">
               <Createsupply />
             </Route>
@@ -173,6 +174,7 @@ class App extends Component {
                 addProduct={this.addProduct}
               />
             </Route>
+            <Route exact path="/progress" component = {Progress}/>
             <Route path="*">
               <Error />
             </Route>
