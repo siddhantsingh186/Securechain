@@ -1,6 +1,6 @@
 //Resque
 import React, { Component, useState } from 'react';
-import "@material-tailwind/react/tailwind.css";
+
 import Home from './components/home/Home';
 import Nav from './components/header/Nav';
 import About from "./components/about/About";

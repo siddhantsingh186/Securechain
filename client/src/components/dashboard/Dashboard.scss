@@ -17,17 +17,42 @@
     padding-top: 14px;
     padding-left: 16px;
   }
+  &__below{
+    display: flex;
+    flex-flow: row;
+    column-gap: 28px;
+    position: relative;
+    &__element{
+      display: flex;
+      flex-flow: column;
+      position: relative;
+      border-radius: 25px;
+      background: white;
+      z-index: 0;
+      border: solid 1px;
+      box-shadow: 0 0 10px rgb(0 0 0 / 80%);
+      &__head{
+        position: relative;
+        display: flex;
+        justify-content: center;
+      }
+      &__body{
+        text-align: center;
+      }
+    }
+  }
   &__button{
     &__style{
       display: block;
-      height: 43px;
+      height: 40px;
       width: fit-content;
       border-radius: 5px;
       font-family:  montserrat,sans-serif;
       font-size: 20px;
       color: white;
+      background-color: #138BBF;
       margin: auto;
-      margin-top: 45px;
+      margin-top: 32px;
     }
     &__style:hover{
       color: var(--clr-primary-5);
@@ -38,12 +63,39 @@
     }
   }
 }
-.dashboardmiddle{
-    width: 25%;
+.chaindetails{
+    background-color: white;
+    inline-size: fit-content;
+    border-radius: 5px;
+    color: black;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    margin-top: 9px;
+    flex-basis: fit-content;
+    border-color: black;
+    box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%);
+    transition: 0.3s;
     display: flex;
     flex-flow: column;
-    margin-top: 32px;
-    height: auto;
-    margin-left: auto;
-    margin-right: auto;
+}
+.chaindetails:hover {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+  border-radius: 10px;
+}
+.chaindisplay{
+  display: flex;
+  justify-content: center;
+  column-gap: 10px;
+}
+.chainname{
+  font-weight: 700;
+  text-transform: uppercase;
+  text-align: center;
+}
+.chaindetails1{
+  text-align: center;
 }
