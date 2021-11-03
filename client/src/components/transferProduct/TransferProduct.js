@@ -176,11 +176,14 @@ const TransferProduct = ({ productsInSupplyChain, currentBatchesInOwnership, cur
                                 </div>
                             }
                             {batchesInOwnership &&
-                                <h1 className="transferproduct__title">{batchesInOwnership}</h1>
+                                <div>
+                                    <h2 className="transferproduct__title">Batches in Ownership:- {batchesInOwnership}</h2>
+                                    <br></br>
+                                </div>
                             }
-                            {unitsInOwnership &&
+                            {/* {unitsInOwnership &&
                                 <h1 className="transferproduct__title">{unitsInOwnership}</h1>
-                            }
+                            } */}
                             <h1 className="transferproduct__title">Reciever's Details</h1>
                             <div className="transferproduct__form-group">
                                 <label className="transferproduct__label">Select Receiver : </label>
