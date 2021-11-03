@@ -58,35 +58,43 @@ const SelectSupplyChain = () => {
 
     return (
         <>
-            <article>
-                <form className='form' onSubmit={handleSubmit}>
-                    <div className='form-control'>
-                        <label htmlFor='supplyChain'>
-                            Choose from the following existing supply chains :
-                        </label>
-                        <br/><br/>
-                        <select
-                            name="supplyChains"
-                            id="supplyChains"
-                            onChange={(e) => {setSelectedSupplyChain(e.target.value)}}
-                        >
-                            <option value="">
-                                Choose
-                            </option>
-                            {supplyChain.map((supplychain) => {
-                                return(
-                                    <option key={supplychain.id} value={supplychain.id}>
-                                        {supplychain.name}
+        <div className="createsupply__bottom">
+            <h1 className = "createsupply__bottom__head">Select Supply Chain</h1>
+            <div className="selectsupplychain">
+                <div className="selectsupplychain__big-card">
+                    <article>
+                        <form onSubmit={handleSubmit}>
+                            <div className='selectsupplychain__formgroup'>
+                                <label className='selectsupplychain__label' htmlFor='supplyChain'>
+                                    Choose from the following existing supply chains :
+                                </label>
+                                <br/><br/>
+                                <select
+                                    name="supplyChains"
+                                    id="supplyChains"
+                                    className='selectsupplychain__input'
+                                    onChange={(e) => {setSelectedSupplyChain(e.target.value)}}
+                                >
+                                    <option value="">
+                                        Choose
                                     </option>
-                                );
-                            })}
-                        </select>
-                    </div>
-                    <br/><br/>
-                    <button type="submit" className='btn'>Select and Continue</button>
-                    <br/><br/>
-                </form>
-            </article>
+                                    {supplyChain.map((supplychain) => {
+                                        return(
+                                            <option key={supplychain.id} value={supplychain.id}>
+                                                {supplychain.name}
+                                            </option>
+                                        );
+                                    })}
+                                </select>
+                            </div>
+                            <br/><br/>
+                            <button type="submit" className='selectsupplychain__button'>Select and Continue</button>
+                            <br/><br/>
+                        </form>
+                    </article>
+                </div>
+            </div>
+        </div>
         </>
     )
 }

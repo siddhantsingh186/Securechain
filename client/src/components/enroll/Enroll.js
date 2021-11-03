@@ -154,112 +154,114 @@ const Enroll = ({selectedSupplyChain}) => {
 
     return (
         <>
-            <article className="container">
-                <div className="head">
-                    <h2>Enroll in Supply Chain</h2>
-                </div>
-                <form className="form" onSubmit={handleSubmit}>
-                    <div className="form-control">
-                        
-                        <div className="field">
-                            <div className="head">
-                                <h2>Select Role</h2>
-                            </div>
-                            <select
-                                name="role"
-                                label="Role"
-                                id="entityId"
-                                onChange={(e) => {
-                                    setEntityId(e.target.value);
-                                }}
-                            >
-                                <option value="Choose">
-                                    Choose
-                                </option>
-                                
-                                {entities.map((entity) => {
+        <div className="createsupply__bottom">
+            <h1 className = "createsupply__bottom__head">Create Supply Chain</h1>
+            <div className = "enroll">
+                <div className="enroll__big-card">
+                    <article>
+                    <div className="enroll__row">
+                        <div className="enroll__column">
+                            <h1 className="enroll__title">Enroll in Supply Chain</h1>
+                            
+                            <form onSubmit={handleSubmit}>
+                                <div className="enroll__form-group">
+                                        <label className="enroll__label">Select Role</label><br></br>
+                                        <select
+                                            name="role"
+                                            label="Role"
+                                            id="entityId"
+                                            className="enroll__input"
+                                            onChange={(e) => {
+                                                setEntityId(e.target.value);
+                                            }}
+                                        >
+                                            <option value="Choose">
+                                                Choose
+                                            </option>
+                                            
+                                            {entities.map((entity) => {
+                                                return(
+                                                    <option key={entity.id} value={entity.id}>
+                                                        {entity.entity_name}        
+                                                    </option>
+                                                );
+                                            })}
+                                        </select>
+                                </div>
+                                {entityData.generic_attributes && entityData.generic_attributes.map((att, index) => {
+                                    //console.log(att)
                                     return(
-                                        <option key={entity.id} value={entity.id}>
-                                            {entity.entity_name}        
-                                        </option>
+                                        <div className="enroll__formgroup" key={att.id}>
+                                            <TextField
+                                                name={att.name}
+                                                label={att.name}
+                                                variant="filled"
+                                                className="enroll__input"
+                                                placeholder={att.name}
+                                                onChange={(e) => {
+                                                    handleInput(e, att.id, index);
+                                                }}
+                                            />
+                                        </div>
                                     );
                                 })}
-                            </select>
-                            
-                        </div>
-                        {entityData.generic_attributes && entityData.generic_attributes.map((att, index) => {
-                            //console.log(att)
-                            return(
-                                <div className="field" key={att.id}>
-                                    <TextField
-                                        name={att.name}
-                                        label={att.name}
-                                        variant="filled"
-                                        placeholder={att.name}
-                                        onChange={(e) => {
-                                            handleInput(e, att.id, index);
-                                        }}
-                                    />
+                                
+                                <div className="enroll__form-group">
+                                        <label className="enroll__label">Select your supply chain to connect</label><br></br>
+                                        <select
+                                            name="personalSupplyChain"
+                                            label="personalSupplyChain"
+                                            className="enroll__input"
+                                            id="personalSupplyChain"
+                                            onChange={(e) => {
+                                                setPersonalSupplyChain(e.target.value);
+                                            }}
+                                        >
+                                            <option value="Choose">
+                                                Choose
+                                            </option>
+                                            {personalSupplyChains && personalSupplyChains.map((personalSC) => {
+                                                return(
+                                                    <option key={personalSC.id} value={personalSC.id}>
+                                                        {personalSC.name}       
+                                                    </option>
+                                                );
+                                            })}
+                                        </select>
                                 </div>
-                            );
-                        })}
-                    </div>
-                    <br/><br/>
-                    <div className="field">
-                        <div className="head">
-                            <h2>select your supply chain to connect</h2>
+                                
+                                <div className="enroll__form-group">
+                                    <label className="enroll__label">Select the entity to be connected</label><br></br>
+                                    <select
+                                        name="personalEntity"
+                                        label="personalEntity"
+                                        id="personalEntity"
+                                        className="enroll__input"
+                                        onChange={(e) => {
+                                            setPersonalEntity(e.target.value);
+                                        }}
+                                    >
+                                        <option value="Choose">
+                                            Choose
+                                        </option>
+                                        
+                                        {personalEntities && personalEntities.map((personalE) => {
+                                            return(
+                                                <option key={personalE.id} value={personalE.id}>
+                                                    {personalE.entity_name}       
+                                                </option>
+                                            );
+                                        })}
+                                    </select>                        
+                                </div>
+                                <button className="enroll__button" type="submit">Request Participation</button>
+                            </form>  
                         </div>
-                        <select
-                            name="personalSupplyChain"
-                            label="personalSupplyChain"
-                            id="personalSupplyChain"
-                            onChange={(e) => {
-                                setPersonalSupplyChain(e.target.value);
-                            }}
-                        >
-                            <option value="Choose">
-                                Choose
-                            </option>
-                            
-                            {personalSupplyChains && personalSupplyChains.map((personalSC) => {
-                                return(
-                                    <option key={personalSC.id} value={personalSC.id}>
-                                        {personalSC.name}       
-                                    </option>
-                                );
-                            })}
-                        </select>
                     </div>
-                    <div className="field">
-                        <div className="head">
-                            <h2>Select the entity to be connected</h2>
-                        </div>
-                        <select
-                            name="personalEntity"
-                            label="personalEntity"
-                            id="personalEntity"
-                            onChange={(e) => {
-                                setPersonalEntity(e.target.value);
-                            }}
-                        >
-                            <option value="Choose">
-                                Choose
-                            </option>
-                            
-                            {personalEntities && personalEntities.map((personalE) => {
-                                return(
-                                    <option key={personalE.id} value={personalE.id}>
-                                        {personalE.entity_name}       
-                                    </option>
-                                );
-                            })}
-                        </select>                        
-                    </div>
-                    <div className="btn-css">
-                        <button type="submit" className='btn'>Request Participation</button>
-                    </div>
-                </form>  
-            </article>
+                    </article>
+                </div>
+            </div>
+        </div>
         </>
     )
 
