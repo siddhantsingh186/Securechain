@@ -32,7 +32,7 @@ const Enroll = ({selectedSupplyChain}) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        entityName = entityData.entity_name;
+        let entityName = entityData.entity_name;
         let finalData = [];
         Object.entries(inputField).map(([key, value]) => {
                         return(
