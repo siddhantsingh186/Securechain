@@ -1,6 +1,5 @@
 //Resque
 import React, { Component, useState } from 'react';
-// import "@material-tailwind/react/tailwind.css";
 import Home from './components/home/Home';
 import Nav from './components/header/Nav';
 import About from "./components/about/About";
@@ -28,8 +27,11 @@ class App extends Component {
     this.state = {
       account: '',
       contract: null,
-      //products: [],
-      loading: true
+      products: [],
+      loading: true,
+      productsCount: 0,
+      batchesInOwnership: 0,
+      unitsInOwnership: 0
     }
 
     this.addProduct = this.addProduct.bind(this)
@@ -54,7 +56,7 @@ class App extends Component {
       const deployedNetwork = SupplyChainManagement.networks[networkId];
       const contract = new web3.eth.Contract(
         SupplyChainManagement.abi,
-        "0x95FC0764712364Fe5F99512C78F70EdFfBf3Ed28",
+        "0x6dFf2A40829cf61cC6abcCabEBA040740267fabF",
       );
 
 
@@ -62,6 +64,8 @@ class App extends Component {
       // Set web3, accounts, and contract to the state, and then proceed with an
       // example of interacting with the contract's methods.
       this.setState({ web3, accounts, contract });
+
+  
 
     } catch (error) {
       // Catch any errors for any of the above operations.
@@ -87,29 +91,35 @@ class App extends Component {
   }
 
   currentBatchesInOwnership = async (productNo, supplyChainId) => {
-    const batches = await this.state.contract.methods.currentBatchesInOwnership(productNo, supplyChainId).call({ from: this.state.account });
-    return batches;
+    const batches = await this.state.contract.methods.batchesInOwnership(productNo, this.state.account).call();
+    console.log(batches)
+    this.setState({BatchesInOwnership : batches})
+    return this.state.batchesInOwnership;
   }
 
   currentUnitsInOwnership = async (productNo, supplyChainId) => {
-    const units = await this.state.contract.methods.currentUnitsInOwnership(productNo, supplyChainId).call({ from: this.state.account });
-    return units;
+    const units = await this.state.contract.methods.batchesInOwnership(productNo, this.state.account).call();
+    console.log(units)
+    this.setState({UnitsInOwnership : units})
+    return this.state.unitsInOwnership;
   }
 
   productsInSupplyChain = async (supplyChainId) => {
-    //this.setState({ products : []})
-    const productsCount = await this.state.contract.methods.productCountInSupplyChain(supplyChainId).call({ from: this.state.account })
-    this.setState({ productsCount })
-    const products = []
+    //this.setState({ products: [] })
+    const productsCount = await this.state.contract.methods.productCountInSupplyChain(supplyChainId).call()
+    this.setState({ productsCount: productsCount })
+    //const products = []
+    this.setState({ products: [] })
     for (var i = 1; i <= productsCount; i++) {
-      const product = await this.state.contract.methods.productBySupplyChain(i).call()
-      /*this.setState({
+      const product = await this.state.contract.methods.productBySupplyChain(supplyChainId, i).call()
+      console.log(product)
+      this.setState({
         products: [...this.state.products, product]
       })
-      */
-      products = [...products, product]
+
+      //products = [...products, product]
     }
-    return products;
+    return this.state.products;
   }
 
   render() {
@@ -150,6 +160,8 @@ class App extends Component {
             </Route>
             <Route exact path="/transferproduct">
               <TransferProduct
+                //batchesOwnership={this.state.batchesInOwnership}
+                //unitsOwnership={this.state.unitsInOwnership}
                 productsInSupplyChain={this.productsInSupplyChain}
                 currentBatchesInOwnership={this.currentBatchesInOwnership}
                 currentUnitsInOwnership={this.currentUnitsInOwnership}

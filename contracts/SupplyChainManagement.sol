@@ -55,10 +55,10 @@ contract SupplyChainManagement {
     mapping(string => Product) public batches;
     
     // map supply chain id => product count in supply chain => Product
-    mapping(uint256 => mapping(uint256 => Product)) productBySupplyChain;
+    mapping(uint256 => mapping(uint256 => Product)) public productBySupplyChain;
     
     // map supply chain id => product count in supply chain
-    mapping(uint256 => uint256) productCountInSupplyChain;
+    mapping(uint256 => uint256) public productCountInSupplyChain;
     
     // map productNo => no of units
     //mapping(string => uint256) unitsInBatch;
