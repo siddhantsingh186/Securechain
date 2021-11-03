@@ -92,10 +92,33 @@
   column-gap: 10px;
 }
 .chainname{
-  font-weight: 700;
+  font-weight: 900;
   text-transform: uppercase;
   text-align: center;
+  font-size: 20px;
 }
 .chaindetails1{
   text-align: center;
+}
+.ownedsupply{
+  text-align: center;
+  --tw-text-opacity: 1;
+  color: rgba(70, 60, 230, var(--tw-text-opacity));
+  margin-left: 0.5rem;
+  font-size: 2.2rem;
+  line-height: 2.2rem;
+  font-weight: 800;
+  font-family: "IBM Plex Serif", serif;
+  margin-top: 30px;
+}
+.enrolledsupply{
+  text-align: center;
+  --tw-text-opacity: 1;
+  color: rgba(70, 60, 230, var(--tw-text-opacity));
+  margin-left: 0.5rem;
+  font-size: 2.2rem;
+  line-height: 2.2rem;
+  font-weight: 800;
+  font-family: "IBM Plex Serif", serif;
+  margin-top: 53px;
 }
