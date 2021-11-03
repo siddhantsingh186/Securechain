@@ -77,8 +77,16 @@ class App extends Component {
     }
   };
 
+  currentBatchesInOwnership = (productNo, supplyChainId) => {
+    console.log(this.state.contract)
+    const batches = this.state.contract.methods.batchesInOwnership(productNo, this.state.account).call().then((res)=>{return res})
+    console.log("bathches", batches)
+    return batches;
+  }
+
   addProduct = (productNo, productName, noOfBatches, unitsPerBatch, supplyChainId) => {
     this.setState({ loading: true })
+    console.log(this.state.contract)
     this.state.contract.methods.addProduct(productNo, productName, noOfBatches, unitsPerBatch, supplyChainId).send({ from: this.state.account }).on('transactionHash', (hash) => {
       this.setState({ loading: false })
     })
@@ -91,13 +99,6 @@ class App extends Component {
     })
   }
 
-  currentBatchesInOwnership = async (productNo, supplyChainId) => {
-    const batches = await this.state.contract.methods.batchesInOwnership(productNo, this.state.account).call();
-    console.log(batches)
-    this.setState({BatchesInOwnership : batches})
-    return this.state.batchesInOwnership;
-  }
-
   currentUnitsInOwnership = async (productNo, supplyChainId) => {
     const units = await this.state.contract.methods.batchesInOwnership(productNo, this.state.account).call();
     console.log(units)
@@ -108,16 +109,16 @@ class App extends Component {
   productsInSupplyChain = async (supplyChainId) => {
     //this.setState({ products: [] })
     const productsCount = await this.state.contract.methods.productCountInSupplyChain(supplyChainId).call()
+    console.log(productsCount)
     this.setState({ productsCount: productsCount })
     //const products = []
     this.setState({ products: [] })
     for (var i = 1; i <= productsCount; i++) {
       const product = await this.state.contract.methods.productBySupplyChain(supplyChainId, i).call()
-      console.log(product)
       this.setState({
         products: [...this.state.products, product]
       })
-
+      console.log("Debug Products", this.state.products);
       //products = [...products, product]
     }
     return this.state.products;
@@ -172,6 +173,7 @@ class App extends Component {
             <Route exact path="/createproduct">
               <CreateProduct 
                 addProduct={this.addProduct}
+                currentBatchesInOwnership = {this.currentBatchesInOwnership}
               />
             </Route>
             <Route exact path="/progress" component = {Progress}/>
