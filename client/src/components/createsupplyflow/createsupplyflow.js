@@ -17,6 +17,7 @@ import axios from 'axios';
 import "./createsupplyflow.scss";
 
 const Createsupplyflow = () => {
+    const [fields, setFields] = useState([{ value: null }]);
     const [entity,setEntity] = useState({
         options:[],
         value:'',
@@ -93,114 +94,86 @@ const Createsupplyflow = () => {
         });
         // e.target.reset();
     };
-    // const handleSave= (e) => {
-    //     history.push("/dashboard");
-    // }
-    // const [inputFields, setInputFields] = useState([{source: '', destination: '' }]);
-    // const handleSubmit = (event) => {
-    //     event.preventDefault();
-    //     //console.log("InputFields", inputFields);
-    //     //console.log(data, e)
-    //     // alert('SUCCESS!')
-    //     //console.log(JSON.stringify(data, null, 4))
-
-    //     axios.post('https://securechain-backend.herokuapp.com/flow/',{
-    //     headers: {
-    //         Authorization: `Token ${token}`,
-    //     },
-    //     inputFields
-    //     }).then((res) => {
-    //         console.log('api response 🚀', res)
-    //     })
-    //     .catch((error) => {
-    //         console.error(error.response)
-    //     })
-    //     console.log("InputFields",inputFields);
-    // };
-    // const handleChangeInput = (id, event) => {
-    //     const newInputFields = inputFields.map(i => {
-    //     if(id === i.id) {
-    //         i[event.target.name] = event.target.value
-    //     }
-    //     return i;
-    //     })
-    //     console.log(event.target.value);
-    //     setInputFields(newInputFields);
-    // }
-    // const handleAddFields = () => {
-    //     setInputFields([...inputFields, {Source: '', Destination: '' }])
-    // }
-    // const handleRemoveFields = id => {
-    //     const values  = [...inputFields];
-    //     values.splice(values.findIndex(value => value.id === id), 1);
-    //     setInputFields(values);
-    // }
-    // const handleTemplate = (event) =>{
-    //     const obj = event.target.value;
-    //     setEntity(obj);
-    // }
-    // useEffect(()=>{
-    //     console.log(entity);
-    // },[entity]);
+    function handleChange(i, event) {
+        const values = [...fields];
+        values[i].value = event.target.value;
+        setFields(values);
+      }
+    
+      function handleAdd() {
+        const values = [...fields];
+        values.push({ value: null });
+        setFields(values);
+      }
+    
+      function handleRemove(i) {
+        const values = [...fields];
+        values.splice(i, 1);
+        setFields(values);
+      }
     return (
         <div className="createsupply__bottom">
             <h1 className = "createsupply__bottom__head">Create Supply Chain</h1>
             <div className = "createsupplyflow">
-                <div className="createsupplyflow__title">
-                    <h1>Establish flow of your supply chain</h1>
-                </div>
-                <div className="createsupplyflow__formgroup">
-                    <form>
-                        {/* {inputFields.map((inputField , index)=> (
-                        <div key={index}> */}
+                <div className = "createsupplyflow__big-card">
+                    <div className="createsupplyflow__title">
+                        <h1>Establish flow of your supply chain</h1>
+                    </div>
+                    <div className="createsupplyflow__formgroup">
+                        <form>
+                        <div className="createsupplyflow__row">
+                            <div className="createsupplyflow__column">
+                                <select
+                                name="source"
+                                onChange={handleChangeInput}
+                                className = "createsupplyflow__input"
+                                required
+                                >
+                                <option selected disabled hidden>Source</option>
+                                {
+                                    entity.options.map((x)=>
+                                    <option value={x.value} >{x.label}</option>
+                                    )
+                                }
+                                </select>
+                            </div>
+                            <div className="createsupplyflow__column">
+                                <select 
+                                name="destination"
+                                onChange={event => handleChangeInput(event)}
+                                className = "createsupplyflow__input"  
+                                options={entity.options}
+                                required
+                                >
+                                <option selected disabled hidden>Destination</option>
+                                {
+                                    entity.options.map((x)=>
+                                    <option value={x.value}>{x.label}</option>
+                                    )
+                                }
+                                </select>
+                                
+                            </div>
+                            <div className="createsupplyflow__column">
+                                <button className="createsupplyflow__button1">Save rule</button>
+                            </div>
 
-                            <select
-                            name="source"
-                            onChange={handleChangeInput}
-                            className = "createsupply__bottom__head1__part1__select2"
-                            // options={entity.options}
-                            required
-                            >
-                            {
-                                entity.options.map((x)=>
-                                <option value={x.value} >{x.label}</option>
-                                )
-                            }
-                            </select>
-                            {/* <select>{
-                                props.data.map( (x,y) => 
-                                <option key={y}>{x}</option> )
-                            }</select>; */}
-                            <select
-                            name="destination"
-                            onChange={event => handleChangeInput(event)}
-                            className = "createsupply__bottom__head1__part1__select2"  
-                            options={entity.options}
-                            required
-                            >
-                            {
-                                entity.options.map((x)=>
-                                <option value={x.value}>{x.label}</option>
-                                )
-                            }
-                            </select>
-
-                            {/* <IconButton disabled={inputFields.length === 1} onClick={() => handleRemoveFields(inputField.id)}>
-                            <RemoveCircleRoundedIcon/>
-                            </IconButton> */}
-                            <IconButton onClick={handleSubmit}>
-                            <AddCircleIcon/>
-                            </IconButton>
-                            {/* <IconButton onClick={handleAddFields}>
+                        </div>
+                        <div className="createsupplyflow__row">
+                                <div className="createsupplyflow__column"></div>
+                                <div className="createsupplyflow__column">
+                                    <button className="createsupplyflow__button2">Add rule</button>
+                                </div>
+                                <div className="createsupplyflow__column"></div>
+                        </div> 
+                            {/* <IconButton onClick={handleSubmit}>
                             <AddCircleIcon/>
                             </IconButton> */}
-                            
-                        {/* </div> */}
-                    {/* ))} */}
-                    <Link to='/dashboard'>
-                        <button className="createsupplyflow__button" type="submit" >Save and Finish</button>
-                    </Link>
-                    </form>
+                        <Link to='/dashboard'>
+                            <button className="createsupplyflow__button" type="submit" >Save and Finish</button>
+                        </Link>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
