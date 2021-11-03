@@ -174,7 +174,7 @@ class App extends Component {
                 addProduct={this.addProduct}
               />
             </Route>
-            <Route exact path="/progress" component = {Progress}/>
+            <Route exact path="/progress"  component = {Progress}/>
             <Route path="*">
               <Error />
             </Route>
