@@ -186,6 +186,13 @@ contract SupplyChainManagement {
         //return unitsInOwnership[_productName][_supplyChainId][parseAddr(_instance)];
         return ((batchesInOwnership[_productNo][/*parseAddr(_instance)*/msg.sender]) * (batches[_productNo].unitsPerBatch));
     }
+
+    // function to return the productName of a product
+    function getProductName(string memory _productNo) view public returns(string memory){
+        //require(products[_productName][_supplyChainId].exists, "Product does not exist");
+        require(batches[_productNo].exists, "Product does not exist");
+        return (batches[_productNo].name);
+    }
     
     // function to check whether a given instance has ever been an owner of a given product in a given supply chain 
     /*function hasEverBeenOwner(string memory _productName, uint256 _supplyChainId, string memory _instance) view public returns(bool){
