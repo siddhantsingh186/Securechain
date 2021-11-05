@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 import useEnhancedEffect from '@mui/utils/useEnhancedEffect';
 
-const TransferProduct = ({ productsInSupplyChain, currentBatchesInOwnership, currentUnitsInOwnership, transferProduct}) => {
+const TransferProduct = ({ getProductName, productsInSupplyChain, currentBatchesInOwnership, currentUnitsInOwnership, transferProduct}) => {
     let supplychainid = -1;
     let token = localStorage.getItem("token");
 
@@ -122,13 +122,19 @@ const TransferProduct = ({ productsInSupplyChain, currentBatchesInOwnership, cur
         // setUnitsInOwnership(currentUnitsInOwnership(productNo, parseInt(transferSupplyChain)));
     };
 
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const productName = getProductName(productNo);
+        transferProduct(productNo, productName, transferUnits, transferSupplyChain, transferInstance);
+    }
+
     return(
         <div className="createsupply__bottom">
             <h1 className = "createsupply__bottom__head">Transfer Product</h1>
             <div className = "transferproduct">
                 <div class = "transferproduct__big-card">
                     <div class="transferproduct__row">
-                        <form class="transferproduct__column">
+                        <form class="transferproduct__column" onSubmit = {handleSubmit}>
                             {supplyChain && 
                                 <div className="transferproduct__form-group">
                                     <label className="transferproduct__label">Select Supply Chain : </label>
@@ -176,11 +182,14 @@ const TransferProduct = ({ productsInSupplyChain, currentBatchesInOwnership, cur
                                 </div>
                             }
                             {batchesInOwnership &&
-                                <h1 className="transferproduct__title">{batchesInOwnership}</h1>
+                                <div>
+                                    <h2 className="transferproduct__title">Batches in Ownership:- {batchesInOwnership}</h2>
+                                    <br></br>
+                                </div>
                             }
-                            {unitsInOwnership &&
+                            {/* {unitsInOwnership &&
                                 <h1 className="transferproduct__title">{unitsInOwnership}</h1>
-                            }
+                            } */}
                             <h1 className="transferproduct__title">Reciever's Details</h1>
                             <div className="transferproduct__form-group">
                                 <label className="transferproduct__label">Select Receiver : </label>
@@ -193,7 +202,7 @@ const TransferProduct = ({ productsInSupplyChain, currentBatchesInOwnership, cur
                                     <option>Choose</option>
                                     {allowedRecievers.map((allowed) => {
                                         return (
-                                            <option key={allowed.id} value={allowed.id}>
+                                            <option key={allowed.ethereum_address} value={allowed.ethereum_address}>
                                                 {allowed.name}
                                             </option>
                                         );

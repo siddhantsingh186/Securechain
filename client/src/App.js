@@ -40,6 +40,7 @@ class App extends Component {
     this.currentBatchesInOwnership = this.currentBatchesInOwnership.bind(this)
     this.currentUnitsInOwnership = this.currentUnitsInOwnership.bind(this)
     this.productsInSupplyChain = this.productsInSupplyChain.bind(this)
+    this.getProductName = this.getProductName.bind(this)
   }
 
   componentDidMount = async () => {
@@ -57,7 +58,7 @@ class App extends Component {
       const deployedNetwork = SupplyChainManagement.networks[networkId];
       const contract = new web3.eth.Contract(
         SupplyChainManagement.abi,
-        "0x6dFf2A40829cf61cC6abcCabEBA040740267fabF",
+        "0x9E2644Dd25251eb1e3A53F01555f51D603E61538",
       );
 
 
@@ -104,6 +105,12 @@ class App extends Component {
     console.log(units)
     this.setState({UnitsInOwnership : units})
     return this.state.unitsInOwnership;
+  }
+  
+  getProductName = async (productNo) => {
+    const productName = await this.state.contract.methods.getProductName(productNo).call();
+    console.log(productName)
+    return productName;
   }
 
   productsInSupplyChain = async (supplyChainId) => {
@@ -164,6 +171,7 @@ class App extends Component {
               <TransferProduct
                 //batchesOwnership={this.state.batchesInOwnership}
                 //unitsOwnership={this.state.unitsInOwnership}
+                getProductName={this.getProductName}
                 productsInSupplyChain={this.productsInSupplyChain}
                 currentBatchesInOwnership={this.currentBatchesInOwnership}
                 currentUnitsInOwnership={this.currentUnitsInOwnership}
