@@ -22,6 +22,7 @@ const Enroll = ({selectedSupplyChain}) => {
     const [personalSupplyChain, setPersonalSupplyChain] = useState();
     const [personalEntities, setPersonalEntities] = useState();
     const [personalEntity, setPersonalEntity] = useState();
+    const [ethadd, setEthadd] = useState();
 
     //const [data, setData] = useState([])
 
@@ -32,7 +33,8 @@ const Enroll = ({selectedSupplyChain}) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        let entityName = entityData.entity_name;
+        console.log("eth_add", ethadd);
+        entityName = entityData.entity_name;
         let finalData = [];
         Object.entries(inputField).map(([key, value]) => {
                         return(
@@ -40,6 +42,7 @@ const Enroll = ({selectedSupplyChain}) => {
                         )
                     })
         let sendData = {
+            ethereum_address: ethadd,
             generic_attribute_data: finalData,
             name: entityName,
             entity: entityId,
@@ -164,6 +167,17 @@ const Enroll = ({selectedSupplyChain}) => {
                             <h1 className="enroll__title">Enroll in Supply Chain</h1>
                             
                             <form onSubmit={handleSubmit}>
+                                <div className="enroll__form-group">
+                                    <label className="enroll__label">Ethereum Address</label><br></br>
+                                    <input 
+                                        className="enroll__input" 
+                                        type="text" name="eth_add" 
+                                        id="eth_add" 
+                                        placeholder="Your Ethereum Address"
+                                        onChange={(event) => setEthadd(event.target.value)}   
+                                    > 
+                                    </input>
+                                </div>
                                 <div className="enroll__form-group">
                                         <label className="enroll__label">Select Role</label><br></br>
                                         <select
