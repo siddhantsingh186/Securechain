@@ -40,6 +40,7 @@ class App extends Component {
     this.currentBatchesInOwnership = this.currentBatchesInOwnership.bind(this)
     this.currentUnitsInOwnership = this.currentUnitsInOwnership.bind(this)
     this.productsInSupplyChain = this.productsInSupplyChain.bind(this)
+    this.getProductName = this.getProductName.bind(this)
   }
 
   componentDidMount = async () => {
@@ -105,6 +106,12 @@ class App extends Component {
     this.setState({UnitsInOwnership : units})
     return this.state.unitsInOwnership;
   }
+  
+  getProductName = async (productNo) => {
+    const productName = await this.state.contract.methods.getProductName(productNo).call();
+    console.log(productName)
+    return productName;
+  }
 
   productsInSupplyChain = async (supplyChainId) => {
     //this.setState({ products: [] })
@@ -164,6 +171,7 @@ class App extends Component {
               <TransferProduct
                 //batchesOwnership={this.state.batchesInOwnership}
                 //unitsOwnership={this.state.unitsInOwnership}
+                getProductName={this.getProductName}
                 productsInSupplyChain={this.productsInSupplyChain}
                 currentBatchesInOwnership={this.currentBatchesInOwnership}
                 currentUnitsInOwnership={this.currentUnitsInOwnership}
