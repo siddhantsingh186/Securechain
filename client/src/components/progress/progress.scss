@@ -17,4 +17,29 @@
         padding-top: 14px;
         padding-left: 16px;
     }
+    &__bottom{
+        display: flex;
+        flex-flow: row;
+        column-gap: 2rem;
+        justify-content: center;
+        padding-top: 1.5rem;
+    }
+    &__left{
+    background-color: white;
+    box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%);
+    transition: 0.3s;
+    padding-left: 15 px;
+    padding-top: 8 px;
+    padding-bottom: 8 px;
+    padding: 2rem;
+    }
+    &__right{
+    background-color: white;
+    box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%);
+    transition: 0.3s;
+    padding-left: 15 px;
+    padding-top: 8 px;
+    padding-bottom: 8 px;
+    padding: 2rem;
+    }
 }
