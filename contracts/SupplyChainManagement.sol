@@ -252,6 +252,16 @@ contract SupplyChainManagement {
         //return unitsInOwnership[_productName][_supplyChainId][parseAddr(_instance)];
         return ((batchesInOwnership[_productNo][/*parseAddr(_instance)*/msg.sender]) * (batches[_productNo].unitsPerBatch));
     }
+
+    function getFirstBatchIdInOwnership(string memory _address, uint256 _supplyChainId, string memory _productNo) view public returns(uint256){
+        address _sender = parseAddr(_address);
+        return (firstBatchIdInOwnership[_sender][_supplyChainId][_productNo]);
+    }
+
+    function getLastBatchIdInOwnership(string memory _address, uint256 _supplyChainId, string memory _productNo) view public returns(uint256){
+        address _sender = parseAddr(_address);
+        return (lastBatchIdInOwnership[_sender][_supplyChainId][_productNo]);
+    }
     
     // function to check whether a given instance has ever been an owner of a given product in a given supply chain 
     /*function hasEverBeenOwner(string memory _productName, uint256 _supplyChainId, string memory _instance) view public returns(bool){
