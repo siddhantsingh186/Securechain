@@ -33,7 +33,8 @@ class App extends Component {
       productsCount: 0,
       batchesInOwnership: 0,
       unitsInOwnership: 0,
-      productHistory: []
+      productHistory: [],
+      batchIdsInOwnership: []
     }
 
     this.addProduct = this.addProduct.bind(this)
@@ -145,6 +146,25 @@ class App extends Component {
       })
       console.log("Debug Product History", this.state.productHistory);
     }
+    return this.state.productHistory;
+  }
+
+  getBatchIdsInOwnership = async(_address, _supplyChainId, _productNo) => {
+    const firstBatchIdInOwnership = await this.state.contract.methods.getFirstBatchIdInOwnership(_address, _supplyChainId, _productNo).call()
+    console.log("firstBatchIdInOwnership", firstBatchIdInOwnership)
+
+    const lastBatchIdInOwnership = await this.state.contract.methods.getLastBatchIdInOwnership(_address, _supplyChainId, _productNo).call()
+    console.log("lastBatchIdInOwnership", lastBatchIdInOwnership)
+
+    this.setState({
+      batchIdsInOwnership: []
+    })
+    for (var i = firstBatchIdInOwnership; i <= lastBatchIdInOwnership; i++){
+      this.setState({
+        batchIdsInOwnership: [...this.state.batchIdsInOwnership, i]
+      })
+    }
+    return this.state.batchIdsInOwnership;
   }
 
   render() {
