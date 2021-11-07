@@ -252,12 +252,21 @@ contract SupplyChainManagement {
         //return unitsInOwnership[_productName][_supplyChainId][parseAddr(_instance)];
         return ((batchesInOwnership[_productNo][/*parseAddr(_instance)*/msg.sender]) * (batches[_productNo].unitsPerBatch));
     }
-
+    
+    // function to return the productName of a product
+    function getProductName(string memory _productNo) view public returns(string memory){
+        //require(products[_productName][_supplyChainId].exists, "Product does not exist");
+        require(batches[_productNo].exists, "Product does not exist");
+        return (batches[_productNo].name);
+    }
+    
+    // function to get first batch id in ownership
     function getFirstBatchIdInOwnership(string memory _address, uint256 _supplyChainId, string memory _productNo) view public returns(uint256){
         address _sender = parseAddr(_address);
         return (firstBatchIdInOwnership[_sender][_supplyChainId][_productNo]);
     }
 
+    // function to get last batch id in ownership
     function getLastBatchIdInOwnership(string memory _address, uint256 _supplyChainId, string memory _productNo) view public returns(uint256){
         address _sender = parseAddr(_address);
         return (lastBatchIdInOwnership[_sender][_supplyChainId][_productNo]);
