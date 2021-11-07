@@ -31,8 +31,8 @@ class App extends Component {
       products: [],
       loading: true,
       productsCount: 0,
-      batchesInOwnership: 0,
-      unitsInOwnership: 0,
+      //batchesInOwnership: 0,
+      //unitsInOwnership: 0,
       productHistory: [],
       batchIdsInOwnership: []
     }
@@ -44,6 +44,7 @@ class App extends Component {
     this.productsInSupplyChain = this.productsInSupplyChain.bind(this)
     this.getProductName = this.getProductName.bind(this)
     this.getProductHistory = this.getProductHistory.bind(this)
+    this.getBatchIdsInOwnership = this.getBatchIdsInOwnership(this)
   }
 
   componentDidMount = async () => {
@@ -81,33 +82,34 @@ class App extends Component {
     }
   };
 
+  addProduct = (productNo, productName, noOfBatches, unitsPerBatch, supplyChainId, ownerName, timestamp) => {
+    this.setState({ loading: true })
+    console.log(this.state.contract)
+    this.state.contract.methods.addProduct(productNo, productName, noOfBatches, unitsPerBatch, supplyChainId, ownerName, timestamp).send({ from: this.state.account }).on('transactionHash', (hash) => {
+      this.setState({ loading: false })
+    })
+  }
+
+  transferProduct = (productNo, productName, batchesToTransfer, supplyChainId, transferTo, transferToName, timestamp) => {
+    this.setState({ loading: true })
+    this.state.contract.methods.transferProduct(productNo, productName, batchesToTransfer, supplyChainId, transferTo, transferToName, timestamp).send({ from: this.state.account }).on('transactionHash', (hash) => {
+      this.setState({ loading: false })
+    })
+  }
+
   currentBatchesInOwnership = (productNo, supplyChainId) => {
     console.log(this.state.contract)
-    const batches = this.state.contract.methods.batchesInOwnership(productNo, this.state.account).call().then((res)=>{return res})
+    const batches = this.state.contract.methods.currentBatchesInOwnership(productNo, supplyChainId).call().then((res) => { return res })
     console.log("bathches", batches)
     return batches;
   }
 
-  addProduct = (productNo, productName, noOfBatches, unitsPerBatch, supplyChainId) => {
-    this.setState({ loading: true })
-    console.log(this.state.contract)
-    this.state.contract.methods.addProduct(productNo, productName, noOfBatches, unitsPerBatch, supplyChainId).send({ from: this.state.account }).on('transactionHash', (hash) => {
-      this.setState({ loading: false })
-    })
-  }
-
-  transferProduct = (productNo, productName, batchesToTransfer, supplyChainId, transferTo) => {
-    this.setState({ loading: true })
-    this.state.contract.methods.transferProduct(productNo, productName, batchesToTransfer, supplyChainId, transferTo).send({ from: this.state.account }).on('transactionHash', (hash) => {
-      this.setState({ loading: false })
-    })
-  }
-
   currentUnitsInOwnership = async (productNo, supplyChainId) => {
-    const units = await this.state.contract.methods.batchesInOwnership(productNo, this.state.account).call();
+    const units = await this.state.contract.methods.currentUnitsInOwnership(productNo, supplyChainId).call();
     console.log(units)
-    this.setState({UnitsInOwnership : units})
-    return this.state.unitsInOwnership;
+    //this.setState({UnitsInOwnership : units})
+    //return this.state.unitsInOwnership;
+    return units;
   }
   
   getProductName = async (productNo) => {
