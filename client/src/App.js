@@ -44,7 +44,7 @@ class App extends Component {
     this.productsInSupplyChain = this.productsInSupplyChain.bind(this)
     this.getProductName = this.getProductName.bind(this)
     this.getProductHistory = this.getProductHistory.bind(this)
-    this.getBatchIdsInOwnership = this.getBatchIdsInOwnership(this)
+    this.getBatchIdsInOwnership = this.getBatchIdsInOwnership.bind(this)
   }
 
   componentDidMount = async () => {
@@ -140,7 +140,7 @@ class App extends Component {
     const batchHistoryCount = await this.state.contract.methods.batchHistoryCount(supplyChainId, productNo, batchId).call()
     console.log(batchHistoryCount)
     this.setState({ batchHistoryCount: batchHistoryCount })
-    this.setState({ productHistory : productHistory })
+    this.setState({ productHistory : [] })
     for (var i = 1; i <= batchHistoryCount; i++) {
       const productHistory = await this.state.contract.methods.batchHistory(supplyChainId, productNo, batchId, i).call()
       this.setState({
