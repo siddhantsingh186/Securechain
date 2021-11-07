@@ -32,7 +32,8 @@ class App extends Component {
       loading: true,
       productsCount: 0,
       batchesInOwnership: 0,
-      unitsInOwnership: 0
+      unitsInOwnership: 0,
+      productHistory: []
     }
 
     this.addProduct = this.addProduct.bind(this)
@@ -41,6 +42,7 @@ class App extends Component {
     this.currentUnitsInOwnership = this.currentUnitsInOwnership.bind(this)
     this.productsInSupplyChain = this.productsInSupplyChain.bind(this)
     this.getProductName = this.getProductName.bind(this)
+    this.getProductHistory = this.getProductHistory.bind(this)
   }
 
   componentDidMount = async () => {
@@ -129,6 +131,20 @@ class App extends Component {
       //products = [...products, product]
     }
     return this.state.products;
+  }
+
+  getProductHistory = async (supplyChainId, productNo, batchId) => {
+    const batchHistoryCount = await this.state.contract.methods.batchHistoryCount(supplyChainId, productNo, batchId).call()
+    console.log(batchHistoryCount)
+    this.setState({ batchHistoryCount: batchHistoryCount })
+    this.setState({ productHistory : productHistory })
+    for (var i = 1; i <= batchHistoryCount; i++) {
+      const productHistory = await this.state.contract.methods.batchHistory(supplyChainId, productNo, batchId, i).call()
+      this.setState({
+        productHistory: [...this.state.productHistory, productHistory]
+      })
+      console.log("Debug Product History", this.state.productHistory);
+    }
   }
 
   render() {
