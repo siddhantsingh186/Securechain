@@ -17,8 +17,17 @@ contract SupplyChainManagement {
         uint256 supplyChainId;
         address manufacturer;
         address currentOwner;
+        string ownerName;
         bool exists;
     }
+    
+    struct ProductHistory{
+        string timestamp;
+        address currentOwner;
+        string ownerName;
+    }
+    
+    // map 
     
     // map to store products
     // product name => supplychainid => Product
@@ -60,13 +69,34 @@ contract SupplyChainManagement {
     // map supply chain id => product count in supply chain
     mapping(uint256 => uint256) public productCountInSupplyChain;
     
+    // map supply chain id => productNo => batch id => historyNo => ProductHistory
+    mapping(uint256 => mapping(string => mapping(uint256 => mapping(uint256 => ProductHistory)))) public batchHistory;
+    
+    // map supply chain id => productNo => batch id => history count
+    mapping(uint256 => mapping(string => mapping(uint256 => uint256))) public batchHistoryCount;
+    
+    // map address => supply chain id => productNo => last batch id in ownership
+    mapping(address => mapping(uint256 => mapping(string => uint256))) public firstBatchIdInOwnership;
+    
+    // map address => supply chain id => productNo => last batch id in ownership
+    mapping(address => mapping(uint256 => mapping(string => uint256))) public lastBatchIdInOwnership;
+    
+    // map supply chain id => productNo => batch id => count of owners => address
+    //mapping(uint256 => mapping(string => mapping(uint256 => mapping(uint256 => address)))) public batchOwners;
+    
+    // map supply chain id => productNo => batch id => count of owners
+    //mapping(uint256 => mapping(string => mapping(uint256 => uint256))) public batchOwnersCount;
+    
+    // map supply chain id => productNo => batch id => count of batches transferred
+    //mapping(uint256 => mapping(string => mapping(uint256 => uint256))) public batchesWithAddress;
+    
     // map productNo => no of units
     //mapping(string => uint256) unitsInBatch;
     
     //uint256 public noOfProducts;
 
     constructor() public {
-        addProduct("XXYY", "Vial", 10, 100, 1/*, "0x5B38Da6a701c568545dCfcB03FcB875f56beddC4", "0x5B38Da6a701c568545dCfcB03FcB875f56beddC4"*/);
+        addProduct("XXYY", "Vial", 10, 100, 1, "Akshat Dobriyal", /*"0x5B38Da6a701c568545dCfcB03FcB875f56beddC4", "0x5B38Da6a701c568545dCfcB03FcB875f56beddC4"*/"22:35:10_06-11-2021");
     }
     
     // 
@@ -115,7 +145,7 @@ contract SupplyChainManagement {
     }*/
 
     // function to add a new product to a given supply chain
-    function addProduct(string memory _productNo, string memory _productName, uint256 _noOfBatches, uint256 _unitsPerBatch, uint256 _supplyChainId/*, string memory _manufacturer, string memory _currentOwner*/) public {
+    function addProduct(string memory _productNo, string memory _productName, uint256 _noOfBatches, uint256 _unitsPerBatch, uint256 _supplyChainId, /*string memory _manufacturer, string memory _currentOwner*/string memory _ownerName, string memory _timestamp) public {
         
         //require(parseAddr(_manufacturer) == msg.sender, "You are not the authorised to create product");
         //require(parseAddr(_currentOwner) == msg.sender, "You are not the authorised to create product");
@@ -135,24 +165,42 @@ contract SupplyChainManagement {
             
         }
         */
-        products[_productName][_supplyChainId] = Product(_productNo, _productName, _unitsPerBatch, _noOfBatches, _supplyChainId, msg.sender, msg.sender, true);
+        products[_productName][_supplyChainId] = Product(_productNo, _productName, _unitsPerBatch, _noOfBatches, _supplyChainId, msg.sender, msg.sender, _ownerName, true);
         //productOfBatch[_productNo][i] = Product(_batchNo, _productName, _units, _supplyChainId, msg.sender, msg.sender, true);
-        batches[_productNo] = Product(_productNo, _productName,  _noOfBatches, _unitsPerBatch, _supplyChainId, msg.sender, msg.sender, true);
+        batches[_productNo] = Product(_productNo, _productName,  _noOfBatches, _unitsPerBatch, _supplyChainId, msg.sender, msg.sender, _ownerName, true);
         
         //batchesCount[_productNo] = _noOfBatches;
         productCountInSupplyChain[_supplyChainId]++;
-        productBySupplyChain[_supplyChainId][productCountInSupplyChain[_supplyChainId]] = Product(_productNo, _productName,  _noOfBatches, _unitsPerBatch, _supplyChainId, msg.sender, msg.sender, true);
+        productBySupplyChain[_supplyChainId][productCountInSupplyChain[_supplyChainId]] = Product(_productNo, _productName,  _noOfBatches, _unitsPerBatch, _supplyChainId, msg.sender, msg.sender, _ownerName, true);
         
         isOwner[_productName][_supplyChainId][msg.sender] = true;
         
         batchesInOwnership[_productNo][msg.sender] = _noOfBatches;
+        
+        firstBatchIdInOwnership[msg.sender][_supplyChainId][_productNo] = 1;
+        
+        lastBatchIdInOwnership[msg.sender][_supplyChainId][_productNo] = _noOfBatches;
+        
+        for(uint256 i=firstBatchIdInOwnership[msg.sender][_supplyChainId][_productNo]; i<=lastBatchIdInOwnership[msg.sender][_supplyChainId][_productNo]; i++){
+            batchHistory[_supplyChainId][_productNo][i][1] = ProductHistory(_timestamp, msg.sender, _ownerName);
+            batchHistoryCount[_supplyChainId][_productNo][i]++;
+        }
+        
+        /*for(uint256 i=1; i<=noOfBatches; i++){
+            batchOwnersCount[_supplyChainId][_productNo][i]++;
+        }
+        
+        for(uint256 i=1; i<=noOfBatches; i++){
+            uint256 ownersIndex = batchOwnersCount[_supplyChainId][_productNo][i];
+            batchOwners[_supplyChainId][_productNo][i][ownersIndex] = msg.sender;
+        }*/
         //unitsInOwnership[_productName][_supplyChainId][msg.sender] = (_noOfBatches)*(_units);
         //uintsInOwnershipOfBatch[_ProductNo][msg.sender] = (_noOfBatches)*(_units);
         
     }
     
     // function to transfer a product from one instance to another in a given supply chain
-    function transferProduct(string memory _productNo, string memory _productName, uint256 _batchesToTransfer, uint256 _supplyChainId,/* string memory _transferFrom,*/ string memory _transferTo) public {
+    function transferProduct(string memory _productNo, string memory _productName, uint256 _batchesToTransfer, uint256 _supplyChainId,/* string memory _transferFrom,*/ string memory _transferTo, string memory _transferToName, string memory _timestamp) public {
         
         //require(parseAddr(_transferFrom) == msg.sender, "You are not the authorised to transfer product");
         //require(unitsInOwnership[_productName][_supplyChainId][msg.sender] > 0, "You are not an owner of the product at present");
@@ -162,11 +210,29 @@ contract SupplyChainManagement {
         address _to = parseAddr(_transferTo);
         
         batchesInOwnership[_productNo][msg.sender] -= _batchesToTransfer;
+        
+        if(batchesInOwnership[_productNo][_to] == 0){
+            firstBatchIdInOwnership[_to][_supplyChainId][_productNo] = firstBatchIdInOwnership[msg.sender][_supplyChainId][_productNo];
+        }
+        
+        for(uint256 i = firstBatchIdInOwnership[msg.sender][_supplyChainId][_productNo]; i < (firstBatchIdInOwnership[msg.sender][_supplyChainId][_productNo] + _batchesToTransfer); i++){
+            batchHistoryCount[_supplyChainId][_productNo][i]++;
+            batchHistory[_supplyChainId][_productNo][i][batchHistoryCount[_supplyChainId][_productNo][i]] = ProductHistory(_timestamp, _to, _transferToName);
+        }
+        
+        firstBatchIdInOwnership[msg.sender][_supplyChainId][_productNo] += _batchesToTransfer;
+        
+        lastBatchIdInOwnership[_to][_supplyChainId][_productNo] = firstBatchIdInOwnership[msg.sender][_supplyChainId][_productNo] - 1;
+        
         //unitsInOwnership[_productName][_supplyChainId][msg.sender] -= _unitsToTransfer;
         //uintsInOwnershipOfBatch[_productNo][msg.sender] -= _unitsToTransfer;
         
         isOwner[_productName][_supplyChainId][_to] = true;
         batchesInOwnership[_productNo][_to] += _batchesToTransfer;
+        
+        /*for(uint256 i=1; i<=_batchesToTransfer; i++){
+            batchOwnersCount[_supplyChainId][_productNo][i]++;
+        }*/
         //unitsInOwnership[_productName][_supplyChainId][_to] += _unitsToTransfer;
         //unitsInOwnershipOfBatch[_productNo][_to] += _unitsToTransfer;
     }
@@ -186,12 +252,24 @@ contract SupplyChainManagement {
         //return unitsInOwnership[_productName][_supplyChainId][parseAddr(_instance)];
         return ((batchesInOwnership[_productNo][/*parseAddr(_instance)*/msg.sender]) * (batches[_productNo].unitsPerBatch));
     }
-
+    
     // function to return the productName of a product
     function getProductName(string memory _productNo) view public returns(string memory){
         //require(products[_productName][_supplyChainId].exists, "Product does not exist");
         require(batches[_productNo].exists, "Product does not exist");
         return (batches[_productNo].name);
+    }
+    
+    // function to get first batch id in ownership
+    function getFirstBatchIdInOwnership(string memory _address, uint256 _supplyChainId, string memory _productNo) view public returns(uint256){
+        address _sender = parseAddr(_address);
+        return (firstBatchIdInOwnership[_sender][_supplyChainId][_productNo]);
+    }
+
+    // function to get last batch id in ownership
+    function getLastBatchIdInOwnership(string memory _address, uint256 _supplyChainId, string memory _productNo) view public returns(uint256){
+        address _sender = parseAddr(_address);
+        return (lastBatchIdInOwnership[_sender][_supplyChainId][_productNo]);
     }
     
     // function to check whether a given instance has ever been an owner of a given product in a given supply chain 

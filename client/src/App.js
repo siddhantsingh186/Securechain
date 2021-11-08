@@ -31,8 +31,10 @@ class App extends Component {
       products: [],
       loading: true,
       productsCount: 0,
-      batchesInOwnership: 0,
-      unitsInOwnership: 0
+      //batchesInOwnership: 0,
+      //unitsInOwnership: 0,
+      productHistory: [],
+      batchIdsInOwnership: []
     }
 
     this.addProduct = this.addProduct.bind(this)
@@ -41,6 +43,8 @@ class App extends Component {
     this.currentUnitsInOwnership = this.currentUnitsInOwnership.bind(this)
     this.productsInSupplyChain = this.productsInSupplyChain.bind(this)
     this.getProductName = this.getProductName.bind(this)
+    this.getProductHistory = this.getProductHistory.bind(this)
+    this.getBatchIdsInOwnership = this.getBatchIdsInOwnership.bind(this)
   }
 
   componentDidMount = async () => {
@@ -58,7 +62,7 @@ class App extends Component {
       const deployedNetwork = SupplyChainManagement.networks[networkId];
       const contract = new web3.eth.Contract(
         SupplyChainManagement.abi,
-        "0x9E2644Dd25251eb1e3A53F01555f51D603E61538",
+        "0x5ebD993c74D7F1778Af8aAc8498679Ce61024337",
       );
 
 
@@ -78,33 +82,34 @@ class App extends Component {
     }
   };
 
+  addProduct = (productNo, productName, noOfBatches, unitsPerBatch, supplyChainId, ownerName, timestamp) => {
+    this.setState({ loading: true })
+    console.log(this.state.contract)
+    this.state.contract.methods.addProduct(productNo, productName, noOfBatches, unitsPerBatch, supplyChainId, ownerName, timestamp).send({ from: this.state.account }).on('transactionHash', (hash) => {
+      this.setState({ loading: false })
+    })
+  }
+
+  transferProduct = (productNo, productName, batchesToTransfer, supplyChainId, transferTo, transferToName, timestamp) => {
+    this.setState({ loading: true })
+    this.state.contract.methods.transferProduct(productNo, productName, batchesToTransfer, supplyChainId, transferTo, transferToName, timestamp).send({ from: this.state.account }).on('transactionHash', (hash) => {
+      this.setState({ loading: false })
+    })
+  }
+
   currentBatchesInOwnership = (productNo, supplyChainId) => {
     console.log(this.state.contract)
-    const batches = this.state.contract.methods.batchesInOwnership(productNo, this.state.account).call().then((res)=>{return res})
+    const batches = this.state.contract.methods.currentBatchesInOwnership(productNo, supplyChainId).call().then((res) => { return res })
     console.log("bathches", batches)
     return batches;
   }
 
-  addProduct = (productNo, productName, noOfBatches, unitsPerBatch, supplyChainId) => {
-    this.setState({ loading: true })
-    console.log(this.state.contract)
-    this.state.contract.methods.addProduct(productNo, productName, noOfBatches, unitsPerBatch, supplyChainId).send({ from: this.state.account }).on('transactionHash', (hash) => {
-      this.setState({ loading: false })
-    })
-  }
-
-  transferProduct = (productNo, productName, batchesToTransfer, supplyChainId, transferTo) => {
-    this.setState({ loading: true })
-    this.state.contract.methods.transferProduct(productNo, productName, batchesToTransfer, supplyChainId, transferTo).send({ from: this.state.account }).on('transactionHash', (hash) => {
-      this.setState({ loading: false })
-    })
-  }
-
   currentUnitsInOwnership = async (productNo, supplyChainId) => {
-    const units = await this.state.contract.methods.batchesInOwnership(productNo, this.state.account).call();
+    const units = await this.state.contract.methods.currentUnitsInOwnership(productNo, supplyChainId).call();
     console.log(units)
-    this.setState({UnitsInOwnership : units})
-    return this.state.unitsInOwnership;
+    //this.setState({UnitsInOwnership : units})
+    //return this.state.unitsInOwnership;
+    return units;
   }
   
   getProductName = async (productNo) => {
@@ -129,6 +134,39 @@ class App extends Component {
       //products = [...products, product]
     }
     return this.state.products;
+  }
+
+  getProductHistory = async (supplyChainId, productNo, batchId) => {
+    const batchHistoryCount = await this.state.contract.methods.batchHistoryCount(supplyChainId, productNo, batchId).call()
+    console.log(batchHistoryCount)
+    this.setState({ batchHistoryCount: batchHistoryCount })
+    this.setState({ productHistory : [] })
+    for (var i = 1; i <= batchHistoryCount; i++) {
+      const productHistory = await this.state.contract.methods.batchHistory(supplyChainId, productNo, batchId, i).call()
+      this.setState({
+        productHistory: [...this.state.productHistory, productHistory]
+      })
+      console.log("Debug Product History", this.state.productHistory);
+    }
+    return this.state.productHistory;
+  }
+
+  getBatchIdsInOwnership = async(_address, _supplyChainId, _productNo) => {
+    const firstBatchIdInOwnership = await this.state.contract.methods.getFirstBatchIdInOwnership(_address, _supplyChainId, _productNo).call()
+    console.log("firstBatchIdInOwnership", firstBatchIdInOwnership)
+
+    const lastBatchIdInOwnership = await this.state.contract.methods.getLastBatchIdInOwnership(_address, _supplyChainId, _productNo).call()
+    console.log("lastBatchIdInOwnership", lastBatchIdInOwnership)
+
+    this.setState({
+      batchIdsInOwnership: []
+    })
+    for (var i = firstBatchIdInOwnership; i <= lastBatchIdInOwnership; i++){
+      this.setState({
+        batchIdsInOwnership: [...this.state.batchIdsInOwnership, i]
+      })
+    }
+    return this.state.batchIdsInOwnership;
   }
 
   render() {
