@@ -8,6 +8,7 @@ import { useHistory } from 'react-router';
 
 const CreateProduct = ({addProduct, currentBatchesInOwnership}) => {
     let token = localStorage.getItem("token");
+    let username = localStorage.getItem("username");
 
     const [supplyChain, setSupplyChain] = useState([]);
     const [productSupplyChain, setProductSupplyChain] = useState("");
@@ -53,13 +54,14 @@ const CreateProduct = ({addProduct, currentBatchesInOwnership}) => {
         let today = new Date();
         let date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
         let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-        let dateTime = date + '_' + time;
+        let dateTime = time + '_' + date;
         let productNo = productName + '_' + productSupplyChain + '_' + dateTime;
         console.log(productNo);
         console.log(productName);
         console.log(parseInt(productBatchSize));
         console.log(productSupplyChain);
-        addProduct(productNo, productName, parseInt(productBatches), parseInt(productBatchSize), parseInt(productSupplyChain));
+        console.log(username);
+        addProduct(productNo, productName, parseInt(productBatches), parseInt(productBatchSize), parseInt(productSupplyChain), username, dateTime);
         setIssubmit(!issubmit)
     }
     return(
