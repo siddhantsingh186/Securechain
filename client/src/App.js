@@ -137,12 +137,12 @@ class App extends Component {
   }
 
   getProductHistory = async (supplyChainId, productNo, batchId) => {
-    const batchHistoryCount = await this.state.contract.methods.batchHistoryCount(supplyChainId, productNo, batchId).call()
+    const batchHistoryCount = await this.state.contract.methods.batchHistoryCount(supplyChainId, productNo, batchId).call().then((res)=>{return res})
     console.log(batchHistoryCount)
     this.setState({ batchHistoryCount: batchHistoryCount })
     this.setState({ productHistory : [] })
     for (var i = 1; i <= batchHistoryCount; i++) {
-      const productHistory = await this.state.contract.methods.batchHistory(supplyChainId, productNo, batchId, i).call()
+      const productHistory = await this.state.contract.methods.batchHistory(supplyChainId, productNo, batchId, i).call().then((res)=>{return res})
       this.setState({
         productHistory: [...this.state.productHistory, productHistory]
       })
@@ -151,11 +151,11 @@ class App extends Component {
     return this.state.productHistory;
   }
 
-  getBatchIdsInOwnership = async(address, supplyChainId, productNo) => {
-    const firstBatchIdInOwnership = await this.state.contract.methods.getFirstBatchIdInOwnership(address, supplyChainId, productNo).call()
+  getBatchIdsInOwnership = async(supplyChainId, productNo) => {
+    const firstBatchIdInOwnership = await this.state.contract.methods.getFirstBatchIdInOwnership(supplyChainId, productNo).call()
     console.log("firstBatchIdInOwnership", firstBatchIdInOwnership)
 
-    const lastBatchIdInOwnership = await this.state.contract.methods.getLastBatchIdInOwnership(address, supplyChainId, productNo).call()
+    const lastBatchIdInOwnership = await this.state.contract.methods.getLastBatchIdInOwnership(supplyChainId, productNo).call()
     console.log("lastBatchIdInOwnership", lastBatchIdInOwnership)
 
     this.setState({
