@@ -62,7 +62,7 @@ class App extends Component {
       const deployedNetwork = SupplyChainManagement.networks[networkId];
       const contract = new web3.eth.Contract(
         SupplyChainManagement.abi,
-        "0x5ebD993c74D7F1778Af8aAc8498679Ce61024337",
+        "0xe29D2e170E582335faA50f65a3f54b961222cFED",
       );
 
 
