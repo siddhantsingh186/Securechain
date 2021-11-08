@@ -222,7 +222,12 @@ class App extends Component {
                 currentBatchesInOwnership = {this.currentBatchesInOwnership}
               />
             </Route>
-            <Route exact path="/progress" component = {Progress}/>
+            <Route exact path="/progress" >
+              <Progress 
+                getBatchIdsInOwnership={this.getBatchIdsInOwnership}
+                getProductHistory = {this.getProductHistory}
+              />
+            </Route>
             <Route path="*">
               <Error />
             </Route>
