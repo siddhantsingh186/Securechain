@@ -62,7 +62,7 @@ class App extends Component {
       const deployedNetwork = SupplyChainManagement.networks[networkId];
       const contract = new web3.eth.Contract(
         SupplyChainManagement.abi,
-        "0x5ebD993c74D7F1778Af8aAc8498679Ce61024337",
+        "0xe29D2e170E582335faA50f65a3f54b961222cFED",
       );
 
 
@@ -137,12 +137,12 @@ class App extends Component {
   }
 
   getProductHistory = async (supplyChainId, productNo, batchId) => {
-    const batchHistoryCount = await this.state.contract.methods.batchHistoryCount(supplyChainId, productNo, batchId).call()
+    const batchHistoryCount = await this.state.contract.methods.batchHistoryCount(supplyChainId, productNo, batchId).call().then((res)=>{return res})
     console.log(batchHistoryCount)
     this.setState({ batchHistoryCount: batchHistoryCount })
     this.setState({ productHistory : [] })
     for (var i = 1; i <= batchHistoryCount; i++) {
-      const productHistory = await this.state.contract.methods.batchHistory(supplyChainId, productNo, batchId, i).call()
+      const productHistory = await this.state.contract.methods.batchHistory(supplyChainId, productNo, batchId, i).call().then((res)=>{return res})
       this.setState({
         productHistory: [...this.state.productHistory, productHistory]
       })
@@ -151,11 +151,11 @@ class App extends Component {
     return this.state.productHistory;
   }
 
-  getBatchIdsInOwnership = async(address, supplyChainId, productNo) => {
-    const firstBatchIdInOwnership = await this.state.contract.methods.getFirstBatchIdInOwnership(address, supplyChainId, productNo).call()
+  getBatchIdsInOwnership = async(supplyChainId, productNo) => {
+    const firstBatchIdInOwnership = await this.state.contract.methods.getFirstBatchIdInOwnership(supplyChainId, productNo).call()
     console.log("firstBatchIdInOwnership", firstBatchIdInOwnership)
 
-    const lastBatchIdInOwnership = await this.state.contract.methods.getLastBatchIdInOwnership(address, supplyChainId, productNo).call()
+    const lastBatchIdInOwnership = await this.state.contract.methods.getLastBatchIdInOwnership(supplyChainId, productNo).call()
     console.log("lastBatchIdInOwnership", lastBatchIdInOwnership)
 
     this.setState({
@@ -222,7 +222,12 @@ class App extends Component {
                 currentBatchesInOwnership = {this.currentBatchesInOwnership}
               />
             </Route>
-            <Route exact path="/progress"  component = {Progress}/>
+            <Route exact path="/progress" >
+              <Progress 
+                getBatchIdsInOwnership={this.getBatchIdsInOwnership}
+                getProductHistory = {this.getProductHistory}
+              />
+            </Route>
             <Route path="*">
               <Error />
             </Route>
