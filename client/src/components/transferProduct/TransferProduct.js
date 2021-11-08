@@ -159,7 +159,6 @@ const TransferProduct = ({ getProductName, productsInSupplyChain, currentBatches
                                         className="transferproduct__input"
                                         name="supplyChains"
                                         id="supplyChains"
-                                        //onChange={(e) => { setTransferSupplyChain(e.target.value) }}
                                         onChange={handleRecievers}
                                     >
                                         <option value="">
