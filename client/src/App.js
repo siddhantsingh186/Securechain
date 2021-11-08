@@ -151,11 +151,11 @@ class App extends Component {
     return this.state.productHistory;
   }
 
-  getBatchIdsInOwnership = async(_address, _supplyChainId, _productNo) => {
-    const firstBatchIdInOwnership = await this.state.contract.methods.getFirstBatchIdInOwnership(_address, _supplyChainId, _productNo).call()
+  getBatchIdsInOwnership = async(address, supplyChainId, productNo) => {
+    const firstBatchIdInOwnership = await this.state.contract.methods.getFirstBatchIdInOwnership(address, supplyChainId, productNo).call()
     console.log("firstBatchIdInOwnership", firstBatchIdInOwnership)
 
-    const lastBatchIdInOwnership = await this.state.contract.methods.getLastBatchIdInOwnership(_address, _supplyChainId, _productNo).call()
+    const lastBatchIdInOwnership = await this.state.contract.methods.getLastBatchIdInOwnership(address, supplyChainId, productNo).call()
     console.log("lastBatchIdInOwnership", lastBatchIdInOwnership)
 
     this.setState({
