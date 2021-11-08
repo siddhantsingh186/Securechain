@@ -137,6 +137,14 @@ const TransferProduct = ({ getProductName, productsInSupplyChain, currentBatches
     }
 
 
+    const handleSelectedReciever = (e) => {
+        let ethereum_add = e.target.value;
+        const receiver = allowedRecievers.filter(receiver => receiver.ethereum_address === ethereum_add)[0]
+        setTransferInstance(ethereum_add)
+        setTransferToState(receiver.name)
+    }
+
+
     return(
         <div className="createsupply__bottom">
             <h1 className = "createsupply__bottom__head">Transfer Product</h1>
@@ -206,7 +214,7 @@ const TransferProduct = ({ getProductName, productsInSupplyChain, currentBatches
                                     className="transferproduct__input"
                                     name="receiver"
                                     id="receiver"
-                                    onChange={(e) => setTransferInstance(e.target.value)}
+                                    onChange={(e) => handleSelectedReciever(e)}
                                 >
                                     <option>Choose</option>
                                     {allowedRecievers.map((allowed) => {
