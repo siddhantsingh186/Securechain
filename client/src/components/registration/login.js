@@ -79,6 +79,7 @@ const Login = () => {
                 password: userReg.password
             }).then((response) => {
                 localStorage.setItem("token", response.data.Token)
+                localStorage.setItem("username", response.data.user_name);
                 console.log(response);
                 console.log(response.data);
                 console.log(response.data.Token);

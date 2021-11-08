@@ -31,8 +31,8 @@ class App extends Component {
       products: [],
       loading: true,
       productsCount: 0,
-      //batchesInOwnership: 0,
-      //unitsInOwnership: 0,
+      batchesInOwnership: 0,
+      unitsInOwnership: 0,
       productHistory: [],
       batchIdsInOwnership: []
     }
@@ -99,7 +99,7 @@ class App extends Component {
 
   currentBatchesInOwnership = (productNo, supplyChainId) => {
     console.log(this.state.contract)
-    const batches = this.state.contract.methods.currentBatchesInOwnership(productNo, supplyChainId).call().then((res) => { return res })
+    const batches = this.state.contract.methods.batchesInOwnership(productNo, this.state.account).call().then((res) => { return res })
     console.log("bathches", batches)
     return batches;
   }

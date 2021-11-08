@@ -8,6 +8,7 @@ import useEnhancedEffect from '@mui/utils/useEnhancedEffect';
 const TransferProduct = ({ getProductName, productsInSupplyChain, currentBatchesInOwnership, currentUnitsInOwnership, transferProduct}) => {
     let supplychainid = -1;
     let token = localStorage.getItem("token");
+    let username = localStorage.getItem("username");
 
     const [supplyChain, setSupplyChain] = useState([]);
     const [fields, setFields] = useState([]);
@@ -19,6 +20,7 @@ const TransferProduct = ({ getProductName, productsInSupplyChain, currentBatches
     const [productNo, setProductNo] = useState("");
     const [batchesInOwnership, setBatchesInOwnership] = useState("");
     const [unitsInOwnership, setUnitsInOwnership] = useState("");
+    const [transferToState, setTransferToState] = useState("");
 
     useEffect(() => {
         if(productNo !== "")
@@ -124,9 +126,16 @@ const TransferProduct = ({ getProductName, productsInSupplyChain, currentBatches
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        let today = new Date();
+        let date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+        let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+        let dateTime = time + '_' + date;
         const productName = getProductName(productNo);
-        transferProduct(productNo, productName, transferUnits, transferSupplyChain, transferInstance);
+        console.log(transferInstance);
+        console.log(transferToState);
+        transferProduct(productNo, productName, parseInt(transferUnits), parseInt(transferSupplyChain), transferInstance, transferToState, dateTime);
     }
+
 
     return(
         <div className="createsupply__bottom">
@@ -197,12 +206,12 @@ const TransferProduct = ({ getProductName, productsInSupplyChain, currentBatches
                                     className="transferproduct__input"
                                     name="receiver"
                                     id="receiver"
-                                    onChange={(e) => { setTransferInstance(e.target.value) }}
+                                    onChange={(e) => setTransferInstance(e.target.value)}
                                 >
                                     <option>Choose</option>
                                     {allowedRecievers.map((allowed) => {
                                         return (
-                                            <option key={allowed.ethereum_address} value={allowed.ethereum_address}>
+                                            <option key={allowed.ethereum_address} value={allowed.ethereum_address} >
                                                 {allowed.name}
                                             </option>
                                         );
