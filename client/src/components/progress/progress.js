@@ -7,8 +7,11 @@ const Progress = ({getBatchIdsInOwnership , getProductHistory}) => {
     const [productNumber, setProductNumber] = useState("");
     const [batchId, setBatchId] = useState("");
     const [displayTrack, setDisplayTrack] = useState([]);
+    const [tracksuccess, setTrackSuccess] = useState(false);
 
-    const handleSubmit = () => {
+    const handleSubmit = (e) => {
+        setTrackSuccess(true);
+        e.preventDefault();
         console.log("hello")
         if(batchId !== ""){
             getProductHistory(parseInt(supplyChainId), productNumber, parseInt(batchId)).then((res)=>{
@@ -17,52 +20,44 @@ const Progress = ({getBatchIdsInOwnership , getProductHistory}) => {
             console.log(displayTrack);
         }
     }
-    useEffect(()=>{
-        console.log(supplyChainId);
-    },[supplyChainId])
-
-    useEffect(()=>{
-        console.log(productNumber);  
-    },[productNumber])
-
-    useEffect(()=>{
-        console.log(batchId)
-    },[batchId])
     return (
     <div className = "progress">
         <h1 className ="progress__head">Progress</h1>
-        <div className = "track">
-            <div className = "track__big-card">
-                <div className = "track__row">
-                    <form className="track__column" >
-                        <div className="track__form-grp">
-                            <label className="track__label">Product Number : </label>
+        <div className = {tracksuccess?"track1":"track"}>
+            <div className = {tracksuccess?"track1__big-card":"track__big-card"}>
+                <div className = {tracksuccess?"track1__row":"track__row"}>
+                    <form className={tracksuccess?"track1__column":"track__column"} onSubmit={handleSubmit}>
+                        <div className={tracksuccess?"track1__form-grp":"track__form-grp"}>
+                            <label className={tracksuccess?"track1__label":"track__label"}>Product Number : </label>
                             <input type="text" 
-                            className = "track__input"
+                            className = {tracksuccess?"track1__input":"track__input"}
                                 placeholder="Enter Product number" 
                                 onChange = {e => setProductNumber(e.target.value)}
                             />
                         </div>
-                        <div className="track__form-grp">
-                            <label className="track__label">Enter Supply Chain : </label>
+                        <div className={tracksuccess?"track1__form-grp":"track__form-grp"}>
+                            <label className={tracksuccess?"track1__label":"track__label"}>Enter Supply Chain : </label>
                             <input type="text" 
-                            className = "track__input"
+                            className = {tracksuccess?"track1__input":"track__input"}
                                 placeholder="Enter Supply Chain Id" 
                                 onChange = {e => setsupplyChainId(e.target.value)}
                             /> 
                         </div>
-                        <div className="track__form-grp">
-                            <label className="track__label">Batch id : </label>
+                        <div className={tracksuccess?"track1__form-grp":"track__form-grp"}>
+                            <label className={tracksuccess?"track1__label":"track__label"}>Batch id : </label>
                             <input type="text" 
-                            className = "track__input"
+                            className = {tracksuccess?"track1__input":"track__input"}
                                 placeholder="Enter Batch Id" 
                                 onChange = {e => setBatchId(e.target.value)}
                             />
                         </div>
-                        <button className = "track__button"  onClick={handleSubmit}>Submit</button>
+                        <button className = {tracksuccess?"track1__button":"track__button"}  type="submit">Submit</button>
                     </form>
-                    <div className = "track__column">
-                        {displayTrack && displayTrack.map((e)=>{
+                </div>
+            </div>
+            {displayTrack &&
+            <div className = "track__column">
+                          {displayTrack.map((e)=>{
                             return(
                                 <div className = "progress__bottom" key ={e.timestamp}>
                                     <div className = "progress__left">{e.timestamp}</div>
@@ -70,9 +65,8 @@ const Progress = ({getBatchIdsInOwnership , getProductHistory}) => {
                                 </div>
                             )
                         })}
-                    </div>
-                </div>
             </div>
+            }
         </div>
     </div>
     )

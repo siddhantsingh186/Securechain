@@ -25,6 +25,8 @@
         padding-top: 1.5rem;
     }
     &__left{
+    width: 160px;
+    text-align: center;
     background-color: white;
     box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%);
     transition: 0.3s;
@@ -34,6 +36,8 @@
     padding: 2rem;
     }
     &__right{
+    width: 150px;
+    text-align: center;
     background-color: white;
     box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%);
     transition: 0.3s;
@@ -80,6 +84,7 @@ form{
     }
     &__column {
         flex: 50%;
+        width: 50%;
     }
     
     /* Clear floats after the columns */
@@ -97,8 +102,73 @@ form{
             margin-bottom: 20px;
     }  
     &__big-card{
+        margin-left: 39px;
         padding-top:20px;
-        width : 31%;
+        width : 50%;
+        height : 50%;
+        // border : 1px solid black;
+        border-radius: 10px;
+        margin : auto;
+        margin-bottom: 15px;
+        -moz-box-shadow: 0 0 3px #ccc;
+        -webkit-box-shadow: 0 0 3px #ccc;
+        box-shadow: 0 0 3px #ccc;
+    }    
+}
+.track1{
+    display: flex;
+    flex-direction: row;
+    width:100%;
+    height: 100%;
+    &__row{
+        display: flex;
+        justify-content: center;
+    }
+    &__form-group{
+      font-family: montserrat,sans-serif;
+      margin-left: 20px;
+      margin-top:15px;
+      margin-bottom : 15px;
+      height: 30%;
+      width: 90%;
+    }
+    &__label{
+      font-size: 20px;
+      margin-left: 21px;
+    }
+    &__input{
+        width: 95%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        margin-left: 17px;
+        display: inline-block;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+    &__column {
+        flex: 50%;
+        width: 50%;
+    }
+    
+    /* Clear floats after the columns */
+    
+    &__button{   
+            height: 40px;
+            width: 200px;
+            border-radius: 5px;
+            font-family:  montserrat,sans-serif;
+            font-size: 20px;
+            color: white;
+            background-color: #138BBF;
+            margin: auto;
+            margin-top: 30px;
+            margin-bottom: 20px;
+    }  
+    &__big-card{
+        margin-left: 39px;
+        padding-top:20px;
+        width : 50%;
         height : 50%;
         // border : 1px solid black;
         border-radius: 10px;
