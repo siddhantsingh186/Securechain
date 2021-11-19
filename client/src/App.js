@@ -45,6 +45,7 @@ class App extends Component {
     this.getProductName = this.getProductName.bind(this)
     this.getProductHistory = this.getProductHistory.bind(this)
     this.getBatchIdsInOwnership = this.getBatchIdsInOwnership.bind(this)
+    this.requestTransfer = this.requestTransfer.bind(this)
   }
 
   componentDidMount = async () => {
@@ -90,9 +91,17 @@ class App extends Component {
     })
   }
 
-  transferProduct = (productNo, productName, batchesToTransfer, supplyChainId, transferTo, transferToName, timestamp) => {
+  transferProduct = (productNo, productName, batchesToTransfer, supplyChainId, transferTo, transferToName, timestamp, notificationId) => {
     this.setState({ loading: true })
-    this.state.contract.methods.transferProduct(productNo, productName, batchesToTransfer, supplyChainId, transferTo, transferToName, timestamp).send({ from: this.state.account }).on('transactionHash', (hash) => {
+    this.state.contract.methods.transferProduct(productNo, productName, batchesToTransfer, supplyChainId, transferTo, transferToName, timestamp, notificationId).send({ from: this.state.account }).on('transactionHash', (hash) => {
+      this.setState({ loading: false })
+    })
+  }
+
+  requestTransfer = (productNo, productName, batchesToTransfer, supplyChainId, transferTo, transferToName, timestamp) => {
+    console.log("hello")
+    this.setState({ loading: true })
+    this.state.contract.methods.requestTransfer(productNo, productName, batchesToTransfer, supplyChainId, transferTo, transferToName, timestamp).send({ from: this.state.account }).on('transactionHash', (hash) => {
       this.setState({ loading: false })
     })
   }
@@ -214,6 +223,7 @@ class App extends Component {
                 currentBatchesInOwnership={this.currentBatchesInOwnership}
                 currentUnitsInOwnership={this.currentUnitsInOwnership}
                 transferProduct={this.transferProduct}
+                requestTransfer={this.requestTransfer}
               />
             </Route>
             <Route exact path="/createproduct">
