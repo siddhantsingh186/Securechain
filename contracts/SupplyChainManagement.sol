@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.4.22 <=0.8.9;
+pragma experimental ABIEncoderV2;
 
 //import "github.com/Arachnid/solidity-stringutils/strings.sol";
 
@@ -328,6 +329,18 @@ contract SupplyChainManagement {
         //address _sender = parseAddr(_address);
         return (lastBatchIdInOwnership[/*_sender*/msg.sender][_supplyChainId][_productNo]);
     }
+    
+    // function to get notifications count of a user
+    function getNotificationsCount(string memory _user) view public returns(uint256){
+        address _userAddress = parseAddr(_user);
+        return(notificationsCount[_userAddress]);
+    }    
+    
+    // function to get notifications of a user
+    function getNotifications(string memory _user, uint256 _notificationId) view public returns(Notification memory){
+        address _userAddress = parseAddr(_user);
+        return(notifications[_userAddress][_notificationId]);
+    }    
     
     // function to check whether a given instance has ever been an owner of a given product in a given supply chain 
     /*function hasEverBeenOwner(string memory _productName, uint256 _supplyChainId, string memory _instance) view public returns(bool){
