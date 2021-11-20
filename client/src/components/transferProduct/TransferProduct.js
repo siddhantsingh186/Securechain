@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 import useEnhancedEffect from '@mui/utils/useEnhancedEffect';
 
-const TransferProduct = ({ getProductName, productsInSupplyChain, currentBatchesInOwnership, currentUnitsInOwnership, transferProduct}) => {
+const TransferProduct = ({ getProductName, productsInSupplyChain, currentBatchesInOwnership, currentUnitsInOwnership, transferProduct, requestTransfer}) => {
     let supplychainid = -1;
     let token = localStorage.getItem("token");
     let username = localStorage.getItem("username");
@@ -133,7 +133,7 @@ const TransferProduct = ({ getProductName, productsInSupplyChain, currentBatches
         const productName = getProductName(productNo);
         console.log(transferInstance);
         console.log(transferToState);
-        transferProduct(productNo, productName, parseInt(transferUnits), parseInt(transferSupplyChain), transferInstance, transferToState, dateTime);
+        requestTransfer(productNo, productName, parseInt(transferUnits), parseInt(transferSupplyChain), transferInstance, transferToState, dateTime);
     }
 
 
@@ -234,8 +234,7 @@ const TransferProduct = ({ getProductName, productsInSupplyChain, currentBatches
                                 onChange={(e) => { setTransferUnits(e.target.value) }}
                             />
                             </div>
-                            
-                            <button className="transferproduct__button" type="submit" >Start Transaction</button>
+                            <button className="transferproduct__button" type="submit" >Request Transfer</button>
                         </form>
                         <div class="transferproduct__column">
                             <div class="transferproduct__column__image" style={{ backgroundImage: `url(media/transfer1.jpg)` }}>

@@ -35,7 +35,8 @@ class App extends Component {
       batchesInOwnership: 0,
       unitsInOwnership: 0,
       productHistory: [],
-      batchIdsInOwnership: []
+      batchIdsInOwnership: [],
+      notifications : []
     }
 
     this.addProduct = this.addProduct.bind(this)
@@ -46,6 +47,9 @@ class App extends Component {
     this.getProductName = this.getProductName.bind(this)
     this.getProductHistory = this.getProductHistory.bind(this)
     this.getBatchIdsInOwnership = this.getBatchIdsInOwnership.bind(this)
+    this.requestTransfer = this.requestTransfer.bind(this)
+    this.acceptTransfer = this.acceptTransfer.bind(this)
+    this.getNotificationsOfUser = this.getNotificationsOfUser.bind(this)
   }
 
   componentDidMount = async () => {
@@ -63,7 +67,7 @@ class App extends Component {
       const deployedNetwork = SupplyChainManagement.networks[networkId];
       const contract = new web3.eth.Contract(
         SupplyChainManagement.abi,
-        "0x40a94A2A42b7bcB5D85Fe9E089173b61bb7BcC2C",
+        "0xcA49b190De4D04ebc9779e91a0ba65BaAEd8f4E2",
       );
 
 
@@ -91,9 +95,17 @@ class App extends Component {
     })
   }
 
-  transferProduct = (productNo, productName, batchesToTransfer, supplyChainId, transferTo, transferToName, timestamp) => {
+  transferProduct = (productNo, productName, batchesToTransfer, supplyChainId, transferTo, transferToName, timestamp, notificationId) => {
     this.setState({ loading: true })
-    this.state.contract.methods.transferProduct(productNo, productName, batchesToTransfer, supplyChainId, transferTo, transferToName, timestamp).send({ from: this.state.account }).on('transactionHash', (hash) => {
+    this.state.contract.methods.transferProduct(productNo, productName, batchesToTransfer, supplyChainId, transferTo, transferToName, timestamp, notificationId).send({ from: this.state.account }).on('transactionHash', (hash) => {
+      this.setState({ loading: false })
+    })
+  }
+
+  requestTransfer = (productNo, productName, batchesToTransfer, supplyChainId, transferTo, transferToName, timestamp) => {
+    console.log("hello")
+    this.setState({ loading: true })
+    this.state.contract.methods.requestTransfer(productNo, productName, batchesToTransfer, supplyChainId, transferTo, transferToName, timestamp).send({ from: this.state.account }).on('transactionHash', (hash) => {
       this.setState({ loading: false })
     })
   }
@@ -111,6 +123,26 @@ class App extends Component {
     //this.setState({UnitsInOwnership : units})
     //return this.state.unitsInOwnership;
     return units;
+  }
+
+  getNotificationsOfUser = async (ethereum_address) => {
+    const notificationsCount = await this.state.contract.methods.getNotificationsCount(ethereum_address).call();
+    this.setState({notifications : []})
+    for(var i=1;i<=notificationsCount;i++){
+      const notification = await this.state.contract.methods.getNotifications(ethereum_address , i).call()
+      this.setState({
+        notifications : [...this.state.notifications, notification]
+      })
+    }
+    return this.state.notifications;
+  }
+
+  acceptTransfer = async (notificationId, timestamp) => {
+    this.setState({ loading: true })
+    console.log(this.state.contract)
+    this.state.contract.methods.acceptTransfer(notificationId, timestamp).send({ from: this.state.account }).on('transactionHash', (hash) => {
+      this.setState({ loading: false })
+    }) 
   }
   
   getProductName = async (productNo) => {
@@ -218,6 +250,7 @@ class App extends Component {
                 currentBatchesInOwnership={this.currentBatchesInOwnership}
                 currentUnitsInOwnership={this.currentUnitsInOwnership}
                 transferProduct={this.transferProduct}
+                requestTransfer={this.requestTransfer}
               />
             </Route>
             <Route exact path="/createproduct">
