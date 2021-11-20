@@ -34,7 +34,8 @@ class App extends Component {
       batchesInOwnership: 0,
       unitsInOwnership: 0,
       productHistory: [],
-      batchIdsInOwnership: []
+      batchIdsInOwnership: [],
+      notifications : []
     }
 
     this.addProduct = this.addProduct.bind(this)
@@ -46,6 +47,8 @@ class App extends Component {
     this.getProductHistory = this.getProductHistory.bind(this)
     this.getBatchIdsInOwnership = this.getBatchIdsInOwnership.bind(this)
     this.requestTransfer = this.requestTransfer.bind(this)
+    this.acceptTransfer = this.acceptTransfer.bind(this)
+    this.getNotificationsOfUser = this.getNotificationsOfUser.bind(this)
   }
 
   componentDidMount = async () => {
@@ -121,7 +124,25 @@ class App extends Component {
     return units;
   }
 
-  getNotifications = async (address, )
+  getNotificationsOfUser = async (ethereum_address) => {
+    const notificationsCount = await this.state.contract.methods.getNotificationsCount(ethereum_address).call();
+    this.setState({notifications : []})
+    for(var i=1;i<=notificationsCount;i++){
+      const notification = await this.state.contract.methods.getNotifications(ethereum_address , i).call()
+      this.setState({
+        notifications : [...this.state.notifications, notification]
+      })
+    }
+    return this.state.notifications;
+  }
+
+  acceptTransfer = async (notificationId, timestamp) => {
+    this.setState({ loading: true })
+    console.log(this.state.contract)
+    this.state.contract.methods.acceptTransfer(notificationId, timestamp).send({ from: this.state.account }).on('transactionHash', (hash) => {
+      this.setState({ loading: false })
+    }) 
+  }
   
   getProductName = async (productNo) => {
     const productName = await this.state.contract.methods.getProductName(productNo).call();
