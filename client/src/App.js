@@ -124,16 +124,25 @@ class App extends Component {
     return units;
   }
 
-  getNotificationsOfUser = async (ethereum_address) => {
-    const notificationsCount = await this.state.contract.methods.getNotificationsCount(ethereum_address).call();
-    this.setState({notifications : []})
+  getNotificationsOfUser = async () => {
+    const web3 = await getWeb3();
+    const accounts = await web3.eth.getAccounts();
+    console.log(accounts[0]);
+
+    const networkId = await web3.eth.net.getId();
+    const deployedNetwork = SupplyChainManagement.networks[networkId];
+    const contract = new web3.eth.Contract(
+      SupplyChainManagement.abi,
+      "0x92c1b0eF059231a3e67f3e7C981B56f731A29487",
+    );
+
+    const notificationsCount = await contract.methods.getNotificationsCount(accounts[0]).call();
+    let notifications = []
     for(var i=1;i<=notificationsCount;i++){
-      const notification = await this.state.contract.methods.getNotifications(ethereum_address , i).call()
-      this.setState({
-        notifications : [...this.state.notifications, notification]
-      })
+      const notification = await contract.methods.getNotifications(accounts[0] , i).call()
+      notifications = [...notifications, notification]
     }
-    return this.state.notifications;
+    return notifications;
   }
 
   acceptTransfer = async (notificationId, timestamp) => {
