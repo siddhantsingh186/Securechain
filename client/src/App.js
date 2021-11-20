@@ -19,6 +19,7 @@ import SupplyChainManagement from "./contracts/SupplyChainManagement.json";
 import getWeb3 from "./getWeb3";
 import './App.scss';
 import Progress from './components/progress/progress';
+import Request from './components/request/request';
 
 class App extends Component {
 
@@ -224,6 +225,9 @@ class App extends Component {
             </Route>
             <Route exact path="/register">
               <Register />
+            </Route>
+            <Route exact path="/request">
+              <Request/>
             </Route>
             <Route exact path="/login">
               <Login />
