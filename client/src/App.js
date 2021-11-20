@@ -120,6 +120,8 @@ class App extends Component {
     //return this.state.unitsInOwnership;
     return units;
   }
+
+  getNotifications = async (address, )
   
   getProductName = async (productNo) => {
     const productName = await this.state.contract.methods.getProductName(productNo).call();
