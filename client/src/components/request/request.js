@@ -14,23 +14,7 @@ const Request = ({getNotificationsOfUser ,acceptTransfer}) => {
         getNotificationsOfUser().then((res) => {
             console.log(res)
             res.forEach(d => {
-                setNotifications([...notifications, 
-                    {
-                        "notiType" : d[0],
-                        "notiId" : d[1],
-                        "timeStamp" : d[2],
-                        "senderAddress" : d[3],
-                        "senderName" : d[4],
-                        "receiverAddress" : d[5],
-                        "receiverName" : d[6],
-                        "productNo" : d[7],
-                        "productName" : d[8],
-                        "supplychainId" : d[9],
-                        "batchesToTransfer" : d[10],
-                        "firstBatch" : d[11],
-                        "lastBatch" : d[12],
-                        "exists" : d[13]
-                }])
+                console.log(d);
             });
             console.log(notifications)
             setNotificationLoaded(true)
