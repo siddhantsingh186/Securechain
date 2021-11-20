@@ -19,6 +19,7 @@ import SupplyChainManagement from "./contracts/SupplyChainManagement.json";
 import getWeb3 from "./getWeb3";
 import './App.scss';
 import Progress from './components/progress/progress';
+import Request from './components/request/request';
 
 class App extends Component {
 
@@ -34,7 +35,9 @@ class App extends Component {
       batchesInOwnership: 0,
       unitsInOwnership: 0,
       productHistory: [],
-      batchIdsInOwnership: []
+      batchIdsInOwnership: [],
+      notificationsCount : 0,
+      notifications : []
     }
 
     this.addProduct = this.addProduct.bind(this)
@@ -45,6 +48,9 @@ class App extends Component {
     this.getProductName = this.getProductName.bind(this)
     this.getProductHistory = this.getProductHistory.bind(this)
     this.getBatchIdsInOwnership = this.getBatchIdsInOwnership.bind(this)
+    this.requestTransfer = this.requestTransfer.bind(this)
+    this.acceptTransfer = this.acceptTransfer.bind(this)
+    this.getNotificationsOfUser = this.getNotificationsOfUser.bind(this)
   }
 
   componentDidMount = async () => {
@@ -62,7 +68,7 @@ class App extends Component {
       const deployedNetwork = SupplyChainManagement.networks[networkId];
       const contract = new web3.eth.Contract(
         SupplyChainManagement.abi,
-        "0xe29D2e170E582335faA50f65a3f54b961222cFED",
+        "0xAf53CC2a01c4554EC6046fA3f045fDCC4f22d553",
       );
 
 
@@ -90,9 +96,17 @@ class App extends Component {
     })
   }
 
-  transferProduct = (productNo, productName, batchesToTransfer, supplyChainId, transferTo, transferToName, timestamp) => {
+  transferProduct = (productNo, productName, batchesToTransfer, supplyChainId, transferTo, transferToName, timestamp, notificationId) => {
     this.setState({ loading: true })
-    this.state.contract.methods.transferProduct(productNo, productName, batchesToTransfer, supplyChainId, transferTo, transferToName, timestamp).send({ from: this.state.account }).on('transactionHash', (hash) => {
+    this.state.contract.methods.transferProduct(productNo, productName, batchesToTransfer, supplyChainId, transferTo, transferToName, timestamp, notificationId).send({ from: this.state.account }).on('transactionHash', (hash) => {
+      this.setState({ loading: false })
+    })
+  }
+
+  requestTransfer = (productNo, productName, batchesToTransfer, supplyChainId, transferTo, transferToName, timestamp) => {
+    console.log("hello")
+    this.setState({ loading: true })
+    this.state.contract.methods.requestTransfer(productNo, productName, batchesToTransfer, supplyChainId, transferTo, transferToName, timestamp).send({ from: this.state.account }).on('transactionHash', (hash) => {
       this.setState({ loading: false })
     })
   }
@@ -110,6 +124,27 @@ class App extends Component {
     //this.setState({UnitsInOwnership : units})
     //return this.state.unitsInOwnership;
     return units;
+  }
+
+  getNotificationsOfUser = async () => {
+    const notificationsCount = await this.state.contract.methods.getNotificationsCount(this.state.account).call();
+    this.setState({notificationsCount : notificationsCount})
+    this.setState({notifications : []})
+    for(var i=1;i<=notificationsCount;i++){
+      const notification = await this.state.contract.methods.getNotifications(this.state.account, i).call();
+      this.setState({
+        notifications : [...this.state.notifications, notification]
+      })
+    }
+    return this.state.notifications;
+  }
+
+  acceptTransfer = async (notificationId, timestamp) => {
+    this.setState({ loading: true })
+    console.log(this.state.contract)
+    this.state.contract.methods.acceptTransfer(notificationId, timestamp).send({ from: this.state.account }).on('transactionHash', (hash) => {
+      this.setState({ loading: false })
+    }) 
   }
   
   getProductName = async (productNo) => {
@@ -184,6 +219,12 @@ class App extends Component {
             <Route exact path="/register">
               <Register />
             </Route>
+            <Route exact path="/request">
+              <Request
+                acceptTransfer = {this.acceptTransfer}
+                getNotificationsOfUser = {this.getNotificationsOfUser}
+              />
+            </Route>
             <Route exact path="/login">
               <Login />
             </Route>
@@ -214,6 +255,7 @@ class App extends Component {
                 currentBatchesInOwnership={this.currentBatchesInOwnership}
                 currentUnitsInOwnership={this.currentUnitsInOwnership}
                 transferProduct={this.transferProduct}
+                requestTransfer={this.requestTransfer}
               />
             </Route>
             <Route exact path="/createproduct">
