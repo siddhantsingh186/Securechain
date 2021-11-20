@@ -6,64 +6,18 @@ import Web3 from 'web3';
 import { useHistory } from 'react-router';
 
 
-const Request = () => {
-    // let token = localStorage.getItem("token");
-    // let username = localStorage.getItem("username");
+const Request = ({getNotificationsOfUser ,acceptTransfer}) => {
+    const [notifications, setNotifications] = useState([])
+    const [notificationLoaded, setNotificationLoaded] = useState(false)
 
-    // const [supplyChain, setSupplyChain] = useState([]);
-    // const [productSupplyChain, setProductSupplyChain] = useState("");
-    // const [productName, setProductName] = useState("");
-    // const [productBatches, setProductBatches] = useState("");
-    // const [productBatchSize, setProductBatchSize] = useState("");
-    // const [batches, setBatches] = useState("");
-    // const [issubmit, setIssubmit] = useState(false);
+    useEffect(() => {
+        getNotificationsOfUser().then((res) => {
+            console.log(res)
+            setNotifications(res)
+            setNotificationLoaded(true)
+        })
+    }, [])
 
-    // useEffect(() => {
-    //     axios
-    //         .get('https://securechain-backend.herokuapp.com/supplychain/',
-    //             {
-    //                 headers: {
-    //                     Authorization: `Token ${token}`
-    //                 }
-    //             }
-    //         )
-    //         .then((res) => {
-    //             if (res) {
-    //                 setSupplyChain(res.data);
-    //                 console.log(res.data)
-    //             }
-    //         })
-    //         .catch((err) => {
-    //             console.log(err)
-    //         })
-    // }, [])
-
-    // useEffect(() => {
-    //     if(issubmit){
-    //         let today = new Date();
-    //         let date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
-    //         let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-    //         let dateTime = date + '_' + time;
-    //         let productNo = productName + '_' + productSupplyChain + '_' + dateTime;
-    //         console.log(currentBatchesInOwnership(productNo, parseInt(productSupplyChain)))
-    //     }
-    // }, [issubmit])
-
-    // const handleSubmit = (e) => {
-    //     e.preventDefault();
-    //     let today = new Date();
-    //     let date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
-    //     let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-    //     let dateTime = time + '_' + date;
-    //     let productNo = productName + '_' + productSupplyChain + '_' + dateTime;
-    //     console.log(productNo);
-    //     console.log(productName);
-    //     console.log(parseInt(productBatchSize));
-    //     console.log(productSupplyChain);
-    //     console.log(username);
-    //     addProduct(productNo, productName, parseInt(productBatches), parseInt(productBatchSize), parseInt(productSupplyChain), username, dateTime);
-    //     setIssubmit(!issubmit)
-    // }
     return(
         <div className="createsupply__bottom">
             <h1 className = "createsupply__bottom__head">Create Product</h1>

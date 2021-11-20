@@ -227,7 +227,10 @@ class App extends Component {
               <Register />
             </Route>
             <Route exact path="/request">
-              <Request/>
+              <Request 
+              getNotificationsOfUser = {this.getNotificationsOfUser}
+              acceptTransfer = {this.acceptTransfer}
+              />
             </Route>
             <Route exact path="/login">
               <Login />
