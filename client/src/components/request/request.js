@@ -1,12 +1,15 @@
-import React from 'react'
-import './request.scss'
+import React from 'react';
+import './request.scss';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import Web3 from 'web3';
 import { useHistory } from 'react-router';
 
 
-const Request = () => {
+const Request = ({ acceptTransfer, getNotificationsOfUser}) => {
+
+    const [notifications, setNotifications] = useState([]);
+    
     // let token = localStorage.getItem("token");
     // let username = localStorage.getItem("username");
 
@@ -64,6 +67,15 @@ const Request = () => {
     //     addProduct(productNo, productName, parseInt(productBatches), parseInt(productBatchSize), parseInt(productSupplyChain), username, dateTime);
     //     setIssubmit(!issubmit)
     // }
+
+    //console.log("address", Web3.eth.coinbase());
+    console.log("noti", notifications);
+    useEffect(() => {
+        getNotificationsOfUser(/*Web3.eth.coinbase()*/).then((res) => {
+            setNotifications(res);
+        })
+    })
+
     return(
         <div className="createsupply__bottom">
             <h1 className = "createsupply__bottom__head">Create Product</h1>

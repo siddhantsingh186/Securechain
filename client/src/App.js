@@ -36,6 +36,7 @@ class App extends Component {
       unitsInOwnership: 0,
       productHistory: [],
       batchIdsInOwnership: [],
+      notificationsCount : 0,
       notifications : []
     }
 
@@ -125,11 +126,12 @@ class App extends Component {
     return units;
   }
 
-  getNotificationsOfUser = async (ethereum_address) => {
-    const notificationsCount = await this.state.contract.methods.getNotificationsCount(ethereum_address).call();
+  getNotificationsOfUser = async () => {
+    const notificationsCount = await this.state.contract.methods.getNotificationsCount(this.state.account).call();
+    this.setState({notificationsCount : notificationsCount})
     this.setState({notifications : []})
     for(var i=1;i<=notificationsCount;i++){
-      const notification = await this.state.contract.methods.getNotifications(ethereum_address , i).call()
+      const notification = await this.state.contract.methods.getNotifications(this.state.account, i).call();
       this.setState({
         notifications : [...this.state.notifications, notification]
       })
@@ -218,7 +220,10 @@ class App extends Component {
               <Register />
             </Route>
             <Route exact path="/request">
-              <Request/>
+              <Request
+                acceptTransfer = {this.acceptTransfer}
+                getNotificationsOfUser = {this.getNotificationsOfUser}
+              />
             </Route>
             <Route exact path="/login">
               <Login />
