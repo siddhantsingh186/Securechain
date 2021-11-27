@@ -87,10 +87,9 @@ const Login = () => {
                 alert(response.data.message);
                 }
                 else {
-                alert("Logined Successfully");
                 history.push('/dashboard');
                 }
-
+                
             });
         }
         e.target.reset();
