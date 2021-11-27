@@ -27,6 +27,8 @@ class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      auth:(localStorage.getItem(`token`)!==null)?true:false,
+      token: localStorage.getItem(`token`),
       account: '',
       contract: null,
       products: [],
@@ -87,6 +89,24 @@ class App extends Component {
       console.error(error);
     }
   };
+
+  onAuthConfirm = (t) =>{
+    this.setState({
+      auth:true,
+      token: t,
+    },() => {
+    localStorage.setItem('token', (this.state.token))
+  })}
+
+
+  logout=()=>{
+    // Request to backend in future
+    this.setState({
+      auth:false,
+      token:null
+    },() => {
+    localStorage.removeItem('token')
+  })}
 
   addProduct = (productNo, productName, noOfBatches, unitsPerBatch, supplyChainId, ownerName, timestamp) => {
     this.setState({ loading: true })
@@ -217,7 +237,7 @@ class App extends Component {
     return (
       <div className="app">
         <Router>
-          <Nav />
+          <Nav AuthState={this.state.auth} logout = {this.logout}/>
           <Switch>
             <Route exact path="/">
               <Home />
@@ -234,8 +254,7 @@ class App extends Component {
               acceptTransfer = {this.acceptTransfer}
               />
             </Route>
-            <Route exact path="/login">
-              <Login />
+            <Route exact path="/login" render={(props)=><Login {...props} AuthState={this.state.auth} Auth={this.onAuthConfirm}/>}>
             </Route>
             <Route exact path="/dashboard">
               <Dashboard />
@@ -289,4 +308,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default App

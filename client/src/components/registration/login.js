@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 import Axios from 'axios'
 
-const Login = () => {
+const Login = (props) => {
 
     let history = useHistory();
     document.title = 'login';
@@ -87,6 +87,7 @@ const Login = () => {
                 alert(response.data.message);
                 }
                 else {
+                props.Auth(response.data.Token);
                 history.push('/dashboard');
                 }
                 

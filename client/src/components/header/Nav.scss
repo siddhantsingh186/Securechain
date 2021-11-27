@@ -73,6 +73,9 @@
             }
 
          }
+         &__button{
+            margin-top: 41px;
+         }
     }
   }
 }
@@ -96,7 +99,7 @@
         left: 0px;
         top: 75px;
         transition: all 0.5s ease-out;
-        margin-top: 70px;
+        margin-top: 188px;
         z-index: 1;
         width: 47%;  
         &__element{
