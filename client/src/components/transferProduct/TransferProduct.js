@@ -129,7 +129,7 @@ const TransferProduct = ({ getProductName, productsInSupplyChain, currentBatches
         let today = new Date();
         let date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
         let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-        let dateTime = time + '_' + date;
+        let dateTime = date + '_' + time;
         const productName = getProductName(productNo);
         console.log(transferInstance);
         console.log(transferToState);
