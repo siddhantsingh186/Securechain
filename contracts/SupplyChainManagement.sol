@@ -200,11 +200,19 @@ contract SupplyChainManagement {
         
         lastBatchIdToRequest[msg.sender][_supplyChainId][_productNo] = _noOfBatches;
         
-        for(uint256 i=firstBatchIdInOwnership[msg.sender][_supplyChainId][_productNo]; i<=lastBatchIdInOwnership[msg.sender][_supplyChainId][_productNo]; i++){
+        /*for(uint256 i=firstBatchIdInOwnership[msg.sender][_supplyChainId][_productNo]; i<=lastBatchIdInOwnership[msg.sender][_supplyChainId][_productNo]; i++){
             batchHistory[_supplyChainId][_productNo][i][1] = ProductHistory(_timestamp, msg.sender, _ownerName, "Product Created");
             batchHistoryCount[_supplyChainId][_productNo][i]++;
-        }
+        }*/
+        addHistory(msg.sender, _productNo, _productName, _noOfBatches, _unitsPerBatch, _supplyChainId, _ownerName, _timestamp);
         
+    }
+    
+    function addHistory(address _owner, string memory _productNo, string memory _productName, uint256 _noOfBatches, uint256 _unitsPerBatch, uint256 _supplyChainId, /*string memory _manufacturer, string memory _currentOwner*/string memory _ownerName, string memory _timestamp/*, string memory _description*/) public {
+        for(uint256 i=firstBatchIdInOwnership[_owner][_supplyChainId][_productNo]; i<=lastBatchIdInOwnership[_owner][_supplyChainId][_productNo]; i++){
+            batchHistory[_supplyChainId][_productNo][i][1] = ProductHistory(_timestamp, _owner, _ownerName, "Product Created");
+            batchHistoryCount[_supplyChainId][_productNo][i]++;
+        }
     }
     
     // function to transfer a product from one instance to another in a given supply chain
