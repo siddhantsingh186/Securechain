@@ -108,7 +108,7 @@ const Login = () => {
                             <p>Don't have an account?<a href="/register"> Register Now!</a></p>
                         </div>
                         <div className="Linebreaker1">
-                            <hr></hr>
+                            {/* <hr></hr> */}
                         </div>
                         <div className="form-group">
                             <label className="formLabel" htmlFor="email">Email</label><br/>

@@ -20,6 +20,7 @@
       &__text{
         display: flex;
         flex-flow: column;
+        font-size: 1.45em;
         align-items: center;
         position: relative;
         &__container{
@@ -74,6 +75,7 @@
     &__list{
       display: flex;
       flex-flow: row;
+      font-size: 1.25em;
       justify-content: space-around;
       list-style-type: none;
       &__item{
