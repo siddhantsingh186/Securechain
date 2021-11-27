@@ -67,7 +67,7 @@
     margin-left:35px;
     margin-bottom : 20px;
     // margin-top:40px;
-    font-family: montserrat,sans-serif;
+    font-family: 'Source Sans Pro', sans-serif;
   }
   &__column1 {
     float: left;
@@ -76,7 +76,7 @@
       height: 40px;
       width: 30%;
       border-radius: 5px;
-      font-family:  montserrat,sans-serif;
+      font-family: 'Source Sans Pro', sans-serif;
       font-size: 20px;
       color: white;
       background-color: #138BBF;
@@ -154,7 +154,7 @@
     &__head1
     {
       font-size:25px;
-      font-family: montserrat,sans-serif;
+      font-family: 'Source Sans Pro', sans-serif;
       margin: auto;
     }
     &__text{
@@ -166,7 +166,7 @@
   }
   
   &__form-group{
-    font-family: montserrat,sans-serif;
+    font-family: 'Source Sans Pro', sans-serif;
     margin-left:35px;
     margin-top:15px;
     // margin-bottom : 15px;
@@ -180,7 +180,7 @@
     width: 70%;
     padding: 12px 20px;
     margin: 8px 0;
-    font-size: 20px;
+    font-size: 18px;
     display: inline-block;
     border: 1px solid #ccc;
     border-radius: 4px;
@@ -190,7 +190,8 @@
     width: 100%;
     padding: 5px 7px;
     // background-color: #F3F7FA;
-    font-size: 20px;
+    font-size: 18px;
+    font-family: 'Source Sans Pro', sans-serif;
     margin: 8px 0;
     display: inline-block;
     border: 1px solid #ccc;
