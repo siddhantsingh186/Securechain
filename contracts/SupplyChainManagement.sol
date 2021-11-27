@@ -27,6 +27,10 @@ contract SupplyChainManagement {
         address currentOwner;
         string ownerName;
         string description;
+        address _sender;
+        string _senderName;
+        address _receiver;
+        string _receiverName;
     }
     
     struct Notification{
@@ -210,7 +214,7 @@ contract SupplyChainManagement {
     
     function addHistory(address _owner, string memory _productNo, string memory _productName, uint256 _noOfBatches, uint256 _unitsPerBatch, uint256 _supplyChainId, /*string memory _manufacturer, string memory _currentOwner*/string memory _ownerName, string memory _timestamp/*, string memory _description*/) public {
         for(uint256 i=firstBatchIdInOwnership[_owner][_supplyChainId][_productNo]; i<=lastBatchIdInOwnership[_owner][_supplyChainId][_productNo]; i++){
-            batchHistory[_supplyChainId][_productNo][i][1] = ProductHistory(_timestamp, _owner, _ownerName, "Product Created");
+            batchHistory[_supplyChainId][_productNo][i][1] = ProductHistory(_timestamp, _owner, _ownerName, "Product Created", _owner, _ownerName, _owner, _ownerName);
             batchHistoryCount[_supplyChainId][_productNo][i]++;
         }
     }
@@ -241,7 +245,7 @@ contract SupplyChainManagement {
         
         for(uint256 i = notifications[_transferTo][_notificationId].firstBatch; i <= notifications[_transferTo][_notificationId].lastBatch; i++){
             batchHistoryCount[_supplyChainId][_productNo][i]++;
-            batchHistory[_supplyChainId][_productNo][i][batchHistoryCount[_supplyChainId][_productNo][i]] = ProductHistory(_timestamp, _transferTo, _transferToName, "Product Transferred");
+            batchHistory[_supplyChainId][_productNo][i][batchHistoryCount[_supplyChainId][_productNo][i]] = ProductHistory(_timestamp, _transferTo, _transferToName, "Product Transferred", _transferFrom, _transferFromName, _transferTo, _transferToName);
         }
         
         if(firstBatchIdInOwnership[_transferFrom][_supplyChainId][_productNo] == notifications[_transferTo][_notificationId].firstBatch){
@@ -273,7 +277,7 @@ contract SupplyChainManagement {
         
         for(uint256 i = firstBatchIdToRequest[msg.sender][_supplyChainId][_productNo]; i < (firstBatchIdToRequest[msg.sender][_supplyChainId][_productNo] + _batchesToTransfer); i++){
             batchHistoryCount[_supplyChainId][_productNo][i]++;
-            batchHistory[_supplyChainId][_productNo][i][batchHistoryCount[_supplyChainId][_productNo][i]] = ProductHistory(_timestamp, msg.sender, _currentOwner, "Transfer Requested");
+            batchHistory[_supplyChainId][_productNo][i][batchHistoryCount[_supplyChainId][_productNo][i]] = ProductHistory(_timestamp, msg.sender, _currentOwner, "Transfer Requested", msg.sender, _currentOwner, _to, _transferToName);
         }
         
         notificationsCount[_to]++;
@@ -287,7 +291,7 @@ contract SupplyChainManagement {
     function acceptTransfer(uint256 _notificationId, string memory _timestamp) public {
         for(uint256 i = notifications[msg.sender][_notificationId].firstBatch; i <= notifications[msg.sender][_notificationId].lastBatch; i++){
             batchHistoryCount[notifications[msg.sender][_notificationId].supplyChainId][notifications[msg.sender][_notificationId].productNo][i]++;
-            batchHistory[notifications[msg.sender][_notificationId].supplyChainId][notifications[msg.sender][_notificationId].productNo][i][batchHistoryCount[notifications[msg.sender][_notificationId].supplyChainId][notifications[msg.sender][_notificationId].productNo][i]] = ProductHistory(_timestamp, notifications[msg.sender][_notificationId]._sender, notifications[msg.sender][_notificationId]._senderName, "Transfer Request Accepted");
+            batchHistory[notifications[msg.sender][_notificationId].supplyChainId][notifications[msg.sender][_notificationId].productNo][i][batchHistoryCount[notifications[msg.sender][_notificationId].supplyChainId][notifications[msg.sender][_notificationId].productNo][i]] = ProductHistory(_timestamp, notifications[msg.sender][_notificationId]._sender, notifications[msg.sender][_notificationId]._senderName, "Transfer Request Accepted", notifications[msg.sender][_notificationId]._sender, notifications[msg.sender][_notificationId]._senderName, notifications[msg.sender][_notificationId]._receiver, notifications[msg.sender][_notificationId]._receiverName);
         }
         notifications[msg.sender][notificationsCount[msg.sender]].exists = false;
         transferProduct(notifications[msg.sender][_notificationId].productNo, notifications[msg.sender][_notificationId].productName, notifications[msg.sender][_notificationId].batchesToTransfer, notifications[msg.sender][_notificationId].supplyChainId, notifications[msg.sender][_notificationId]._sender, notifications[msg.sender][_notificationId]._senderName, notifications[msg.sender][_notificationId]._receiver, notifications[msg.sender][_notificationId]._receiverName, _timestamp, _notificationId);
