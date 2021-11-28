@@ -320,7 +320,8 @@ contract SupplyChainManagement {
         //require(products[_productName][_supplyChainId].exists, "Product does not exist");
         require(batches[_productNo].exists, "Product does not exist");
         //return unitsInOwnership[_productName][_supplyChainId][parseAddr(_instance)];
-        return ((batchesInOwnership[_productNo][/*parseAddr(_instance)*/msg.sender]) * (batches[_productNo].unitsPerBatch));
+        //return ((batchesInOwnership[_productNo][/*parseAddr(_instance)*/msg.sender]) * (batches[_productNo].unitsPerBatch));
+        return batches[_productNo].unitsPerBatch;
     }
     
     // function to return the productName of a product

@@ -69,7 +69,7 @@ class App extends Component {
       const deployedNetwork = SupplyChainManagement.networks[networkId];
       const contract = new web3.eth.Contract(
         SupplyChainManagement.abi,
-        "0x2e3d8DEF2Db50474cc5de1E4BfFa2Ee0dafD390e",
+        "0x0B9bCD1825921852332D1d528b197892edD644c0",
       );
 
 
@@ -156,7 +156,7 @@ class App extends Component {
     const deployedNetwork = SupplyChainManagement.networks[networkId];
     const contract = new web3.eth.Contract(
       SupplyChainManagement.abi,
-      "0x2e3d8DEF2Db50474cc5de1E4BfFa2Ee0dafD390e",
+      "0x0B9bCD1825921852332D1d528b197892edD644c0",
     );
 
     const notificationsCount = await contract.methods.getNotificationsCount(accounts[0]).call();

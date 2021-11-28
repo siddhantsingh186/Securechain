@@ -197,15 +197,14 @@ const TransferProduct = ({ getProductName, productsInSupplyChain, currentBatches
                                     </select>
                                 </div>
                             }
-                            {batchesInOwnership &&
+                            {batchesInOwnership && 
                                 <div>
                                     <h2 className="transferproduct__title">Batches in Ownership:- {batchesInOwnership}</h2>
-                                    <br></br>
                                 </div>
                             }
-                            {/* {unitsInOwnership &&
-                                <h1 className="transferproduct__title">{unitsInOwnership}</h1>
-                            } */}
+                            { unitsInOwnership &&
+                                <h1 className="transferproduct__title">Units per Batch:- {unitsInOwnership}</h1>
+                            }
                             <h1 className="transferproduct__title">Reciever's Details</h1>
                             <div className="transferproduct__form-group">
                                 <label className="transferproduct__label">Select Receiver : </label>
