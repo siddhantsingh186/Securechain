@@ -77,6 +77,7 @@ const Progress = ({getBatchIdsInOwnership , getProductHistory}) => {
                             }
                             return(
                                 <div className = "progress__bottom" key ={e.timestamp}>
+                                    <div className="progress__left">{e.unitsInBatch}</div>
                                     <div className = "progress__left">{e.timestamp}</div>
                                     <div className = "progress__right">{block}</div>
                                 </div>

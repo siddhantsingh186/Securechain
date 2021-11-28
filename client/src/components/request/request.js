@@ -27,9 +27,10 @@ const Request = ({getNotificationsOfUser ,acceptTransfer}) => {
                     "productName" : d[7].split("_")[0],
                     "supplychainId" : d[9],
                     "batchesToTransfer" : d[10],
-                    "firstBatch" : d[11],
-                    "lastBatch" : d[12],
-                    "exists" : d[13]
+                    "unitsPerBatch" : d[11],
+                    "firstBatch" : d[12],
+                    "lastBatch" : d[13],
+                    "exists" : d[14]
                 }
                 console.log(notification);
                 console.log("here notifications", notifications);
@@ -69,7 +70,7 @@ const Request = ({getNotificationsOfUser ,acceptTransfer}) => {
                                             <p className="request__key"><strong className="request__key__bold">Supply Chain : </strong>{d.supplychainId}</p>
                                             <p className="request__key"><strong className="request__key__bold">Product Name : </strong>{d.productName}</p>
                                             <p className="request__key"><strong className="request__key__bold">Number of batches : </strong>{d.batchesToTransfer}</p>
-                                            {/* <p className="request__key"><strong className="request__key__bold">Number of uints in one batch : </strong>1000</p> */}
+                                            <p className="request__key"><strong className="request__key__bold">Number of units per batch : </strong>{d.unitsPerBatch}</p>
                                             <p className="request__key"><strong className="request__key__bold">Transaction Date : </strong>{d.timeStamp}</p>
                                         </div>
                                         <div className="request__row">
