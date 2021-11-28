@@ -116,6 +116,7 @@ form{
     }    
 }
 .track1{
+    margin-bottom: 2em;
     display: flex;
     flex-direction: row;
     width:100%;
@@ -123,6 +124,7 @@ form{
     &__row{
         display: flex;
         justify-content: center;
+        margin-left: 10px;
     }
     &__form-group{
         font-family: 'Source Sans Pro', sans-serif;
@@ -166,17 +168,20 @@ form{
             margin-bottom: 20px;
     }  
     &__big-card{
-        margin-left: 39px;
+        margin-left: 2%;
+        margin-top: auto;
+        margin-bottom: auto;
+        // margin-left: 39px;
         padding-top:20px;
         width : 50%;
         height : 50%;
         // border : 1px solid black;
         border-radius: 10px;
-        margin : auto;
-        margin-bottom: 15px;
+        // margin : auto;
+        // margin-bottom: 15px;
         -moz-box-shadow: 0 0 3px #ccc;
         -webkit-box-shadow: 0 0 3px #ccc;
         box-shadow: 0 0 3px #ccc;
-    }    
+    }   
 }
 
