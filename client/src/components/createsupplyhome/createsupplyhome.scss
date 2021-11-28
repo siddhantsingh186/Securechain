@@ -174,13 +174,14 @@
     width: 90%;
 }
   &__label{
-    font-size: 20px;
+    font-size: 22px;
+    font-weight: bold;
   }
   &__input{
     width: 70%;
     padding: 12px 20px;
     margin: 8px 0;
-    font-size: 18px;
+    font-size: 16px;
     display: inline-block;
     border: 1px solid #ccc;
     border-radius: 4px;
@@ -189,8 +190,8 @@
   &__input1{
     width: 100%;
     padding: 5px 7px;
-    // background-color: #F3F7FA;
     font-size: 18px;
+    font-weight: 500;
     font-family: 'Source Sans Pro', sans-serif;
     margin: 8px 0;
     display: inline-block;

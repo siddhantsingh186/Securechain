@@ -155,7 +155,6 @@ import "./createsupply.scss";
                   //value={}
                   onChange={e => setEntity(e.target.value)}
                   />
-                  <hr></hr>
                   <h3>Select Template</h3>
                   {template.options && <select className = "createsupply__bottom__head1__part1__select1" onChange = {handleTemplate}>
                     <option value="none" selected disabled hidden>Select an Option</option>
@@ -169,9 +168,9 @@ import "./createsupply.scss";
                     <h3>Default Attributes</h3>
                     {selectedtemplate.attributes.map((value) => {
                       return (
-                        <div>
-                        <FormLabel className = "createsupply__bottom__head1__part1__label1">{value.name}</FormLabel>
-                        <FormLabel className = "createsupply__bottom__head1__part1__label2">{value.type}</FormLabel>
+                        <div className="createsupply__bottom__head1__part1__templateattribute">
+                        <div className = "createsupply__bottom__head1__part1__label1">{value.name}</div>
+                        <div className = "createsupply__bottom__head1__part1__label2">{value.type}</div>
                       </div>
                     );
                   })}
@@ -179,7 +178,7 @@ import "./createsupply.scss";
                   <p>Define attributes as per your requirement from the selected instance</p>
                   <hr></hr>
                   {inputFields.map((inputField , index)=> (
-                      <div >
+                      <div className="createsupply__bottom__fillAttribute">
                       <TextField
                         name="name"
                         label="Attribute Name"

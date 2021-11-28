@@ -22,7 +22,6 @@ import Progress from './components/progress/progress';
 import Request from './components/request/request';
 
 class App extends Component {
-
   //const [products, setProducts] = useState();
   constructor(props) {
     super(props)
@@ -106,7 +105,8 @@ class App extends Component {
       token:null
     },() => {
     localStorage.removeItem('token')
-  })}
+  })
+}
 
   addProduct = (productNo, productName, noOfBatches, unitsPerBatch, supplyChainId, ownerName, timestamp) => {
     this.setState({ loading: true })

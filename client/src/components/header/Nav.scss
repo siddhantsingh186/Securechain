@@ -23,9 +23,9 @@
       font-size: 34px;
       font-weight: 900;
     }
-    &__button{
-      margin-right: 10px;
-    }
+    // &__button{
+    //   margin-right: 10px;
+    // }
     &__list{
         display: flex;
         justify-content: space-around;
@@ -71,11 +71,34 @@
                 cursor: pointer;
                 color: #FE5E4C;
             }
+        }
+        &__button{
+          display: block;
+          height: 40px;
+          width: fit-content;
+          border-radius: 5px;
+          font-family: 'Source Sans Pro', sans-serif;
+          font-size: 20px;
+          color: white;
+          background-color: #138BBF;
+          margin: auto;
+          margin-top: 32px;
+          text-decoration: none;
+          &:hover{
+            color: var(--clr-primary-5);
+            background: var(--clr-primary-8);
+            border-color: var(--clr-primary-8);
+            background: var(--clr-primary-10);
+            text-decoration: none;
+            --transition: all 0.3s linear;
+          }
+          &:link{
+            text-decoration: none;
+          }
+        }
+        
+        
 
-         }
-         &__button{
-            margin-top: 41px;
-         }
     }
   }
 }
