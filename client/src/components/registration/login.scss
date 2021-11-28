@@ -18,7 +18,7 @@
 	font-family: 'Source Sans Pro', sans-serif;
 	background-color: white;
 	height: 72%;
-	width: 30%;
+	width: 26%;
 	border-radius: 10px;
 }
 .Title{
@@ -30,7 +30,8 @@
 	text-align: center;
 	font-size: 15px;
 	font-family: 'Source Sans Pro', sans-serif;
-	font-weight: normal;
+	font-weight: bold;
+	font-size: 1em;
 	margin-top:-18px;
 }
 .Linebreaker1{
@@ -38,7 +39,7 @@
 	border-width:0;
 	color:gray;
 	background-color:gray;
-	margin-bottom: 100px;
+	margin-bottom: 10px;
 }
 .form-group{
 	margin-top: 15px;
@@ -48,6 +49,7 @@
 .formLabel{
 	font-size: 17px;
 	margin-left:40px;
+	font-weight: 600;
 }
 .formInput{
 	height: 35px;

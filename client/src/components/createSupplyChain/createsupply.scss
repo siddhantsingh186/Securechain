@@ -51,19 +51,25 @@
         }
         &__label1{
           margin-left : 4px;
+          margin-bottom: 10px;
           background: lightgrey;
           padding-top: 10px;
           padding-right: 10px;
           padding-bottom: 10px;
           padding-left: 10px;
+          display: inline-block;
+          border-radius: 0.25em;
         }
-        &__lavel2{
-          margin-left : 4px;
+        &__label2{
+          margin-left : 8px;
+          margin-bottom: 10px;
           background: lightgrey;
           padding-top: 10px;
           padding-right: 10px;
           padding-bottom: 10px;
           padding-left: 10px;
+          display: inline-block;
+          border-radius: 0.25em;
         }
         &__select2{
           background: var(--clr-grey-10);
@@ -74,11 +80,17 @@
           margin: 0 0.5rem;
           font-size: 1.25rem;
         }
+        // &__templateattribute{
+        //   display: block;
+        // }
       }
       &__part2{
         margin: auto;
         margin-top: 36px;
       }
+    }
+    &__fillAttribute{
+      margin-bottom: 15px;
     }
   }
 }

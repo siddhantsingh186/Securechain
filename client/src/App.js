@@ -22,11 +22,12 @@ import Progress from './components/progress/progress';
 import Request from './components/request/request';
 
 class App extends Component {
-
   //const [products, setProducts] = useState();
   constructor(props) {
     super(props)
     this.state = {
+      auth:(localStorage.getItem(`token`)!==null)?true:false,
+      token: localStorage.getItem(`token`),
       account: '',
       contract: null,
       products: [],
@@ -88,9 +89,29 @@ class App extends Component {
     }
   };
 
+  onAuthConfirm = (t) =>{
+    this.setState({
+      auth:true,
+      token: t,
+    },() => {
+    localStorage.setItem('token', (this.state.token))
+  })}
+
+
+  logout=()=>{
+    // Request to backend in future
+    this.setState({
+      auth:false,
+      token:null
+    },() => {
+    localStorage.removeItem('token')
+  })
+}
+
   addProduct = (productNo, productName, noOfBatches, unitsPerBatch, supplyChainId, ownerName, timestamp) => {
     this.setState({ loading: true })
     console.log(this.state.contract)
+    console.log(productNo, productName, noOfBatches, unitsPerBatch, supplyChainId, ownerName, timestamp, this.state.account)
     this.state.contract.methods.addProduct(productNo, productName, noOfBatches, unitsPerBatch, supplyChainId, ownerName, timestamp).send({ from: this.state.account }).on('transactionHash', (hash) => {
       this.setState({ loading: false })
     })
@@ -216,7 +237,7 @@ class App extends Component {
     return (
       <div className="app">
         <Router>
-          <Nav />
+          <Nav AuthState={this.state.auth} logout = {this.logout}/>
           <Switch>
             <Route exact path="/">
               <Home />
@@ -233,8 +254,7 @@ class App extends Component {
               acceptTransfer = {this.acceptTransfer}
               />
             </Route>
-            <Route exact path="/login">
-              <Login />
+            <Route exact path="/login" render={(props)=><Login {...props} AuthState={this.state.auth} Auth={this.onAuthConfirm}/>}>
             </Route>
             <Route exact path="/dashboard">
               <Dashboard />
@@ -288,4 +308,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default App

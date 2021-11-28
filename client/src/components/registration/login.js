@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 import Axios from 'axios'
 
-const Login = () => {
+const Login = (props) => {
 
     let history = useHistory();
     document.title = 'login';
@@ -87,10 +87,10 @@ const Login = () => {
                 alert(response.data.message);
                 }
                 else {
-                alert("Logined Successfully");
+                props.Auth(response.data.Token);
                 history.push('/dashboard');
                 }
-
+                
             });
         }
         e.target.reset();
@@ -108,7 +108,7 @@ const Login = () => {
                             <p>Don't have an account?<a href="/register"> Register Now!</a></p>
                         </div>
                         <div className="Linebreaker1">
-                            <hr></hr>
+                            {/* <hr></hr> */}
                         </div>
                         <div className="form-group">
                             <label className="formLabel" htmlFor="email">Email</label><br/>
