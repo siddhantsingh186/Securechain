@@ -9,7 +9,7 @@
     justify-content: space-between;
     box-sizing: border-box;
     align-items: center;
-    font-family: 'Source Sans Pro', sans-serif;
+    font-family:  'Source Sans Pro', sans-serif;
     font-size: 18px;
     position: relative;
     height: 84px;
@@ -106,7 +106,7 @@
 .hamburger{
   display: none;
 }
-@media screen and (max-width : 780px) {
+@media screen and (max-width : 1220px) {
   .nav{
     &__header{
       &__list{
