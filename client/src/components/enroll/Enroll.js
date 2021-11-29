@@ -6,8 +6,10 @@ import TextField from '@mui/material/TextField';
 import { produce } from "immer";
 import './Enroll.scss';
 import { red } from '@mui/material/colors';
+import { useHistory } from 'react-router';
 
 const Enroll = ({selectedSupplyChain}) => {
+    let history = useHistory();
     let token = localStorage.getItem("token");
     let supplyChain = localStorage.getItem("supplychain");
     let entityName = "";
@@ -65,6 +67,7 @@ const Enroll = ({selectedSupplyChain}) => {
             .catch((err) => {
                 console.log(err.response)
             })
+        history.push("/dashboard");
     }
 
     useEffect(() => {
