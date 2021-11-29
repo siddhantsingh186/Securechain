@@ -19,78 +19,87 @@
   &__bottom{
     display: flex;
     flex-flow: column;
-    &__head{
+    justify-content: center;
+    &__maincard{
       display: flex;
-      flex-flow: column;
-      justify-content: center;
-      font-weight: bold;
-      font-size: 2.25rem;
-      letter-spacing: var(--spacing);
-      background: #0A1F34;
-      margin-top: 1px;
-      align-items: flex-start;
-      color: white;
-      padding-bottom: 24px;
-      padding-top: 14px;
-      padding-left: 16px;
-    }
-    &__head1{
-      display: flex;
-      flex-flow: row;
-      margin-left: auto;
-      margin-right: auto;
-      &__part1{
-        &__select1{
-            background: var(--clr-grey-10);
-            border: 2px solid var(--clr-primary-5);
-            padding: 0.25rem 0.5rem;
-            width: 30rem;
-            border-radius: var(--radius);
-            margin: 0 0.5rem;
-            font-size: 1.25rem;
+      &__formpart{
+        &__head{
+          display: flex;
+          flex-flow: column;
+          justify-content: center;
+          font-weight: bold;
+          font-size: 2.25rem;
+          letter-spacing: var(--spacing);
+          background: #0A1F34;
+          margin-top: 1px;
+          align-items: flex-start;
+          color: white;
+          padding-bottom: 24px;
+          padding-top: 14px;
+          padding-left: 16px;
         }
-        &__label1{
-          margin-left : 4px;
-          margin-bottom: 10px;
-          background: lightgrey;
-          padding-top: 10px;
-          padding-right: 10px;
-          padding-bottom: 10px;
-          padding-left: 10px;
-          display: inline-block;
-          border-radius: 0.25em;
+        &__head1{
+          display: flex;
+          flex-flow: row;
+          margin-left: auto;
+          margin-right: auto;
+          &__part1{
+            &__select1{
+                background: var(--clr-grey-10);
+                border: 2px solid var(--clr-primary-5);
+                padding: 0.25rem 0.5rem;
+                width: 30rem;
+                border-radius: var(--radius);
+                margin: 0 0.5rem;
+                font-size: 1.25rem;
+            }
+            &__label1{
+              margin-left : 4px;
+              margin-bottom: 10px;
+              background: lightgrey;
+              padding-top: 10px;
+              padding-right: 10px;
+              padding-bottom: 10px;
+              padding-left: 10px;
+              display: inline-block;
+              border-radius: 0.25em;
+            }
+            &__label2{
+              margin-left : 8px;
+              margin-bottom: 10px;
+              background: lightgrey;
+              padding-top: 10px;
+              padding-right: 10px;
+              padding-bottom: 10px;
+              padding-left: 10px;
+              display: inline-block;
+              border-radius: 0.25em;
+            }
+            &__select2{
+              background: var(--clr-grey-10);
+              border: 2px solid var(--clr-primary-5);
+              padding: 0.25rem 0.5rem;
+              width: 17rem;
+              border-radius: var(--radius);
+              margin: 0 0.5rem;
+              font-size: 1.25rem;
+            }
+            // &__templateattribute{
+            //   display: block;
+            // }
+          }
+          &__part2{
+            margin: auto;
+            margin-top: 36px;
+          }
         }
-        &__label2{
-          margin-left : 8px;
-          margin-bottom: 10px;
-          background: lightgrey;
-          padding-top: 10px;
-          padding-right: 10px;
-          padding-bottom: 10px;
-          padding-left: 10px;
-          display: inline-block;
-          border-radius: 0.25em;
+        &__fillAttribute{
+          margin-bottom: 15px;
         }
-        &__select2{
-          background: var(--clr-grey-10);
-          border: 2px solid var(--clr-primary-5);
-          padding: 0.25rem 0.5rem;
-          width: 17rem;
-          border-radius: var(--radius);
-          margin: 0 0.5rem;
-          font-size: 1.25rem;
-        }
-        // &__templateattribute{
-        //   display: block;
-        // }
       }
-      &__part2{
-        margin: auto;
-        margin-top: 36px;
+      &__imagepart{
+        
       }
-    }
-    &__fillAttribute{
-      margin-bottom: 15px;
     }
   }
 }
@@ -123,4 +132,21 @@ hr{
     display: flex;
     justify-content: center;
     column-gap: 10px;
+}
+.buttonClass{
+  margin-top: 10%;
+  margin-bottom: 10%;
+}
+.image{
+  padding-top: 10px;
+  background-size: cover;
+  width: 40%;
+  height: 70%;
+  display: table-cell;
+  position: absolute;
+  // background-position: 50%;
+  // background-position: center;
+  // background-repeat: no-repeat;
+  
+  opacity: 1;
 }

@@ -63,7 +63,7 @@ const Request = ({getNotificationsOfUser ,acceptTransfer}) => {
                                 <div className="request__row">
                                     <div className = "request__big-card">
                                         <div className="request__title">
-                                            <p>{d.senderName} wants to send you {d.batchesToTransfer} batches of vials!</p>
+                                            <p>{d.senderName} wants to send you {d.batchesToTransfer} batches of {d.productName}!</p>
                                         </div>
                                         <div className="request__content">
                                             <p className="request__key"><strong className="request__key__bold">Sender's Name : </strong>{d.senderName}</p>
