@@ -140,6 +140,7 @@ import {useHistory } from 'react-router';
       });
   },[]);
   console.log(template.options);
+  
    return(
           <div className = "createsupply__bottom">
             <h1 className = "createsupply__bottom__head">Create Supply Chain</h1>
