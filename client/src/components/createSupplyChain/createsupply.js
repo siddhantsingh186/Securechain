@@ -145,15 +145,15 @@ import {useHistory } from 'react-router';
             <h1 className = "createsupply__bottom__head">Create Supply Chain</h1>
             <div className="createsupply__bottom__maincard">
               <div className="createsupply__bottom__maincard__formpart">
-                <h2 className = "createsupply__bottom__head1">Created entities</h2>
+                <h2 className = "createsupply__bottom__maincard__formpart__head1">Created entities</h2>
                 <div className = "entitiesdisplay">
                   {displayent !== '' && displayent.map((element) => (
                     <div className = "displayent">{element}</div>
                   ))}
                 </div>
-                <h2 className = "createsupply__bottom__head1">Create New Entity</h2>
-                <div className = "createsupply__bottom__head1__part1">
-                  <Container>
+                <h2 className = "createsupply__bottom__maincard__formpart__head1">Create New Entity</h2>
+                <div className = "createsupply__bottom__maincard__formpart__head1">
+                  <Container >
                     <form key = {formkey}  onSubmit = {event => handleSubmit(event)}>
                       <TextField
                         name="Entity"
@@ -163,7 +163,7 @@ import {useHistory } from 'react-router';
                         onChange={e => setEntity(e.target.value)}
                         />
                         <h3>Select Template</h3>
-                        {template.options && <select className = "createsupply__bottom__head1__part1__select1" onChange = {handleTemplate}>
+                        {template.options && <select className = "createsupply__bottom__maincard__formpart__head1__part1__select1" onChange = {handleTemplate}>
                           <option value="none" selected disabled hidden>Select an Option</option>
                           {
                               template.options.map((x)=>{
@@ -175,9 +175,9 @@ import {useHistory } from 'react-router';
                           <h3>Default Attributes</h3>
                           {selectedtemplate.attributes.map((value) => {
                             return (
-                              <div className="createsupply__bottom__head1__part1__templateattribute">
-                              <div className = "createsupply__bottom__head1__part1__label1">{value.name}</div>
-                              <div className = "createsupply__bottom__head1__part1__label2">{value.type}</div>
+                              <div className="createsupply__bottom__maincard__formpart__head1__part1__templateattribute">
+                              <div className = "createsupply__bottom__maincard__formpart__head1__part1__label1">{value.name}</div>
+                              <div className = "createsupply__bottom__maincard__formpart__head1__part1__label2">{value.type}</div>
                             </div>
                           );
                         })}
@@ -185,7 +185,7 @@ import {useHistory } from 'react-router';
                         <p>Define attributes as per your requirement from the selected instance</p>
                         <hr></hr>
                         {inputFields.map((inputField , index)=> (
-                            <div className="createsupply__bottom__fillAttribute">
+                            <div className="createsupply__bottom__maincard__formpart__head1__fillAttribute">
                             <TextField
                               name="name"
                               label="Attribute Name"
@@ -197,7 +197,7 @@ import {useHistory } from 'react-router';
                                 name="type"
                                 label="Attribute Type"
                                 onChange={event => handleChangeInput(inputField.id, event)}
-                                className = "createsupply__bottom__head1__part1__select2"
+                                className = "createsupply__bottom__maincard__formpart__head1__part1__select2"
                                 >
                                 <option value="none" selected disabled hidden>Select an Option</option>
                                 <option value="String">String</option>
@@ -246,7 +246,7 @@ import {useHistory } from 'react-router';
                 </div>*/}
               </div>
               <div className="createsupply__bottom__maincard__imagepart">
-                <div className="image" style={{ backgroundImage: `url(media/create.jpg)` }}/>
+                <div className="createsupply__bottom__maincard__imagepart__image" style={{ backgroundImage: `url(media/create.jpg)` }}/>
               </div>
             </div>
           </div>

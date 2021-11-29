@@ -19,10 +19,13 @@
   &__bottom{
     display: flex;
     flex-flow: column;
-    justify-content: center;
+    
     &__maincard{
       display: flex;
       &__formpart{
+        justify-content: center;
+        flex-flow: row;
+        margin-left: 10%;
         &__head{
           display: flex;
           flex-flow: column;
@@ -39,11 +42,8 @@
           padding-left: 16px;
         }
         &__head1{
-          display: flex;
-          flex-flow: row;
-          margin-left: auto;
-          margin-right: auto;
           &__part1{
+            margin: auto;
             &__select1{
                 background: var(--clr-grey-10);
                 border: 2px solid var(--clr-primary-5);
@@ -98,7 +98,20 @@
         }
       }
       &__imagepart{
-        
+        margin-left: 10%;
+        &__image{
+          padding-top: 10px;
+          background-size: cover;
+          width: 40%;
+          height: 70%;
+          display: table-cell;
+          position: absolute;
+          // background-position: 50%;
+          // background-position: center;
+          // background-repeat: no-repeat;
+          
+          opacity: 1;
+        }
       }
     }
   }
@@ -136,17 +149,4 @@ hr{
 .buttonClass{
   margin-top: 10%;
   margin-bottom: 10%;
-}
-.image{
-  padding-top: 10px;
-  background-size: cover;
-  width: 40%;
-  height: 70%;
-  display: table-cell;
-  position: absolute;
-  // background-position: 50%;
-  // background-position: center;
-  // background-repeat: no-repeat;
-  
-  opacity: 1;
 }
