@@ -145,15 +145,14 @@ import {useHistory } from 'react-router';
             <h1 className = "createsupply__bottom__head">Create Supply Chain</h1>
             <div className="createsupply__bottom__maincard">
               <div className="createsupply__bottom__maincard__formpart">
-                <h2 className = "createsupply__bottom__maincard__formpart__head1">Created entities</h2>
+                <h2 className = "createsupply__bottom__maincard__formpart__h2">Created entities</h2>
                 <div className = "entitiesdisplay">
                   {displayent !== '' && displayent.map((element) => (
                     <div className = "displayent">{element}</div>
                   ))}
                 </div>
-                <h2 className = "createsupply__bottom__maincard__formpart__head1">Create New Entity</h2>
-                <div className = "createsupply__bottom__maincard__formpart__head1">
-                  <Container >
+                <h2 className = "createsupply__bottom__maincard__formpart__h1">Create New Entity</h2>
+                  <Container className = "createsupply__bottom__maincard__formpart__head1">
                     <form key = {formkey}  onSubmit = {event => handleSubmit(event)}>
                       <TextField
                         name="Entity"
@@ -235,7 +234,6 @@ import {useHistory } from 'react-router';
                         <br/>
                     </form>
                   </Container>
-                </div>
                 {/*<div className = "createsupply__bottom__head1__part2">
                 <Button
                   variant="contained"
