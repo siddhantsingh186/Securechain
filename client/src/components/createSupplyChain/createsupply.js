@@ -245,7 +245,7 @@ import {useHistory } from 'react-router';
                 </div>*/}
               </div>
               <div className="createsupply__bottom__maincard__imagepart">
-                <div className="createsupply__bottom__maincard__imagepart__image" style={{ backgroundImage: `url(media/create.jpg)` }}/>
+                <div className="createsupply__bottom__maincard__imagepart__image" style={{ backgroundImage: `url(media/entity.jpg)` }}/>
               </div>
             </div>
           </div>
