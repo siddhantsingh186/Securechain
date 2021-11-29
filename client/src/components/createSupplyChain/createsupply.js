@@ -147,6 +147,11 @@ import {useHistory } from 'react-router';
             <div className="createsupply__bottom__maincard">
               <div className="createsupply__bottom__maincard__formpart">
                 <h2 className = "createsupply__bottom__maincard__formpart__h2">Created entities</h2>
+                <div className = "entitiesdisplay">
+                  {displayent !== '' && displayent.map((element) => (
+                    <div className = "displayent">{element}</div>
+                  ))}
+                </div>
                     <h2 className = "createsupply__bottom__maincard__formpart__h1">Create New Entity</h2>
                     <Container className = "createsupply__bottom__maincard__formpart__head1">
                       <form key = {formkey}  onSubmit = {event => handleSubmit(event)}>
@@ -230,11 +235,6 @@ import {useHistory } from 'react-router';
                           <br/>
                       </form>
                     </Container>
-                <div className = "entitiesdisplay">
-                  {displayent !== '' && displayent.map((element) => (
-                    <div className = "displayent">{element}</div>
-                  ))}
-                </div>
               </div>
               <div className="createsupply__bottom__maincard__imagepart">
                 <div className="createsupply__bottom__maincard__imagepart__image" style={{ backgroundImage: `url(media/entity.jpg)`}}/>
