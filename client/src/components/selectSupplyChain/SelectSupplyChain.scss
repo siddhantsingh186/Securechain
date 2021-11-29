@@ -15,6 +15,9 @@
     -webkit-box-shadow: 0 0 3px #ccc;
     box-shadow: 0 0 3px #ccc;
     padding-top: 130px;
+    &__article{
+      margin-left: 13%;
+    }
   } 
   &__image-card{
     display: inline-block;
@@ -58,5 +61,6 @@
     margin: auto;
     margin-top: 30px;
     margin-bottom: 20px;
+    margin-left: 24%;
   } 
 }
