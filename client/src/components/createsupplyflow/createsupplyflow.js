@@ -47,7 +47,7 @@ const Createsupplyflow = () => {
         let data = {
             "supply_chain": localStorage.getItem("supply_chain")
         }
-        axios.post("http://securechain-backend.herokuapp.com/entitybysupplychain/", data, {
+        axios.post("https://securechain-backend.herokuapp.com/entitybysupplychain/", data, {
             headers: {
                 Authorization: `Token ${token}`,
             }

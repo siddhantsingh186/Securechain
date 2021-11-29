@@ -85,7 +85,7 @@ import {useHistory } from 'react-router';
       console.log(templateid);
       let token = localStorage.getItem("token");
       if(templateid !== 0){
-        axios.get("http://securechain-backend.herokuapp.com/template/" + templateid + "/",{
+        axios.get("https://securechain-backend.herokuapp.com/template/" + templateid + "/",{
             headers: {
                 Authorization: `Token ${token}`,
             }
@@ -120,7 +120,7 @@ import {useHistory } from 'react-router';
 
   useEffect(() => {
       let token = localStorage.getItem("token")
-      axios.get("http://securechain-backend.herokuapp.com/template/",{
+      axios.get("https://securechain-backend.herokuapp.com/template/",{
           headers: {
               Authorization: `Token ${token}`,
           }
