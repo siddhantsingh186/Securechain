@@ -62,7 +62,7 @@ const SelectSupplyChain = () => {
             <h1 className = "createsupply__bottom__head">Select Supply Chain</h1>
             <div className="selectsupplychain">
                 <div className="selectsupplychain__big-card">
-                    <article>
+                    <article className="selectsupplychain__big-card__article">
                         <form onSubmit={handleSubmit}>
                             <div className='selectsupplychain__formgroup'>
                                 <label className='selectsupplychain__label' htmlFor='supplyChain'>
@@ -92,6 +92,9 @@ const SelectSupplyChain = () => {
                             <br/><br/>
                         </form>
                     </article>
+                </div>
+                <div className="selectsupplychain__image-card">
+                    <div className="selectsupplychain__image-card__image" style={{ backgroundImage: `url(media/entity.jpg)` }}/>
                 </div>
             </div>
         </div>
