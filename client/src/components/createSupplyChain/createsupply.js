@@ -140,6 +140,7 @@ import {useHistory } from 'react-router';
       });
   },[]);
   console.log(template.options);
+  
    return(
           <div className = "createsupply__bottom">
             <h1 className = "createsupply__bottom__head">Create Supply Chain</h1>
@@ -244,7 +245,7 @@ import {useHistory } from 'react-router';
                 </div>*/}
               </div>
               <div className="createsupply__bottom__maincard__imagepart">
-                <div className="createsupply__bottom__maincard__imagepart__image" style={{ backgroundImage: `url(media/entity.jpg)` }}/>
+                <div className="createsupply__bottom__maincard__imagepart__image" style={{ backgroundImage: `url(media/entity.jpg)`, width: '500px', height: '500px'}}/>
               </div>
             </div>
           </div>
