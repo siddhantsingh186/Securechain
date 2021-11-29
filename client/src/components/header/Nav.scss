@@ -9,8 +9,8 @@
     justify-content: space-between;
     box-sizing: border-box;
     align-items: center;
-    font-family: 'Source Sans Pro', sans-serif;
-    font-size: 18px;
+    font-family: 'Roboto', sans-serif, 'Source Sans Pro', sans-serif;
+    font-size: 16px;
     position: relative;
     height: 84px;
     box-shadow: 3px 3px 25px #e6e6e6;
@@ -51,7 +51,7 @@
             box-sizing: border-box;
             transition: all 0.15s ease;
             font-size: 120%;
-            font-weight: 900;
+            font-weight: 500;
             text-decoration: none;
             text-align: center;
             align-items: center;
@@ -78,8 +78,8 @@
           height: 40px;
           width: fit-content;
           border-radius: 5px;
-          font-family: 'Source Sans Pro', sans-serif;
-          font-size: 20px;
+          font-family: 'Roboto', sans-serif, 'Source Sans Pro', sans-serif;
+          font-size: 18px;
           color: white;
           background-color: #138BBF;
           margin: auto;

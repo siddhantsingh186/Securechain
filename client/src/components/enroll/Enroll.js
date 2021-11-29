@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 import TextField from '@mui/material/TextField';
 import { produce } from "immer";
 import './Enroll.scss';
+import { red } from '@mui/material/colors';
 
 const Enroll = ({selectedSupplyChain}) => {
     let token = localStorage.getItem("token");
@@ -168,9 +169,10 @@ const Enroll = ({selectedSupplyChain}) => {
                             
                             <form onSubmit={handleSubmit}>
                                 <div className="enroll__form-group">
-                                    <label className="enroll__label">Ethereum Address</label><br></br>
+                                            <label className="enroll__label">Ethereum Address<span style={{ color: `red` }}>*</span></label><br></br>
                                     <input 
-                                        className="enroll__input" 
+                                        className="enroll__input"
+                                        required
                                         type="text" name="eth_add" 
                                         id="eth_add" 
                                         placeholder="Your Ethereum Address"
@@ -179,8 +181,9 @@ const Enroll = ({selectedSupplyChain}) => {
                                     </input>
                                 </div>
                                 <div className="enroll__form-group">
-                                        <label className="enroll__label">Select Role</label><br></br>
+                                            <label className="enroll__label">Select Role<span style={{ color: `red` }}>*</span></label><br></br>
                                         <select
+                                            required
                                             name="role"
                                             label="Role"
                                             id="entityId"
@@ -207,6 +210,7 @@ const Enroll = ({selectedSupplyChain}) => {
                                     return(
                                         <div className="enroll__formgroup" key={att.id}>
                                             <TextField
+                                                required
                                                 name={att.name}
                                                 label={att.name}
                                                 variant="filled"
