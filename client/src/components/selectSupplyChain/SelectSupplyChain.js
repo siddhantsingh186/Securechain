@@ -94,7 +94,7 @@ const SelectSupplyChain = () => {
                     </article>
                 </div>
                 <div className="selectsupplychain__image-card">
-                    <div className="selectsupplychain__image-card__image" style={{ backgroundImage: `url(media/entity.jpg)` }}/>
+                    <div className="selectsupplychain__image-card__image" style={{ backgroundImage: `url(media/ssc.jpg)` }}/>
                 </div>
             </div>
         </div>

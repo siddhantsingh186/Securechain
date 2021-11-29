@@ -14,6 +14,10 @@
     -moz-box-shadow: 0 0 3px #ccc;
     -webkit-box-shadow: 0 0 3px #ccc;
     box-shadow: 0 0 3px #ccc;
+    padding-top: 130px;
+    &__article{
+      margin-left: 13%;
+    }
   } 
   &__image-card{
     display: inline-block;
@@ -48,7 +52,7 @@
   }
   &__button{   
     height:40px;
-    width: 20%;
+    width: fit-content;
     border-radius: 5px;
     font-family: 'Source Sans Pro', sans-serif;
     font-size: 20px;
@@ -57,5 +61,6 @@
     margin: auto;
     margin-top: 30px;
     margin-bottom: 20px;
+    margin-left: 24%;
   } 
 }
