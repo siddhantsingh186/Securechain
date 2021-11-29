@@ -112,21 +112,19 @@
     }
     
     &__button{
-        display: block;
-            height: 40px;
-            width: 200px;
-            border-radius: 5px;
-            font-family: 'Source Sans Pro', sans-serif;
-            font-size: 20px;
-            color: white;
-            background-color: #138BBF;
-            margin-left : 22%;
-            margin-top:50px;
+      height: 40px;
+      width: 200px;
+      border-radius: 5px;
+      font-family: 'Source Sans Pro', sans-serif;
+      font-size: 20px;
+      color: white;
+      background-color: #138BBF;
+      
+      margin-top:50px;
     }   
     &__button1{
           // height: 60%;
           margin: 8px 0;
-          
           height: 74%;
           width: 50%;
           padding: 12px 20px;
@@ -138,16 +136,14 @@
           background-color: #138BBF;
           border-radius: 5px;
           box-sizing: border-box;
-          margin-left : -25%;
   }  
   &__button2{
     // height: 60%;
     margin: 8px 0;
-    
     height: 74%;
     width: 50%;
     padding: 12px 20px;
-    display: block;
+    display: inline-block;
     justify-content: flex-end;
     font-family: 'Source Sans Pro', sans-serif;
     font-size: 20px;
