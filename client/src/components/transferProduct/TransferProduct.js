@@ -129,7 +129,7 @@ const TransferProduct = ({ getProductName, productsInSupplyChain, currentBatches
         let today = new Date();
         let date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
         let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-        let dateTime = time + '_' + date;
+        let dateTime = date + '_' + time;
         const productName = getProductName(productNo);
         console.log(transferInstance);
         console.log(transferToState);
@@ -197,15 +197,14 @@ const TransferProduct = ({ getProductName, productsInSupplyChain, currentBatches
                                     </select>
                                 </div>
                             }
-                            {batchesInOwnership &&
+                            {batchesInOwnership && 
                                 <div>
                                     <h2 className="transferproduct__title">Batches in Ownership:- {batchesInOwnership}</h2>
-                                    <br></br>
                                 </div>
                             }
-                            {/* {unitsInOwnership &&
-                                <h1 className="transferproduct__title">{unitsInOwnership}</h1>
-                            } */}
+                            { unitsInOwnership &&
+                                <h1 className="transferproduct__title">Units per Batch:- {unitsInOwnership}</h1>
+                            }
                             <h1 className="transferproduct__title">Reciever's Details</h1>
                             <div className="transferproduct__form-group">
                                 <label className="transferproduct__label">Select Receiver : </label>

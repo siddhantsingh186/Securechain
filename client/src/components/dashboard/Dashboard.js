@@ -9,6 +9,9 @@ function Dashboard(){
   const handleClick = (event) => {
     history.push('/createsupplyhome');
   }
+  const handleJoin = (event) => {
+    history.push('/selectsupplychain');
+  }
   let token = localStorage.getItem("token");
   const [ownedsupplychain, setownedsupplychain] = useState([]);
   const [enrolledsupplychain, setenrolledsupplychain] = useState([]);
@@ -66,6 +69,9 @@ function Dashboard(){
           )
         })}
       </div>
+      <div className = "dashboard__button">
+        <button className = "dashboard__button__style" onClick = {handleClick}>Create New Supply Chain</button>
+      </div>
       <h1 className = "enrolledsupply">Enrolled Supply Chain</h1>
       <div className = "chaindisplay">
         {enrolledsupplychain.map((d)=>{
@@ -78,7 +84,7 @@ function Dashboard(){
         })}
       </div>
       <div className = "dashboard__button">
-        <button className = "dashboard__button__style" onClick = {handleClick}>Create New Supply Chain</button>
+        <button className = "dashboard__button__style" onClick = {handleJoin}>Join A Supply Chain</button>
       </div>
     </div>
   );

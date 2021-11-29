@@ -11,9 +11,11 @@ import FormLabel from '@mui/material/FormLabel';
 import { v4 as uuidv4 } from 'uuid';
 import axios from 'axios';
 import "./createsupply.scss";
+import {useHistory } from 'react-router';
 
  function Createsupply(){
    let templateid = 0;
+   let history = useHistory();
    //const [renderattribute,setAttribute] = useState(false);
    const [formkey, setFormkey] = useState(2);
    const [displayent, setDisplayent] = useState([]);
@@ -37,7 +39,7 @@ import "./createsupply.scss";
      // console.log(JSON.stringify(data, null, 4));
      let token = localStorage.getItem("token")
      axios
-     .get("https://securechain-backend.herokuapp.com/entity/",
+     .post("https://securechain-backend.herokuapp.com/entity/", data,
                  {
                    headers: {
                          Authorization: `Token ${token}`,
@@ -70,6 +72,9 @@ import "./createsupply.scss";
  }
   const handleAddFields = () => {
    setInputFields([...inputFields, {id: uuidv4(),name: '', type: '' }])
+  }
+  const handleCreateFlow = () => {
+    history.push("/createsupplyflow");
   }
   const handleRemoveFields = id => {
     console.log(id);
@@ -136,97 +141,112 @@ import "./createsupply.scss";
   },[]);
   console.log(template.options);
    return(
-        <div className = "createsupply__bottom">
+          <div className = "createsupply__bottom">
             <h1 className = "createsupply__bottom__head">Create Supply Chain</h1>
-            <h2 className = "createsupply__bottom__head1">Created entities</h2>
-            <div className = "entitiesdisplay">
-              {displayent !== '' && displayent.map((element) => (
-                <div className = "displayent">{element}</div>
-              ))}
-            </div>
-            <h2 className = "createsupply__bottom__head1">Create New Entity</h2>
-            <div className = "createsupply__bottom__head1__part1">
-            <Container>
-              <form key = {formkey}  onSubmit = {event => handleSubmit(event)}>
-                <TextField
-                  name="Entity"
-                  label="Entity Name"
-                  variant="filled"
-                  //value={}
-                  onChange={e => setEntity(e.target.value)}
-                  />
-                  <hr></hr>
-                  <h3>Select Template</h3>
-                  {template.options && <select className = "createsupply__bottom__head1__part1__select1" onChange = {handleTemplate}>
-                    <option value="none" selected disabled hidden>Select an Option</option>
-                    {
-                        template.options.map((x)=>{
-                        return(
-                        <option value = {x.value}>{x.label}</option>);
-                      })
-                    }
-                    </select>}
-                    <h3>Default Attributes</h3>
-                    {selectedtemplate.attributes.map((value) => {
-                      return (
-                        <div>
-                        <FormLabel className = "createsupply__bottom__head1__part1__label1">{value.name}</FormLabel>
-                        <FormLabel className = "createsupply__bottom__head1__part1__label2">{value.type}</FormLabel>
-                      </div>
-                    );
-                  })}
-                  <h3>Add Attributes</h3>
-                  <p>Define attributes as per your requirement from the selected instance</p>
-                  <hr></hr>
-                  {inputFields.map((inputField , index)=> (
-                      <div >
-                      <TextField
-                        name="name"
-                        label="Attribute Name"
-                        variant="filled"
-                        value={inputFields.name}
-                        onChange={event => handleChangeInput(inputField.id, event)}
-                        />
-                        <select
-                          name="type"
-                          label="Attribute Type"
-                          onChange={event => handleChangeInput(inputField.id, event)}
-                          className = "createsupply__bottom__head1__part1__select2"
-                          >
-                          <option value="none" selected disabled hidden>Select an Option</option>
-                          <option value="String">String</option>
-                          <option value="Alphanumeric">Alphanumeric</option>
-                          <option value="Number">Number</option>
-                          <option value="Date">Date</option>
-                        </select>
-                        <IconButton disabled={inputFields.length === 1} onClick={() => handleRemoveFields(index)}>
-                          <RemoveCircleRoundedIcon/>
-                        </IconButton>
-                        {index === inputFields.length - 1?
-                            <IconButton onClick={handleAddFields}>
-                              <AddCircleIcon/>
-                            </IconButton>
-                        :null}
-                      </div>
+            <div className="createsupply__bottom__maincard">
+              <div className="createsupply__bottom__maincard__formpart">
+                <h2 className = "createsupply__bottom__maincard__formpart__h2">Created entities</h2>
+                <div className = "entitiesdisplay">
+                  {displayent !== '' && displayent.map((element) => (
+                    <div className = "displayent">{element}</div>
                   ))}
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    type="submit"
-                    onClick={event => handleSubmit(event, entity, temptemplate, inputFields)}>
-                    Add Entity
-                  </Button>
-              </form>
-            </Container>
+                </div>
+                <h2 className = "createsupply__bottom__maincard__formpart__h1">Create New Entity</h2>
+                  <Container className = "createsupply__bottom__maincard__formpart__head1">
+                    <form key = {formkey}  onSubmit = {event => handleSubmit(event)}>
+                      <TextField
+                        name="Entity"
+                        label="Entity Name"
+                        variant="filled"
+                        //value={}
+                        onChange={e => setEntity(e.target.value)}
+                        />
+                        <h3>Select Template</h3>
+                        {template.options && <select className = "createsupply__bottom__maincard__formpart__head1__part1__select1" onChange = {handleTemplate}>
+                          <option value="none" selected disabled hidden>Select an Option</option>
+                          {
+                              template.options.map((x)=>{
+                              return(
+                              <option value = {x.value}>{x.label}</option>);
+                            })
+                          }
+                          </select>}
+                          <h3>Default Attributes</h3>
+                          {selectedtemplate.attributes.map((value) => {
+                            return (
+                              <div className="createsupply__bottom__maincard__formpart__head1__part1__templateattribute">
+                              <div className = "createsupply__bottom__maincard__formpart__head1__part1__label1">{value.name}</div>
+                              <div className = "createsupply__bottom__maincard__formpart__head1__part1__label2">{value.type}</div>
+                            </div>
+                          );
+                        })}
+                        <h3>Add Attributes</h3>
+                        <p>Define attributes as per your requirement from the selected instance</p>
+                        <hr></hr>
+                        {inputFields.map((inputField , index)=> (
+                            <div className="createsupply__bottom__maincard__formpart__head1__fillAttribute">
+                            <TextField
+                              name="name"
+                              label="Attribute Name"
+                              variant="filled"
+                              value={inputFields.name}
+                              onChange={event => handleChangeInput(inputField.id, event)}
+                              />
+                              <select
+                                name="type"
+                                label="Attribute Type"
+                                onChange={event => handleChangeInput(inputField.id, event)}
+                                className = "createsupply__bottom__maincard__formpart__head1__part1__select2"
+                                >
+                                <option value="none" selected disabled hidden>Select an Option</option>
+                                <option value="String">String</option>
+                                <option value="Alphanumeric">Alphanumeric</option>
+                                <option value="Number">Number</option>
+                                <option value="Date">Date</option>
+                              </select>
+                              <IconButton disabled={inputFields.length === 1} onClick={() => handleRemoveFields(index)}>
+                                <RemoveCircleRoundedIcon/>
+                              </IconButton>
+                              {index === inputFields.length - 1?
+                                  <IconButton onClick={handleAddFields}>
+                                    <AddCircleIcon/>
+                                  </IconButton>
+                              :null}
+                            </div>
+                        ))}
+                        <Button
+                          style={{width: "fit-content", margin: "auto"}}
+                          variant="contained"
+                          color="primary"
+                          type="submit"
+                          onClick={event => handleSubmit(event, entity, temptemplate, inputFields)}>
+                          Add Entity
+                        </Button>
+                        <br/>
+                        <Button
+                          style={{width: "fit-content", margin: "auto"}}
+                          variant="contained"
+                          color="primary"
+                          type="submit"
+                          onClick={event => handleCreateFlow(event)}>
+                          Create Flows
+                        </Button>
+                        <br/>
+                    </form>
+                  </Container>
+                {/*<div className = "createsupply__bottom__head1__part2">
+                <Button
+                  variant="contained"
+                  color="primary"
+                  type="submit">
+                  Add
+                </Button>
+                </div>*/}
+              </div>
+              <div className="createsupply__bottom__maincard__imagepart">
+                <div className="createsupply__bottom__maincard__imagepart__image" style={{ backgroundImage: `url(media/entity.jpg)` }}/>
+              </div>
             </div>
-            {/*<div className = "createsupply__bottom__head1__part2">
-            <Button
-              variant="contained"
-              color="primary"
-              type="submit">
-              Add
-            </Button>
-            </div>*/}
           </div>
    );
  }

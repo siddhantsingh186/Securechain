@@ -22,11 +22,12 @@ import Progress from './components/progress/progress';
 import Request from './components/request/request';
 
 class App extends Component {
-
   //const [products, setProducts] = useState();
   constructor(props) {
     super(props)
     this.state = {
+      auth:(localStorage.getItem(`token`)!==null)?true:false,
+      token: localStorage.getItem(`token`),
       account: '',
       contract: null,
       products: [],
@@ -68,7 +69,7 @@ class App extends Component {
       const deployedNetwork = SupplyChainManagement.networks[networkId];
       const contract = new web3.eth.Contract(
         SupplyChainManagement.abi,
-        "0x92c1b0eF059231a3e67f3e7C981B56f731A29487",
+        "0x9331eEb6b5a3080E8F3ad08d946865a7127CDf75",
       );
 
 
@@ -88,9 +89,29 @@ class App extends Component {
     }
   };
 
+  onAuthConfirm = (t) =>{
+    this.setState({
+      auth:true,
+      token: t,
+    },() => {
+    localStorage.setItem('token', (this.state.token))
+  })}
+
+
+  logout=()=>{
+    // Request to backend in future
+    this.setState({
+      auth:false,
+      token:null
+    },() => {
+    localStorage.removeItem('token')
+  })
+}
+
   addProduct = (productNo, productName, noOfBatches, unitsPerBatch, supplyChainId, ownerName, timestamp) => {
     this.setState({ loading: true })
     console.log(this.state.contract)
+    console.log(productNo, productName, noOfBatches, unitsPerBatch, supplyChainId, ownerName, timestamp, this.state.account)
     this.state.contract.methods.addProduct(productNo, productName, noOfBatches, unitsPerBatch, supplyChainId, ownerName, timestamp).send({ from: this.state.account }).on('transactionHash', (hash) => {
       this.setState({ loading: false })
     })
@@ -127,16 +148,24 @@ class App extends Component {
   }
 
   getNotificationsOfUser = async () => {
-    const notificationsCount = await this.state.contract.methods.getNotificationsCount(this.state.account).call();
-    this.setState({notificationsCount : notificationsCount})
-    this.setState({notifications : []})
+    const web3 = await getWeb3();
+    const accounts = await web3.eth.getAccounts();
+    console.log(accounts[0]);
+
+    const networkId = await web3.eth.net.getId();
+    const deployedNetwork = SupplyChainManagement.networks[networkId];
+    const contract = new web3.eth.Contract(
+      SupplyChainManagement.abi,
+      "0x9331eEb6b5a3080E8F3ad08d946865a7127CDf75",
+    );
+
+    const notificationsCount = await contract.methods.getNotificationsCount(accounts[0]).call();
+    let notifications = []
     for(var i=1;i<=notificationsCount;i++){
-      const notification = await this.state.contract.methods.getNotifications(this.state.account, i).call();
-      this.setState({
-        notifications : [...this.state.notifications, notification]
-      })
+      const notification = await contract.methods.getNotifications(accounts[0] , i).call()
+      notifications = [...notifications, notification]
     }
-    return this.state.notifications;
+    return notifications;
   }
 
   acceptTransfer = async (notificationId, timestamp) => {
@@ -208,7 +237,7 @@ class App extends Component {
     return (
       <div className="app">
         <Router>
-          <Nav />
+          <Nav AuthState={this.state.auth} logout = {this.logout}/>
           <Switch>
             <Route exact path="/">
               <Home />
@@ -220,13 +249,12 @@ class App extends Component {
               <Register />
             </Route>
             <Route exact path="/request">
-              <Request
-                acceptTransfer = {this.acceptTransfer}
-                getNotificationsOfUser = {this.getNotificationsOfUser}
+              <Request 
+              getNotificationsOfUser = {this.getNotificationsOfUser}
+              acceptTransfer = {this.acceptTransfer}
               />
             </Route>
-            <Route exact path="/login">
-              <Login />
+            <Route exact path="/login" render={(props)=><Login {...props} AuthState={this.state.auth} Auth={this.onAuthConfirm}/>}>
             </Route>
             <Route exact path="/dashboard">
               <Dashboard />
@@ -280,4 +308,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default App
