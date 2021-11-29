@@ -117,68 +117,77 @@ const Createsupplyflow = () => {
             <h1 className = "createsupply__bottom__head">Create Supply Chain</h1>
             <div className = "createsupplyflow">
                 <div className = "createsupplyflow__big-card">
-                    <div className="createsupplyflow__title">
-                        <h1>Establish flow of your supply chain</h1>
+                    <div className = "createsupplyflow__row">
+                        <div className = "createsupplyflow__column1">
+                            <div className="createsupplyflow__title">
+                                <h1>Establish flow of your supply chain</h1>
+                            </div>
+                            <div className="createsupplyflow__formgroup">
+                                <form onSubmit={handleSubmit}>
+                                    {inputList.map((x, i) => {
+                                        return (
+                                            <div>
+                                                <div className="createsupplyflow__row">
+                                                    <div className="createsupplyflow__column">
+                                                        <select
+                                                        name="source"
+                                                        value={x.source}
+                                                        className = "createsupplyflow__input"
+                                                        onChange={handleChangeInput}
+                                                        required
+                                                        >
+                                                        <option selected disabled hidden>Source</option>
+                                                        {
+                                                            entity.options.map((x)=>
+                                                            <option value={x.value} >{x.label}</option>
+                                                            )
+                                                        }
+                                                        </select>
+                                                    </div>
+                                                    <div className="createsupplyflow__column">
+                                                        <select 
+                                                        name="destination"
+                                                        value={x.destination}
+                                                        onChange={handleChangeInput}
+                                                        className = "createsupplyflow__input"  
+                                                        options={entity.options}
+                                                        required
+                                                        >
+                                                        <option selected disabled hidden>Destination</option>
+                                                        {
+                                                            entity.options.map((x)=>
+                                                            <option value={x.value}>{x.label}</option>
+                                                            )
+                                                        }
+                                                        </select>
+                                                        
+                                                    </div>
+                                                </div>
+                                                <div className="createsupplyflow__row">
+                                                    {/* <div className="createsupplyflow__column"></div> */}
+                                                    <div className="createsupplyflow__column">
+                                                        {inputList.length - 1 === i &&<button className="createsupplyflow__button1" onClick={handleSubmit}>Save rule</button>}
+                                                    </div>
+                                                    <div className="createsupplyflow__column">
+                                                        {inputList.length - 1 === i && <button className="createsupplyflow__button2" onClick={handleAddClick}>Add rule</button>}
+                                                    </div>
+                                                    {/* <div className="createsupplyflow__column"></div> */}
+                                                </div> 
+                                            </div>
+                                        );
+                                    })}
+                                    <Link to='/dashboard'>
+                                        <button className="createsupplyflow__button" type="submit" >Save and Finish</button>
+                                    </Link>
+                                </form>
+                            </div>
+                        </div>
+                        <div className = "createsupplyflow__column2">
+                            <div className="createsupplyflow__column2__image" style={{ backgroundImage: `url(media/create-supply-flow.jpg)` }}>
+                            </div>
+                        </div>
                     </div>
-                    <div className="createsupplyflow__formgroup">
-                        <form onSubmit={handleSubmit}>
-                            {inputList.map((x, i) => {
-                                return (
-                                    <div>
-                                        <div className="createsupplyflow__row">
-                                            <div className="createsupplyflow__column">
-                                                <select
-                                                name="source"
-                                                value={x.source}
-                                                className = "createsupplyflow__input"
-                                                onChange={handleChangeInput}
-                                                required
-                                                >
-                                                <option selected disabled hidden>Source</option>
-                                                {
-                                                    entity.options.map((x)=>
-                                                    <option value={x.value} >{x.label}</option>
-                                                    )
-                                                }
-                                                </select>
-                                            </div>
-                                            <div className="createsupplyflow__column">
-                                                <select 
-                                                name="destination"
-                                                value={x.destination}
-                                                onChange={handleChangeInput}
-                                                className = "createsupplyflow__input"  
-                                                options={entity.options}
-                                                required
-                                                >
-                                                <option selected disabled hidden>Destination</option>
-                                                {
-                                                    entity.options.map((x)=>
-                                                    <option value={x.value}>{x.label}</option>
-                                                    )
-                                                }
-                                                </select>
-                                                
-                                            </div>
-                                        </div>
-                                        <div className="createsupplyflow__row">
-                                            {/* <div className="createsupplyflow__column"></div> */}
-                                            <div className="createsupplyflow__column">
-                                                {inputList.length - 1 === i &&<button className="createsupplyflow__button1" onClick={handleSubmit}>Save rule</button>}
-                                            </div>
-                                            <div className="createsupplyflow__column">
-                                                {inputList.length - 1 === i && <button className="createsupplyflow__button2" onClick={handleAddClick}>Add rule</button>}
-                                            </div>
-                                            {/* <div className="createsupplyflow__column"></div> */}
-                                        </div> 
-                                    </div>
-                                );
-                            })}
-                            <Link to='/dashboard'>
-                                <button className="createsupplyflow__button" type="submit" >Save and Finish</button>
-                            </Link>
-                        </form>
-                    </div>
+                        
                 </div>
             </div>
         </div>
