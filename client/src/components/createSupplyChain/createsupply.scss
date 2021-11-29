@@ -1,6 +1,13 @@
 .createsupply{
   display: flex;
   flex-flow: column;
+  .container-class{
+    width : 100%;
+    height: 700px;
+    &__big-card{
+    
+    } 
+  }
   &__head{
     display: flex;
     flex-flow: column;
@@ -23,6 +30,16 @@
     
     &__maincard{
       display: flex;
+      padding-top:20px;
+      width : 90%;
+      height : 80%;
+      // border : 1px solid black;
+      border-radius: 10px;
+      margin : auto;
+      margin-bottom: 15px;
+      -moz-box-shadow: 0 0 3px #ccc;
+      -webkit-box-shadow: 0 0 3px #ccc;
+      box-shadow: 0 0 3px #ccc;
       &__formpart{
         justify-content: center;
         flex-flow: row;
@@ -105,12 +122,12 @@
         }
       }
       &__imagepart{
-        margin-left: 6%;
+        margin-left: 0%;
         &__image{
           padding-top: 10px;
           background-size: cover;
-          width: 47%;
-          height: 70%;
+          width: 43%;
+          height: 60%;
           display: table-cell;
           position: absolute;
           // background-position: 50%;
