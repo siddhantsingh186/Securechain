@@ -25,6 +25,9 @@ contract SupplyChainManagement {
     struct ProductHistory{
         string timestamp;
         uint256 unitsInBatch;
+        uint256 noOfBatches;
+        uint256 firstBatch;
+        uint256 lastBatch;
         address currentOwner;
         string ownerName;
         string description;
@@ -98,10 +101,13 @@ contract SupplyChainManagement {
     mapping(uint256 => mapping(string => mapping(uint256 => mapping(uint256 => ProductHistory)))) public batchHistory;
     
     // map supply chain id => productNo => batch id => history count
-    mapping(uint256 => mapping(string => mapping(uint256 => uint256))) public batchHistoryCount;
+    //mapping(uint256 => mapping(string => mapping(uint256 => uint256))) public batchHistoryCount;
 
-    // map productNo => ProductHistory
-    mapping(string => ProductHistory) public productHistory;
+    // map productNo => history count
+    mapping(string => uint256) public productHistoryCount;
+
+    // map productNo => history count => ProductHistory
+    mapping(string => mapping(uint256 => ProductHistory)) public productHistory;
     
     // map address => supply chain id => productNo => last batch id in ownership
     mapping(address => mapping(uint256 => mapping(string => uint256))) public firstBatchIdInOwnership;
@@ -209,7 +215,9 @@ contract SupplyChainManagement {
         
         lastBatchIdToRequest[msg.sender][_supplyChainId][_productNo] = _noOfBatches;
 
-        productHistory[_productNo] = ProductHistory(_timestamp, _unitsPerBatch, msg.sender, _ownerName, "Product Created", msg.sender, _ownerName, msg.sender, _ownerName);
+        productHistoryCount[_productNo]++;
+
+        productHistory[_productNo][productHistoryCount[_productNo]] = ProductHistory(_timestamp, _unitsPerBatch, _noOfBatches, 1, _noOfBatches, msg.sender, _ownerName, "Product Created", msg.sender, _ownerName, msg.sender, _ownerName);
         
         /*ProductHistory memory prodHist = ProductHistory(_timestamp, _unitsPerBatch, msg.sender, _ownerName, "Product Created", msg.sender, _ownerName, msg.sender, _ownerName);
         for(uint256 i=firstBatchIdInOwnership[msg.sender][_supplyChainId][_productNo]; i<=lastBatchIdInOwnership[msg.sender][_supplyChainId][_productNo]; i++){
@@ -252,10 +260,14 @@ contract SupplyChainManagement {
             batchHistory[_supplyChainId][_productNo][i][batchHistoryCount[_supplyChainId][_productNo][i]] = ProductHistory(_timestamp, _to, _transferToName, _description);
         }*/
         
-        for(uint256 i = notifications[_transferTo][_notificationId].firstBatch; i <= notifications[_transferTo][_notificationId].lastBatch; i++){
+        /*for(uint256 i = notifications[_transferTo][_notificationId].firstBatch; i <= notifications[_transferTo][_notificationId].lastBatch; i++){
             batchHistoryCount[_supplyChainId][_productNo][i]++;
             batchHistory[_supplyChainId][_productNo][i][batchHistoryCount[_supplyChainId][_productNo][i]] = ProductHistory(_timestamp, batches[_productNo].unitsPerBatch, _transferTo, _transferToName, "Product Transferred", _transferFrom, _transferFromName, _transferTo, _transferToName);
-        }
+        }*/
+
+        productHistoryCount[_productNo]++;
+        productHistory[_productNo][productHistoryCount[_productNo]] = ProductHistory(_timestamp, batches[_productNo].unitsPerBatch, productHistory[_productNo][1].noOfBatches, notifications[msg.sender][notificationsCount[msg.sender]].firstBatch, notifications[msg.sender][notificationsCount[msg.sender]].lastBatch, _transferTo, _transferToName, "Product Transferred", _transferFrom, _transferFromName, _transferTo, _transferToName);
+        
         
         if(firstBatchIdInOwnership[_transferFrom][_supplyChainId][_productNo] == notifications[_transferTo][_notificationId].firstBatch){
             firstBatchIdInOwnership[_transferFrom][_supplyChainId][_productNo] += _batchesToTransfer;
@@ -273,7 +285,7 @@ contract SupplyChainManagement {
     }
     
     // function to request transfer
-    function requestTransfer(string memory _productNo, string memory _productName, uint256 _batchesToTransfer, uint256 _supplyChainId,/* string memory _transferFrom,*/ string memory _transferTo, string memory _transferToName, string memory _timestamp) public {
+    function requestTransfer(string memory _productNo, string memory _productName, uint256 _batchesToTransfer, uint256 _supplyChainId, string memory _currentOwnerName, string memory _transferTo, string memory _transferToName, string memory _timestamp) public {
         //require(parseAddr(_transferFrom) == msg.sender, "You are not the authorised to transfer product");
         //require(unitsInOwnership[_productName][_supplyChainId][msg.sender] > 0, "You are not an owner of the product at present");
         require(lastBatchIdToRequest[msg.sender][_supplyChainId][_productNo] - firstBatchIdToRequest[msg.sender][_supplyChainId][_productNo] + 1 >= _batchesToTransfer, "You don't have enough batches to transfer");
@@ -282,15 +294,18 @@ contract SupplyChainManagement {
         
         address _to = parseAddr(_transferTo);
         
-        string memory _currentOwner = batchHistory[_supplyChainId][_productNo][firstBatchIdInOwnership[msg.sender][_supplyChainId][_productNo]][batchHistoryCount[_supplyChainId][_productNo][firstBatchIdInOwnership[msg.sender][_supplyChainId][_productNo]]].ownerName;
+        //string memory _currentOwner = batchHistory[_supplyChainId][_productNo][firstBatchIdInOwnership[msg.sender][_supplyChainId][_productNo]][batchHistoryCount[_supplyChainId][_productNo][firstBatchIdInOwnership[msg.sender][_supplyChainId][_productNo]]].ownerName;
         
-        for(uint256 i = firstBatchIdToRequest[msg.sender][_supplyChainId][_productNo]; i < (firstBatchIdToRequest[msg.sender][_supplyChainId][_productNo] + _batchesToTransfer); i++){
+        /*for(uint256 i = firstBatchIdToRequest[msg.sender][_supplyChainId][_productNo]; i < (firstBatchIdToRequest[msg.sender][_supplyChainId][_productNo] + _batchesToTransfer); i++){
             batchHistoryCount[_supplyChainId][_productNo][i]++;
             batchHistory[_supplyChainId][_productNo][i][batchHistoryCount[_supplyChainId][_productNo][i]] = ProductHistory(_timestamp, batches[_productNo].unitsPerBatch, msg.sender, _currentOwner, "Transfer Requested", msg.sender, _currentOwner, _to, _transferToName);
-        }
+        }*/
+
+        productHistoryCount[_productNo]++;
+        productHistory[_productNo][productHistoryCount[_productNo]] = ProductHistory(_timestamp, batches[_productNo].unitsPerBatch, productHistory[_productNo][1].noOfBatches, firstBatchIdToRequest[msg.sender][_supplyChainId][_productNo], firstBatchIdToRequest[msg.sender][_supplyChainId][_productNo] + _batchesToTransfer - 1, msg.sender, _currentOwnerName, "Transfer Requested", msg.sender, _currentOwnerName, _to, _transferToName);
         
         notificationsCount[_to]++;
-        notifications[_to][notificationsCount[_to]] = Notification("Request", notificationsCount[_to], _timestamp, msg.sender, _currentOwner, _to, _transferToName, _productNo, _productName, _supplyChainId, _batchesToTransfer, batches[_productNo].unitsPerBatch, firstBatchIdToRequest[msg.sender][_supplyChainId][_productNo], firstBatchIdToRequest[msg.sender][_supplyChainId][_productNo] + _batchesToTransfer - 1, true);
+        notifications[_to][notificationsCount[_to]] = Notification("Request", notificationsCount[_to], _timestamp, msg.sender, _currentOwnerName, _to, _transferToName, _productNo, _productName, _supplyChainId, _batchesToTransfer, batches[_productNo].unitsPerBatch, firstBatchIdToRequest[msg.sender][_supplyChainId][_productNo], firstBatchIdToRequest[msg.sender][_supplyChainId][_productNo] + _batchesToTransfer - 1, true);
         
         firstBatchIdToRequest[msg.sender][_supplyChainId][_productNo] += _batchesToTransfer;
         
@@ -298,10 +313,13 @@ contract SupplyChainManagement {
     
     // function to accept transfer
     function acceptTransfer(uint256 _notificationId, string memory _timestamp) public {
-        for(uint256 i = notifications[msg.sender][_notificationId].firstBatch; i <= notifications[msg.sender][_notificationId].lastBatch; i++){
+        /*for(uint256 i = notifications[msg.sender][_notificationId].firstBatch; i <= notifications[msg.sender][_notificationId].lastBatch; i++){
             batchHistoryCount[notifications[msg.sender][_notificationId].supplyChainId][notifications[msg.sender][_notificationId].productNo][i]++;
             batchHistory[notifications[msg.sender][_notificationId].supplyChainId][notifications[msg.sender][_notificationId].productNo][i][batchHistoryCount[notifications[msg.sender][_notificationId].supplyChainId][notifications[msg.sender][_notificationId].productNo][i]] = ProductHistory(_timestamp, notifications[msg.sender][_notificationId].unitsPerBatch, notifications[msg.sender][_notificationId]._sender, notifications[msg.sender][_notificationId]._senderName, "Transfer Request Accepted", notifications[msg.sender][_notificationId]._sender, notifications[msg.sender][_notificationId]._senderName, notifications[msg.sender][_notificationId]._receiver, notifications[msg.sender][_notificationId]._receiverName);
-        }
+        }*/
+        productHistoryCount[notifications[msg.sender][_notificationId].productNo]++;
+        productHistory[notifications[msg.sender][_notificationId].productNo][productHistoryCount[notifications[msg.sender][_notificationId].productNo]] = ProductHistory(_timestamp, notifications[msg.sender][_notificationId].unitsPerBatch, productHistory[notifications[msg.sender][_notificationId].productNo][1].noOfBatches, notifications[msg.sender][_notificationId].firstBatch, notifications[msg.sender][_notificationId].lastBatch, notifications[msg.sender][_notificationId]._sender, notifications[msg.sender][_notificationId]._senderName, "Transfer Requested", notifications[msg.sender][_notificationId]._sender, notifications[msg.sender][_notificationId]._senderName, notifications[msg.sender][_notificationId]._receiver, notifications[msg.sender][_notificationId]._receiverName);
+        
         notifications[msg.sender][notificationsCount[msg.sender]].exists = false;
         transferProduct(notifications[msg.sender][_notificationId].productNo, notifications[msg.sender][_notificationId].productName, notifications[msg.sender][_notificationId].batchesToTransfer, notifications[msg.sender][_notificationId].supplyChainId, notifications[msg.sender][_notificationId]._sender, notifications[msg.sender][_notificationId]._senderName, notifications[msg.sender][_notificationId]._receiver, notifications[msg.sender][_notificationId]._receiverName, _timestamp, _notificationId);
         

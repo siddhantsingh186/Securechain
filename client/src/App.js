@@ -69,7 +69,7 @@ class App extends Component {
       const deployedNetwork = SupplyChainManagement.networks[networkId];
       const contract = new web3.eth.Contract(
         SupplyChainManagement.abi,
-        "0xe2dC05194F39081E367923880d0cb12cEc620999",
+        "0x7B9eeb3D7D95F27d9f9Cd41Fb131b6A1e9F5D96f",
       );
 
 
@@ -124,10 +124,10 @@ class App extends Component {
     })
   }
 
-  requestTransfer = (productNo, productName, batchesToTransfer, supplyChainId, transferTo, transferToName, timestamp) => {
+  requestTransfer = (productNo, productName, batchesToTransfer, supplyChainId, currentOwnerName, transferTo, transferToName, timestamp) => {
     console.log("hello")
     this.setState({ loading: true })
-    this.state.contract.methods.requestTransfer(productNo, productName, batchesToTransfer, supplyChainId, transferTo, transferToName, timestamp).send({ from: this.state.account }).on('transactionHash', (hash) => {
+    this.state.contract.methods.requestTransfer(productNo, productName, batchesToTransfer, supplyChainId, currentOwnerName, transferTo, transferToName, timestamp).send({ from: this.state.account }).on('transactionHash', (hash) => {
       this.setState({ loading: false })
     })
   }
@@ -156,7 +156,7 @@ class App extends Component {
     const deployedNetwork = SupplyChainManagement.networks[networkId];
     const contract = new web3.eth.Contract(
       SupplyChainManagement.abi,
-      "0xe2dC05194F39081E367923880d0cb12cEc620999",
+      "0x7B9eeb3D7D95F27d9f9Cd41Fb131b6A1e9F5D96f",
     );
 
     const notificationsCount = await contract.methods.getNotificationsCount(accounts[0]).call();
@@ -202,20 +202,23 @@ class App extends Component {
 
   getProductHistory = async (supplyChainId, productNo, batchId) => {
     this.setState({ productHistory: [] })
-    const productHistory = await this.state.contract.methods.productHistory(productNo).call()
+    /*const productHistory = await this.state.contract.methods.productHistory(productNo).call()
     this.setState({
       productHistory: [...this.state.productHistory, productHistory]
-    })
+    })*/
 
-    const batchHistoryCount = await this.state.contract.methods.batchHistoryCount(supplyChainId, productNo, batchId).call()
-    console.log(batchHistoryCount)
-    this.setState({ batchHistoryCount: batchHistoryCount })
+    const productHistoryCount = await this.state.contract.methods.productHistoryCount(productNo).call()
+    console.log(productHistoryCount)
+    this.setState({ productHistoryCount: productHistoryCount })
 
-    for (var i = 1; i <= batchHistoryCount; i++) {
-      const batchHistory = await this.state.contract.methods.batchHistory(supplyChainId, productNo, batchId, i).call()
-      this.setState({
-        productHistory: [...this.state.productHistory, batchHistory]
-      })
+    for (var i = 1; i <= productHistoryCount; i++) {
+      const batchHistory = await this.state.contract.methods.productHistory(productNo, i).call()
+      console.log("history", batchHistory)
+      if ((batchId >= batchHistory.firstBatch) && (batchId <= batchHistory.lastBatch)){
+        this.setState({
+          productHistory: [...this.state.productHistory, batchHistory]
+        })
+      }
       console.log("Debug Product History", this.state.productHistory);
     }
     return this.state.productHistory;
