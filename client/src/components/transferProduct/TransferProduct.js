@@ -133,7 +133,7 @@ const TransferProduct = ({ getProductName, productsInSupplyChain, currentBatches
         const productName = getProductName(productNo);
         console.log(transferInstance);
         console.log(transferToState);
-        requestTransfer(productNo, productName, parseInt(transferUnits), parseInt(transferSupplyChain), "Siddhant", transferInstance, transferToState, dateTime);
+        requestTransfer(productNo, productName, parseInt(transferUnits), parseInt(transferSupplyChain), username, transferInstance, transferToState, dateTime);
     }
 
 

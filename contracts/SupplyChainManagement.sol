@@ -269,11 +269,11 @@ contract SupplyChainManagement {
         productHistory[_productNo][productHistoryCount[_productNo]] = ProductHistory(_timestamp, batches[_productNo].unitsPerBatch, productHistory[_productNo][1].noOfBatches, notifications[msg.sender][notificationsCount[msg.sender]].firstBatch, notifications[msg.sender][notificationsCount[msg.sender]].lastBatch, _transferTo, _transferToName, "Product Transferred", _transferFrom, _transferFromName, _transferTo, _transferToName);
         
         
-        if(firstBatchIdInOwnership[_transferFrom][_supplyChainId][_productNo] == notifications[_transferTo][_notificationId].firstBatch){
+        /*if(firstBatchIdInOwnership[_transferFrom][_supplyChainId][_productNo] == notifications[_transferTo][_notificationId].firstBatch){
             firstBatchIdInOwnership[_transferFrom][_supplyChainId][_productNo] += _batchesToTransfer;
             
             firstBatchIdToRequest[_transferFrom][_supplyChainId][_productNo] += _batchesToTransfer;
-        }
+        }*/
         
         //lastBatchIdInOwnership[_to][_supplyChainId][_productNo] = firstBatchIdInOwnership[msg.sender][_supplyChainId][_productNo] - 1;
         lastBatchIdInOwnership[_transferTo][_supplyChainId][_productNo] = notifications[_transferTo][_notificationId].lastBatch;
@@ -318,7 +318,7 @@ contract SupplyChainManagement {
             batchHistory[notifications[msg.sender][_notificationId].supplyChainId][notifications[msg.sender][_notificationId].productNo][i][batchHistoryCount[notifications[msg.sender][_notificationId].supplyChainId][notifications[msg.sender][_notificationId].productNo][i]] = ProductHistory(_timestamp, notifications[msg.sender][_notificationId].unitsPerBatch, notifications[msg.sender][_notificationId]._sender, notifications[msg.sender][_notificationId]._senderName, "Transfer Request Accepted", notifications[msg.sender][_notificationId]._sender, notifications[msg.sender][_notificationId]._senderName, notifications[msg.sender][_notificationId]._receiver, notifications[msg.sender][_notificationId]._receiverName);
         }*/
         productHistoryCount[notifications[msg.sender][_notificationId].productNo]++;
-        productHistory[notifications[msg.sender][_notificationId].productNo][productHistoryCount[notifications[msg.sender][_notificationId].productNo]] = ProductHistory(_timestamp, notifications[msg.sender][_notificationId].unitsPerBatch, productHistory[notifications[msg.sender][_notificationId].productNo][1].noOfBatches, notifications[msg.sender][_notificationId].firstBatch, notifications[msg.sender][_notificationId].lastBatch, notifications[msg.sender][_notificationId]._sender, notifications[msg.sender][_notificationId]._senderName, "Transfer Requested", notifications[msg.sender][_notificationId]._sender, notifications[msg.sender][_notificationId]._senderName, notifications[msg.sender][_notificationId]._receiver, notifications[msg.sender][_notificationId]._receiverName);
+        productHistory[notifications[msg.sender][_notificationId].productNo][productHistoryCount[notifications[msg.sender][_notificationId].productNo]] = ProductHistory(_timestamp, notifications[msg.sender][_notificationId].unitsPerBatch, productHistory[notifications[msg.sender][_notificationId].productNo][1].noOfBatches, notifications[msg.sender][_notificationId].firstBatch, notifications[msg.sender][_notificationId].lastBatch, notifications[msg.sender][_notificationId]._sender, notifications[msg.sender][_notificationId]._senderName, "Transfer Request Accepted", notifications[msg.sender][_notificationId]._sender, notifications[msg.sender][_notificationId]._senderName, notifications[msg.sender][_notificationId]._receiver, notifications[msg.sender][_notificationId]._receiverName);
         
         notifications[msg.sender][notificationsCount[msg.sender]].exists = false;
         transferProduct(notifications[msg.sender][_notificationId].productNo, notifications[msg.sender][_notificationId].productName, notifications[msg.sender][_notificationId].batchesToTransfer, notifications[msg.sender][_notificationId].supplyChainId, notifications[msg.sender][_notificationId]._sender, notifications[msg.sender][_notificationId]._senderName, notifications[msg.sender][_notificationId]._receiver, notifications[msg.sender][_notificationId]._receiverName, _timestamp, _notificationId);
