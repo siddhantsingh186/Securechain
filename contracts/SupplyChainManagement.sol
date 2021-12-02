@@ -99,6 +99,9 @@ contract SupplyChainManagement {
     
     // map supply chain id => productNo => batch id => history count
     mapping(uint256 => mapping(string => mapping(uint256 => uint256))) public batchHistoryCount;
+
+    // map productNo => ProductHistory
+    mapping(string => ProductHistory) public productHistory;
     
     // map address => supply chain id => productNo => last batch id in ownership
     mapping(address => mapping(uint256 => mapping(string => uint256))) public firstBatchIdInOwnership;
@@ -205,11 +208,14 @@ contract SupplyChainManagement {
         firstBatchIdToRequest[msg.sender][_supplyChainId][_productNo] = 1;
         
         lastBatchIdToRequest[msg.sender][_supplyChainId][_productNo] = _noOfBatches;
+
+        productHistory[_productNo] = ProductHistory(_timestamp, _unitsPerBatch, msg.sender, _ownerName, "Product Created", msg.sender, _ownerName, msg.sender, _ownerName);
         
+        /*ProductHistory memory prodHist = ProductHistory(_timestamp, _unitsPerBatch, msg.sender, _ownerName, "Product Created", msg.sender, _ownerName, msg.sender, _ownerName);
         for(uint256 i=firstBatchIdInOwnership[msg.sender][_supplyChainId][_productNo]; i<=lastBatchIdInOwnership[msg.sender][_supplyChainId][_productNo]; i++){
-            batchHistory[_supplyChainId][_productNo][i][1] = ProductHistory(_timestamp, _unitsPerBatch, msg.sender, _ownerName, "Product Created", msg.sender, _ownerName, msg.sender, _ownerName);
+            batchHistory[_supplyChainId][_productNo][i][1] = prodHist;
             batchHistoryCount[_supplyChainId][_productNo][i]++;
-        }
+        }*/
         //addHistory(msg.sender, _productNo, _productName, _noOfBatches, _unitsPerBatch, _supplyChainId, _ownerName, _timestamp);
         
     }
@@ -335,17 +341,16 @@ contract SupplyChainManagement {
     }
     
     // function to get first batch id in ownership
-    function getFirstBatchIdInOwnership(/*string memory _address,*/ uint256 _supplyChainId, string memory _productNo) view public returns(uint256){
+    /*function getFirstBatchIdInOwnership(uint256 _supplyChainId, string memory _productNo) view public returns(uint256){
         //address _sender = parseAddr(_address);
-        return (firstBatchIdInOwnership[/*_sender*/msg.sender][_supplyChainId][_productNo]);
-    }
+        return (firstBatchIdInOwnership[msg.sender][_supplyChainId][_productNo]);
+    }*/
 
     // function to get last batch id in ownership
-    function getLastBatchIdInOwnership(/*string memory _address,*/ uint256 _supplyChainId, string memory _productNo) view public returns(uint256){
+    /*function getLastBatchIdInOwnership(uint256 _supplyChainId, string memory _productNo) view public returns(uint256){
         //address _sender = parseAddr(_address);
-        return (lastBatchIdInOwnership[/*_sender*/msg.sender][_supplyChainId][_productNo]);
-    }
-    
+        return (lastBatchIdInOwnership[msg.sender][_supplyChainId][_productNo]);
+    }*/
     // function to get notifications count of a user
     function getNotificationsCount(string memory _user) view public returns(uint256){
         address _userAddress = parseAddr(_user);

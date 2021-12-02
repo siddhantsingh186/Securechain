@@ -48,7 +48,7 @@ class App extends Component {
     this.productsInSupplyChain = this.productsInSupplyChain.bind(this)
     this.getProductName = this.getProductName.bind(this)
     this.getProductHistory = this.getProductHistory.bind(this)
-    this.getBatchIdsInOwnership = this.getBatchIdsInOwnership.bind(this)
+    //this.getBatchIdsInOwnership = this.getBatchIdsInOwnership.bind(this)
     this.requestTransfer = this.requestTransfer.bind(this)
     this.acceptTransfer = this.acceptTransfer.bind(this)
     this.getNotificationsOfUser = this.getNotificationsOfUser.bind(this)
@@ -69,7 +69,7 @@ class App extends Component {
       const deployedNetwork = SupplyChainManagement.networks[networkId];
       const contract = new web3.eth.Contract(
         SupplyChainManagement.abi,
-        "0x9331eEb6b5a3080E8F3ad08d946865a7127CDf75",
+        "0xe2dC05194F39081E367923880d0cb12cEc620999",
       );
 
 
@@ -156,7 +156,7 @@ class App extends Component {
     const deployedNetwork = SupplyChainManagement.networks[networkId];
     const contract = new web3.eth.Contract(
       SupplyChainManagement.abi,
-      "0x9331eEb6b5a3080E8F3ad08d946865a7127CDf75",
+      "0xe2dC05194F39081E367923880d0cb12cEc620999",
     );
 
     const notificationsCount = await contract.methods.getNotificationsCount(accounts[0]).call();
@@ -201,21 +201,27 @@ class App extends Component {
   }
 
   getProductHistory = async (supplyChainId, productNo, batchId) => {
-    const batchHistoryCount = await this.state.contract.methods.batchHistoryCount(supplyChainId, productNo, batchId).call().then((res)=>{return res})
+    this.setState({ productHistory: [] })
+    const productHistory = await this.state.contract.methods.productHistory(productNo).call()
+    this.setState({
+      productHistory: [...this.state.productHistory, productHistory]
+    })
+
+    const batchHistoryCount = await this.state.contract.methods.batchHistoryCount(supplyChainId, productNo, batchId).call()
     console.log(batchHistoryCount)
     this.setState({ batchHistoryCount: batchHistoryCount })
-    this.setState({ productHistory : [] })
+
     for (var i = 1; i <= batchHistoryCount; i++) {
-      const productHistory = await this.state.contract.methods.batchHistory(supplyChainId, productNo, batchId, i).call().then((res)=>{return res})
+      const batchHistory = await this.state.contract.methods.batchHistory(supplyChainId, productNo, batchId, i).call()
       this.setState({
-        productHistory: [...this.state.productHistory, productHistory]
+        productHistory: [...this.state.productHistory, batchHistory]
       })
       console.log("Debug Product History", this.state.productHistory);
     }
     return this.state.productHistory;
   }
 
-  getBatchIdsInOwnership = async(supplyChainId, productNo) => {
+  /*getBatchIdsInOwnership = async(supplyChainId, productNo) => {
     const firstBatchIdInOwnership = await this.state.contract.methods.getFirstBatchIdInOwnership(supplyChainId, productNo).call()
     console.log("firstBatchIdInOwnership", firstBatchIdInOwnership)
 
@@ -231,7 +237,7 @@ class App extends Component {
       })
     }
     return this.state.batchIdsInOwnership;
-  }
+  }*/
 
   render() {
     return (
